@@ -7,6 +7,7 @@ import java.util.Map;
 import android.content.Context;  
 import android.database.sqlite.SQLiteDatabase;
 
+import com.eshel.database.table.CurrencyTable;
 import com.eshel.database.table.EssenceCacheTable;
 import com.eshel.database.table.EssenceHistory;
 import com.eshel.database.table.JsonCacheTable;
@@ -30,6 +31,7 @@ public  class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         try {
             TableUtils.createTable(connectionSource, EssenceCacheTable.class);
             TableUtils.createTable(connectionSource, EssenceHistory.class);
+            TableUtils.createTable(connectionSource, CurrencyTable.class);
         } catch (SQLException e) {
             e.printStackTrace();  
         }  
@@ -41,6 +43,7 @@ public  class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         try {
             TableUtils.dropTable(connectionSource, EssenceCacheTable.class, true);
             TableUtils.dropTable(connectionSource, EssenceHistory.class, true);
+            TableUtils.dropTable(connectionSource, CurrencyTable.class, true);
             onCreate(database, connectionSource);
         } catch (SQLException e) {
             e.printStackTrace();  
