@@ -1,0 +1,26 @@
+<resources>
+    <string name="again_accredit">再次授予权限</string>
+    <string name="goto_setting">去设置中心</string>
+    <string name="never_again">该权限非常重要, 没有该权限应用将无法运行 , 请确认是否去设置中心授予该权限</string>
+    <string name="permission_failed_msg">该权限非常重要, 没有该权限应用将无法运行 , 请确认是否授予该权限</string>
+
+    <string name="app_name">币动精灵</string>
+    <string name="item_essence">精华</string>
+    <string name="item_information">消息</string>
+    <string name="item_currency">牛币</string>
+    <string name="item_user">我的</string>
+    <string name="loading">拼命加载中...</string>
+    <string name="load_failed">加载失败，点击重试</string>
+    <string name="exit_app">再按一次退出程序</string>
+    <string name="item_time_format">时间:yyyy年MM月dd日 hh:mm</string>
+    <string name="item_history">我浏览的历史</string>
+    <string name="item_praised">我赞过的帖子</string>
+    <string name="item_about">关于我们</string>
+    <string name="item_option">设置</string>
+    <string name="string_loadmore">加载中...</string>
+    <string name="cancle">取消</string>
+    <string name="warn">警告</string>
+    <string name="market_value">市值</string>
+    <string name="amount_of_increase">涨幅</string>
+    <string name="self_select">自选</string>
+</resources>

@@ -1,0 +1,74 @@
+apply plugin: 'com.android.application'
+
+android {
+    //#26
+
+    compileSdkVersion 25
+    //"25.0.3"
+    buildToolsVersion "25.0.3"
+    defaultConfig {
+        applicationId "com.eshel.currencyspirit"
+        //15
+        minSdkVersion 11
+        //26
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        //信鸽推送
+        ndk {
+            //根据需要 自行选择添加的对应cpu类型的.so库。
+            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
+            // 还可以添加 'x86', 'x86_64', 'mips', 'mips64'
+        }
+        manifestPlaceholders = [
+                XG_ACCESS_ID:"2100265989",
+                XG_ACCESS_KEY : "A8LBIX2827JL",
+        ]
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:design:25.3.1'
+    //底部导航
+    compile 'com.roughike:bottom-bar:2.3.1'
+    compile 'com.jakewharton:butterknife:8.6.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
+    compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    compile 'com.squareup.okhttp3:okhttp:3.4.1'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    // 加载进度条
+    //    compile 'com.github.ybq:Android-SpinKit:1.1.0'
+    //    compile('com.lsjwzh:materialloadingprogressbar:0.5.8-RELEASE')
+    // ViewPager 指示器
+    compile 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
+    //Optional: see how to use the utility.
+    compile 'com.ogaclejapan.smarttablayout:utils-v4:1.6.1@aar'
+    //Optional: see how to use the utility.
+//    compile 'com.ogaclejapan.smarttablayout:utils-v13:1.6.1@aar'
+    //    compile 'com.android.support:recyclerview-v7:25.3.1'
+    //    compile 'homhomlin.lib:ptrrv-library:1.3.1'// pull upload
+    compile project(':PullToRefreshRecyclerView')
+    //    compile 'me.weyye.hipermission:library:1.0.7'
+    //信鸽稳定版
+    compile 'com.tencent.xinge:xinge:3.1.81-alpha'
+    //wup包 如果和其他腾讯系的sdk 发生wup冲突，这个依赖可不添加
+    compile 'com.tencent.wup:wup:1.0.0.E-alpha'
+    //mid包
+    compile 'com.tencent.mid:mid:3.72.4-alpha'
+    compile project(':SpinKit')
+}

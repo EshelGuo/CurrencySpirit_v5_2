@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
+          package="com.eshel.currencyspirit">
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-sdk tools:overrideLibrary="com.lc.xinge,
+                                     lc.com.wup,com.qq.mid,
+                                     me.weyye.hipermission
+                                     ,com.ogaclejapan.smarttablayout.utils"/>
+    <application
+        android:name=".CurrencySpiritApp"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:exported="true"
+            android:name=".activity.SplashActivity"
+            android:theme="@style/TranslucentTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:name=".activity.HomeActivity"/>
+        <activity
+            android:exported="true"
+            android:name=".activity.EssenceDetailsActivity"/>
+        <activity
+            android:exported="true"
+            android:name=".activity.CurrencyDetailsActivity"/>
+        <activity
+            android:exported="true"
+            android:name=".activity.EssenceHistoryActivity"/>
+        <activity
+            android:exported="true"
+            android:name=".activity.WeiboDetailsActivity"/>
+        <activity android:name=".activity.AboutActivity"/>
+        <activity android:name=".activity.OptionActivity"/>
+        <!--信鸽推送-->
+        <receiver android:name="xgpush.receiver.XGMessageReceiver"
+                  android:exported="true">
+            <intent-filter>
+                <!-- 接收消息透传 -->
+                <action android:name="com.tencent.android.tpush.action.PUSH_MESSAGE" />
+                <!-- 监听注册、反注册、设置/删除标签、通知被点击等处理结果 -->
+                <action android:name="com.tencent.android.tpush.action.FEEDBACK" />
+            </intent-filter>
+        </receiver>
+    </application>
+
+</manifest>
