@@ -49,6 +49,7 @@ public class CurrencySpiritApp extends BaseApplication{
 				if (UIUtil.isDebug()) {
 					ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
 					clipboardManager.setText(data.toString());
+					Log.i("addtag","token: "+data.toString());
 					UIUtil.debugToast("token 已经成功复制到剪切板 , 请使用 token 调试");
 				}
 			}

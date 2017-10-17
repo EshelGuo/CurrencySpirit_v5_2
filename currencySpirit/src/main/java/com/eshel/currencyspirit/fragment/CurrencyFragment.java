@@ -15,6 +15,7 @@ import com.eshel.currencyspirit.R;
 import com.eshel.currencyspirit.factory.FragmentFactory;
 import com.eshel.currencyspirit.fragment.currency.AOIFragment;
 import com.eshel.currencyspirit.fragment.currency.MarketValueFragment;
+import com.eshel.currencyspirit.fragment.currency.SelfSelectFragment;
 import com.eshel.currencyspirit.util.UIUtil;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
@@ -31,11 +32,8 @@ import butterknife.Unbinder;
 
 public class CurrencyFragment extends BaseFragment {
 
-	@BindView(R.id.tab)
 	SmartTabLayout tab;
-	@BindView(R.id.viewpager)
 	ViewPager viewpager;
-	Unbinder unbinder;
 	private CurrencyAdapter mCurrencyAdapter;
 	private View mView;
 
@@ -59,15 +57,9 @@ public class CurrencyFragment extends BaseFragment {
 	public View getLoadSuccessView() {
 		if(mView == null) {
 			mView = View.inflate(getActivity(), R.layout.view_currency, null);
+			tab = (SmartTabLayout) mView.findViewById(R.id.tab);
+			viewpager = (ViewPager) mView.findViewById(R.id.viewpager);
 		}
-		unbinder = ButterKnife.bind(this, mView);
-/*		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-			if(tab != null)
-				tab.setElevation(DensityUtil.dp2px(HomeActivity.titleElevation/2));
-			HomeActivity activity = (HomeActivity) getActivity();
-			if(activity.getTitle2() != null)
-				activity.getTitle2().setElevation(0);
-		}*/
 		if (mCurrencyAdapter == null) {
 			mCurrencyAdapter = new CurrencyAdapter();
 			viewpager.setAdapter(mCurrencyAdapter);
@@ -99,17 +91,15 @@ public class CurrencyFragment extends BaseFragment {
 	@Override
 	public void onDestroyView() {
 		super.onDestroyView();
-		unbinder.unbind();
 	}
 	class CurrencyAdapter extends FragmentPagerAdapter{
-		String[] pagerTitle;
+		String[] pagerTitle = new String[]{
+				getString(R.string.self_select),
+				getString(R.string.market_value),
+				getString(R.string.amount_of_increase)
+		};
 		public CurrencyAdapter() {
 			super(getChildFragmentManager());
-			pagerTitle = new String[]{
-					getString(R.string.self_select),
-					getString(R.string.market_value),
-					getString(R.string.amount_of_increase)
-			};
 		}
 
 		@Override
@@ -117,6 +107,7 @@ public class CurrencyFragment extends BaseFragment {
 			Fragment fragment = null;
 			switch (position){
 				case self_select:
+					fragment = FragmentFactory.getFragment(SelfSelectFragment.class);
 					break;
 				case shizhi:
 					fragment = FragmentFactory.getFragment(MarketValueFragment.class);
@@ -145,7 +136,7 @@ public class CurrencyFragment extends BaseFragment {
 		}
 	}
 
-	public final int zhangfu = 2;
 	public final int self_select = 0;
 	public final int shizhi = 1;
+	public final int zhangfu = 2;
 }

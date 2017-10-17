@@ -25,4 +25,9 @@
     <string name="self_select">自选</string>
     <string name="attention">关注</string>
     <string name="unattention">取消关注</string>
+    <string name="read_phone_desc">\"币动精灵\"需要使用电话权限用于读取本机标识码, 这些标识码用于标识您的设备, 在服务器存储您的订阅比特币信息,
+        以便在您使用时及时将您订阅的信息推送更新到您的设备上, 没有该权限您将无法使用本应用,
+    </string>
+    <string name="permission_again"> 请确认是否授予该权限</string>
+    <string name="permission_gotosetting"> 请确认是否去设置中心授予该权限</string>
 </resources>

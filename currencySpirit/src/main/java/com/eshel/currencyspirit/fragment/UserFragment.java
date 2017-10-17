@@ -99,12 +99,4 @@ public class UserFragment extends BaseFragment {
 		@BindView(R.id.OverScroller)
 		OverScrollView OverScroller;
 	}
-	@Override
-	public void onResume() {
-		super.onResume();
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-			HomeActivity homeActivity = (HomeActivity) getActivity();
-			homeActivity.getTitle2().setElevation(DensityUtil.dp2px(HomeActivity.titleElevation/2));
-		}
-	}
 }

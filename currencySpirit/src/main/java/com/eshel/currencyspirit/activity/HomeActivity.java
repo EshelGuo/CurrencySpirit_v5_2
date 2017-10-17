@@ -78,13 +78,6 @@ public class HomeActivity extends BaseActivity {
 		this.title.setText(title);
 	}
 
-	@Override
-	public void onWindowFocusChanged(boolean hasFocus) {
-		super.onWindowFocusChanged(hasFocus);
-		if (hasFocus) {
-		}
-	}
-
 	private void initView() {
 		initActionBar();
 		initBottomBar();
@@ -108,7 +101,6 @@ public class HomeActivity extends BaseActivity {
 	private void initViewPager() {
 		mMainPagerAdapter = new MainPagerAdapter(getSupportFragmentManager());
 		vpMain.setAdapter(mMainPagerAdapter);
-		vpMain.setOffscreenPageLimit(1);
 	}
 
 	private BottomBarTab nearby;
@@ -221,6 +213,7 @@ public class HomeActivity extends BaseActivity {
 			}
 			return itemFragment;
 		}
+
 		@Override
 		public int getCount() {
 			return fragmentSize;

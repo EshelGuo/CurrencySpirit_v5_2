@@ -33,6 +33,9 @@ import butterknife.ButterKnife;
  */
 
 public abstract class CurrencyBaseFragment extends BaseFragment{
+
+	private View mRoot;
+
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -51,8 +54,10 @@ public abstract class CurrencyBaseFragment extends BaseFragment{
 	protected BaseAdapter mAdapter;
 	@Override
 	public View getLoadSuccessView() {
-		View root = View.inflate(getActivity(), R.layout.view_currency_child, null);
-		mRv_currency = (PullToRefreshRecyclerView) root.findViewById(R.id.rv_currency);
+		if(mRoot == null) {
+			mRoot = View.inflate(getActivity(), R.layout.view_currency_child, null);
+			mRv_currency = (PullToRefreshRecyclerView) mRoot.findViewById(R.id.rv_currency);
+		}
 		mRv_currency.setSwipeEnable(true);//open swipe
 		mRv_currency.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 		mRv_currency.getRecyclerView().addItemDecoration(new RecycleViewDivider(getActivity(), LinearLayoutManager.HORIZONTAL,
@@ -91,7 +96,7 @@ public abstract class CurrencyBaseFragment extends BaseFragment{
 			}
 		});
 		mRv_currency.onFinishLoading(true, false);
-		return root;
+		return mRoot;
 	}
 	
 	@Override

@@ -6,7 +6,10 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
+import android.telephony.TelephonyManager;
 
+import com.eshel.config.SystemConfig;
+import com.eshel.config.SystemConstant;
 import com.eshel.currencyspirit.CurrencySpiritApp;
 import com.eshel.currencyspirit.R;
 import com.eshel.currencyspirit.util.PermissionUtil;
@@ -14,6 +17,7 @@ import com.eshel.currencyspirit.util.PermissionUtil;
 import baseproject.base.BaseActivity;
 import baseproject.permission.Permissions;
 import baseproject.permission.RequestPermissionUtil;
+import baseproject.util.Log;
 import xgpush.XGMsage;
 
 /**
@@ -75,27 +79,52 @@ public class SplashActivity extends BaseActivity {
 		if(actionBar != null) {
 			actionBar.hide();
 		}
-		lifeTime = REQUEST_PERMISSION_TIME;
 		//		new Thread(mainTask).start();
-		PermissionUtil.requestPermission(this, new PermissionUtil.PermissionCallback() {
-			@Override
-			public void requestAllPermissionSuccess() {
-				CurrencySpiritApp.getApp().getHandler().postDelayed(finishSplashTask,lifeTime);
-			}
-
-			@Override
-			public void hasAllPermission() {
-				lifeTime = ALL_TIME;
-				CurrencySpiritApp.getApp().getHandler().postDelayed(finishSplashTask,lifeTime);
-			}
-		},Manifest.permission.WRITE_EXTERNAL_STORAGE);
-		if(!Permissions.need){
-			CurrencySpiritApp.getApp().getHandler().postDelayed(finishSplashTask,lifeTime);
-		}
+		requestPermission();
 	}
 	@Override
 	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
 		RequestPermissionUtil.onRequestPermissionsResult(this,requestCode, permissions, grantResults);
 		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+	}
+
+	private void requestPermission(){
+		lifeTime = REQUEST_PERMISSION_TIME;
+		PermissionUtil.requestPermission(this, new PermissionUtil.PermissionCallback() {
+			@Override
+			public void requestAllPermissionSuccess() {
+				requestPermissionOver();
+			}
+
+			@Override
+			public void hasAllPermission() {
+				lifeTime = ALL_TIME;
+				requestPermissionOver();
+			}
+		},Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_PHONE_STATE);
+		if(!Permissions.need){
+			requestPermissionOver();
+		}
+	}
+	private void requestPermissionOver(){
+		saveDrviceId();
+		CurrencySpiritApp.getApp().getHandler().postDelayed(finishSplashTask,lifeTime);
+	}
+	private void saveDrviceId(){
+		TelephonyManager telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+		String deviceId = telephonyManager.getDeviceId();
+		Log.i("addtag","deviceId: "+deviceId);
+		String simSerialNumber = telephonyManager.getSimSerialNumber();
+		Log.i("addtag","simSerialNumber: "+simSerialNumber);
+		SystemConstant.deviceId = "CSA_"+deviceId+"_"+simSerialNumber;
+		Log.i("PID: "+SystemConstant.deviceId);
+	}
+
+	@Override
+	protected void onRestart() {
+		super.onRestart();
+		if(PermissionUtil.gotosettinged){
+			requestPermission();
+		}
 	}
 }

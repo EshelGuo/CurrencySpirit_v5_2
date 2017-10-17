@@ -1,4 +1,5 @@
 package com.eshel.currencyspirit.util;
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -13,12 +14,14 @@ import baseproject.permission.Permission;
 import baseproject.permission.Permissions;
 import baseproject.permission.RequestCallback;
 import baseproject.util.Log;
+import baseproject.util.StringUtils;
 
 /**
  * Created by GuoShiwen on 2017/9/6.
  */
 public class PermissionUtil {
 	static Activity activity;
+	public static boolean gotosettinged;
 	static RequestCallback callback = new RequestCallback() {
 		DialogInterface.OnClickListener cancleClick = new DialogInterface.OnClickListener() {
 			@Override
@@ -38,6 +41,7 @@ public class PermissionUtil {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				//// TODO: 2017/9/6
+				gotosettinged = true;
 				NeverAgainUtil.newInstance().gotoPermissionSettingUI(activity, 0);
 			}
 		};
@@ -54,11 +58,16 @@ public class PermissionUtil {
 
 		@Override
 		public boolean requestFailed(Permission permission) {
+			String msg = UIUtil.getString(R.string.permission_failed_msg);
+			String desc = getPermissionDesc(permission);
+			if(!StringUtils.isEmpty(desc)){
+				msg = desc+UIUtil.getString(R.string.permission_again);
+			}
 			Permissions.savePermission();
 			new AlertDialog.Builder(activity)
 					.setNegativeButton(R.string.cancle, cancleClick)
 					.setCancelable(false)
-					.setMessage(UIUtil.getString(R.string.permission_failed_msg))
+					.setMessage(msg)
 					.setTitle(R.string.warn)
 					.setPositiveButton(R.string.again_accredit, confirmClick)
 					.show();
@@ -72,25 +81,45 @@ public class PermissionUtil {
 				if(permissionCallback != null)
 					permissionCallback.hasAllPermission();
 			}
+			successPermission.add(permission.permission);
+			if(successPermission.size() == requestPermissionCount){
+				if(permissionCallback != null)
+					permissionCallback.requestAllPermissionSuccess();
+			}
 		}
 
 		@Override
 		public boolean userSelectNeverAgain(Permission permission, NeverAgainUtil neverAgainUtil) {
+			String msg = UIUtil.getString(R.string.permission_failed_msg);
+			String desc = getPermissionDesc(permission);
+			if(!StringUtils.isEmpty(desc)){
+				msg = desc+UIUtil.getString(R.string.permission_gotosetting);
+			}
 			Permissions.savePermission();
 			new AlertDialog.Builder(activity)
 					.setNegativeButton(R.string.cancle, cancleClick)
 					.setCancelable(false)
-					.setMessage(UIUtil.getString(R.string.never_again))
+					.setMessage(msg)
 					.setTitle(R.string.warn)
 					.setPositiveButton(R.string.goto_setting, gotoSettingClick)
 					.show();
 			return true;
 		}
 	};
+	private static String getPermissionDesc(Permission permission){
+		String desc = "";
+		switch (permission.permission){
+			case Manifest.permission.READ_PHONE_STATE:
+				desc = UIUtil.getString(R.string.read_phone_desc);
+				break;
+		}
+		return desc;
+	}
 	private static HashSet<String> havePermissioned = new HashSet<>();
 	private static HashSet<String> successPermission = new HashSet<>();
 	private static int requestPermissionCount;
 	public static void requestPermission(Activity activity,PermissionCallback callback, String ... permission){
+		gotosettinged = false;
 		permissionCallback = callback;
 		PermissionUtil.activity = activity;
 		requestPermissionCount = permission.length;
