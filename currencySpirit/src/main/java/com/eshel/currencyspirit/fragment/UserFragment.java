@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.eshel.currencyspirit.R;
 import com.eshel.currencyspirit.activity.EssenceHistoryActivity;
 import com.eshel.currencyspirit.activity.HomeActivity;
+import com.eshel.currencyspirit.activity.OptionActivity;
 import com.eshel.currencyspirit.widget.OptionItemView;
 import com.eshel.currencyspirit.widget.OverScrollView;
 
@@ -28,7 +29,7 @@ import butterknife.Unbinder;
 
 public class UserFragment extends BaseFragment {
 	SuccessViewHolder mSuccessViewHolder;
-	Unbinder unbinder;
+	private View mRoot;
 
 	@Nullable
 	@Override
@@ -38,37 +39,40 @@ public class UserFragment extends BaseFragment {
 			public void run() {
 				changeState(LoadState.StateLoadSuccess);
 			}
-		}, 100);
+		}, 0);
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 
 	@Override
 	public View getLoadSuccessView() {
-		View root = View.inflate(getActivity(), R.layout.fragment_user, null);
-		mSuccessViewHolder = new SuccessViewHolder();
-		unbinder = ButterKnife.bind(mSuccessViewHolder,root);
-		mSuccessViewHolder.itemHistory.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				startActivity(new Intent(getActivity(), EssenceHistoryActivity.class));
-			}
-		});
-		mSuccessViewHolder.itemAbout.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-			}
-		});
-		mSuccessViewHolder.itemOption.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-			}
-		});
-		mSuccessViewHolder.itemPraised.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-			}
-		});
-		return root;
+		if(mRoot == null) {
+			mRoot = View.inflate(getActivity(), R.layout.fragment_user, null);
+			mSuccessViewHolder = new SuccessViewHolder();
+			ButterKnife.bind(mSuccessViewHolder, mRoot);
+			mSuccessViewHolder.itemHistory.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					startActivity(new Intent(getActivity(), EssenceHistoryActivity.class));
+				}
+			});
+			mSuccessViewHolder.itemAbout.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+				}
+			});
+			mSuccessViewHolder.itemOption.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					startActivity(new Intent(getActivity(), OptionActivity.class));
+				}
+			});
+			mSuccessViewHolder.itemPraised.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+				}
+			});
+		}
+		return mRoot;
 	}
 
 	@Override
@@ -78,7 +82,6 @@ public class UserFragment extends BaseFragment {
 	@Override
 	public void onDestroyView() {
 		super.onDestroyView();
-		unbinder.unbind();
 	}
 
 	@Override

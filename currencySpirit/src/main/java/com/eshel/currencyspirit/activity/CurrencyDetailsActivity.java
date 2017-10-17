@@ -49,12 +49,12 @@ public class CurrencyDetailsActivity extends WebActivity {
 		}
 	}
 
-	public void attentionOver(String msg) {
+	public void attentionOver(boolean isAttention ,String msg) {
 		mTitle.mTvAttention.setClickable(true);
 		if(msg == null){
-			mTitle.changeAttentionState(false);
+			mTitle.changeAttentionState(isAttention);
 		} else {
-			mTitle.changeAttentionState(true);
+			mTitle.changeAttentionState(!isAttention);
 		}
 	}
 

@@ -31,7 +31,16 @@
     <string name="permission_again"> 请确认是否授予该权限</string>
     <string name="permission_gotosetting"> 请确认是否去设置中心授予该权限</string>
     <string name="attention_failed_token">关注失败, token为空</string>
-    <string name="deviceId">设备唯一标识 deviceId 为空</string>
+    <string name="unattention_failed_token">取消关注失败, token为空</string>
+    <string name="deviceId">订阅失败,设备唯一标识 deviceId 为空</string>
+    <string name="undeviceId">取消订阅失败,设备唯一标识 deviceId 为空</string>
     <string name="attention_failed_net">订阅失败,请检查网络</string>
+    <string name="unattention_failed_net">取消订阅失败,请检查网络</string>
     <string name="attention_success">关注成功</string>
+    <string name="feedback">意见反馈</string>
+    <string name="clean_cache">清除缓存</string>
+    <string name="message_onoff">推送消息</string>
+    <string name="share">分享给好友</string>
+    <string name="evaluate">给我们评分</string>
+    <string name="version">版本号</string>
 </resources>

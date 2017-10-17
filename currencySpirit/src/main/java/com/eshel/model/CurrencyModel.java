@@ -28,14 +28,7 @@ public class CurrencyModel implements Serializable{
 	}
 
 	public static BaseModel martetValueModel = new BaseModel();
-	public static class MarketValueModel{
-		public static CurrencyModel getMarketValueDataByPosition(int position){
-			return martetValueModel.getDataByPosition(position);
-		}
-		public static void notifyView(BaseViewModel.Mode mode , boolean isSuccess){
-			martetValueModel.notifyView(mode,isSuccess,MarketValueFragment.class);
-		}
-	}
+	public static BaseModel selfSelectModel = new BaseModel();
 	// true 升序
 	public static BaseModel aoiModel = new BaseModel();
 	// false 降序
@@ -116,20 +109,20 @@ public class CurrencyModel implements Serializable{
 	}
 
 	// TODO: 2017/10/17
-	public static void attentionFailed(String msg){
+	public static void attentionFailed(boolean isAttention ,String msg){
 		UIUtil.toast(msg);
 		BaseActivity topActivity = BaseActivity.getTopActivity();
 		if(topActivity instanceof CurrencyDetailsActivity){
 			CurrencyDetailsActivity currencyDetailsActivity = (CurrencyDetailsActivity) topActivity;
-			currencyDetailsActivity.attentionOver(msg);
+			currencyDetailsActivity.attentionOver(isAttention,msg);
 		}
 	}
-	public static void attentionSuccess(){
+	public static void attentionSuccess(boolean isAttention){
 		UIUtil.toast(UIUtil.getString(R.string.attention_success));
 		BaseActivity topActivity = BaseActivity.getTopActivity();
 		if(topActivity instanceof CurrencyDetailsActivity){
 			CurrencyDetailsActivity currencyDetailsActivity = (CurrencyDetailsActivity) topActivity;
-			currencyDetailsActivity.attentionOver(null);
+			currencyDetailsActivity.attentionOver(isAttention,null);
 		}
 	}
 }

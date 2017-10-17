@@ -121,7 +121,6 @@ public class SplashActivity extends BaseActivity {
 	}
 	private void requestPermissionOver(){
 		new Thread(mainTask).start();
-		saveDrviceId();
 		CurrencySpiritApp.getApp().getHandler().postDelayed(finishSplashTask,lifeTime);
 	}
 	private void saveDrviceId(){

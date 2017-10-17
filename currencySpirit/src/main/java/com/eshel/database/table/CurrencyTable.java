@@ -60,7 +60,8 @@ public class CurrencyTable {
 		update_time = model.update_time;
 		url = model.url;
 		yprice = model.yprice;
-		imageurl = model.infoBean.imageurl;
+		if(model.infoBean != null)
+			imageurl = model.infoBean.imageurl;
 	}
 	public CurrencyModel get(CurrencyModel model){
 		if(model == null)
@@ -80,7 +81,8 @@ public class CurrencyTable {
 		model.update_time = update_time;
 		model.url = url;
 		model.yprice = yprice;
-		model.infoBean.imageurl = imageurl;
+		if(model.infoBean != null)
+			model.infoBean.imageurl = imageurl;
 		return model;
 	}
 }

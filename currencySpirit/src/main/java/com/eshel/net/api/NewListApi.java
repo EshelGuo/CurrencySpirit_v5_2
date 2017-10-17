@@ -11,8 +11,8 @@ import retrofit2.http.Query;
  * desc: 新闻类别网络请求
  * https://fengzhihen.com/btcapp/newsInfo?start=1&count=20    // 精华专栏
  * https://fengzhihen.com/btcapp/weiboInfo?start=1&count=20    // 微博专栏
- * https://fengzhihen.com/btcapp/coinInfo?start=1&count=20 &sort=volume&desc=false&symbol=USD   // 牛币专栏
- * https://fengzhihen.com/btcapp/coinInfo?start=1&count=20 &sort=percent&desc=false&symbol=USD   // 牛币专栏
+ * https://fengzhihen.com/btcapp/coinInfo?start=1&count=20&sort=volume&desc=false&symbol=USD   // 牛币专栏
+ * https://fengzhihen.com/btcapp/coinInfo?start=1&count=20&sort=percent&desc=false&symbol=USD   // 牛币专栏
  * https://fengzhihen.com/token/addtag?token=edf2ab61baef4ffc45a1928f0c7302d1db9ad2a6&pid=20&account=a&tagname=aaa&device=android   // 订阅
  * https://fengzhihen.com/token/deltag?token=edf2ab61baef4ffc45a1928f0c7302d1db9ad2a6&pid=20&account=a   // 取消订阅
  *
@@ -42,7 +42,7 @@ public interface NewListApi {
 	 * @param device android
 	 * @return aaa
 	 */
-	@GET("token/addtag")
+	@GET("btcapp/token/addtag")
 	Call<ResponseBody> addtag(
 			@Query("token") String token,
 			@Query("pid")String pid,
@@ -61,7 +61,7 @@ public interface NewListApi {
 	 * @param device android
 	 * @return bbb
 	 */
-	@GET("token/deltag")
+	@GET("btcapp/token/deltag")
 	Call<ResponseBody> deltag(
 			@Query("token") String token,
 			@Query("pid")String pid,
