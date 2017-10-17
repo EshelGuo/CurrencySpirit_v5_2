@@ -8,8 +8,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.telephony.TelephonyManager;
 
-import com.eshel.config.SystemConfig;
-import com.eshel.config.SystemConstant;
+import com.eshel.config.AppConfig;
+import com.eshel.config.AppConstant;
 import com.eshel.currencyspirit.CurrencySpiritApp;
 import com.eshel.currencyspirit.R;
 import com.eshel.currencyspirit.util.PermissionUtil;
@@ -18,6 +18,8 @@ import baseproject.base.BaseActivity;
 import baseproject.permission.Permissions;
 import baseproject.permission.RequestPermissionUtil;
 import baseproject.util.Log;
+import baseproject.util.StringUtils;
+import baseproject.util.shape.ShapeUtil;
 import xgpush.XGMsage;
 
 /**
@@ -39,9 +41,21 @@ public class SplashActivity extends BaseActivity {
 	private Runnable mainTask = new Runnable() {
 		@Override
 		public void run() {
+			saveDrviceId();
+			checkFristRun();
 			updateNewVersion();
+			if(StringUtils.isEmpty(AppConfig.token))
+				AppConfig.token = ShapeUtil.get(AppConstant.key_token,"");
 		}
 	};
+
+	private void checkFristRun() {
+		boolean fristRun = ShapeUtil.get(AppConstant.key_fristRun, true);
+		if(fristRun) {
+			ShapeUtil.put(AppConstant.key_fristRun, false);
+		}else {
+		}
+	}
 
 	private void updateNewVersion() {
 		// TODO: 2017/10/4 检查更新
@@ -79,7 +93,6 @@ public class SplashActivity extends BaseActivity {
 		if(actionBar != null) {
 			actionBar.hide();
 		}
-		//		new Thread(mainTask).start();
 		requestPermission();
 	}
 	@Override
@@ -107,6 +120,7 @@ public class SplashActivity extends BaseActivity {
 		}
 	}
 	private void requestPermissionOver(){
+		new Thread(mainTask).start();
 		saveDrviceId();
 		CurrencySpiritApp.getApp().getHandler().postDelayed(finishSplashTask,lifeTime);
 	}
@@ -116,8 +130,11 @@ public class SplashActivity extends BaseActivity {
 		Log.i("addtag","deviceId: "+deviceId);
 		String simSerialNumber = telephonyManager.getSimSerialNumber();
 		Log.i("addtag","simSerialNumber: "+simSerialNumber);
-		SystemConstant.deviceId = "CSA_"+deviceId+"_"+simSerialNumber;
-		Log.i("PID: "+SystemConstant.deviceId);
+		AppConfig.deviceId = "CSA_"+deviceId+"_"+simSerialNumber;
+		Log.i("PID: "+AppConfig.deviceId);
+		if(ShapeUtil.get(AppConstant.key_deviceId,"").length() == 0){
+			ShapeUtil.put(AppConstant.key_deviceId,AppConfig.deviceId);
+		}
 	}
 
 	@Override

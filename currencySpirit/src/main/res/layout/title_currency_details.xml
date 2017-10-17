@@ -23,7 +23,7 @@
             android:id="@+id/tv_attention"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="20dp"
+            android:layout_marginRight="10dp"
             android:padding="8dp"
             android:text="@string/attention"
             android:textColor="@color/violet"

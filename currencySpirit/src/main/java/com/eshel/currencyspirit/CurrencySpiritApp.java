@@ -3,6 +3,8 @@ package com.eshel.currencyspirit;
 import android.content.ClipboardManager;
 import android.content.Context;
 
+import com.eshel.config.AppConfig;
+import com.eshel.config.AppConstant;
 import com.eshel.currencyspirit.util.ProcessUtil;
 import com.eshel.currencyspirit.util.UIUtil;
 import com.tencent.android.tpush.XGIOperateCallback;
@@ -11,6 +13,7 @@ import com.tencent.android.tpush.XGPushManager;
 
 import baseproject.base.BaseApplication;
 import baseproject.util.Log;
+import baseproject.util.shape.ShapeUtil;
 
 /**
  * createBy Eshel
@@ -46,6 +49,10 @@ public class CurrencySpiritApp extends BaseApplication{
 			public void onSuccess(Object data, int flag) {
 				registerSuccess = true;
 				Log.i("TPush", "注册成功，设备token为：" + data);
+				if(ShapeUtil.get(AppConstant.key_token,"").length() == 0) {
+					ShapeUtil.put(AppConstant.key_token, data.toString());
+					AppConfig.token = data.toString();
+				}
 				if (UIUtil.isDebug()) {
 					ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
 					clipboardManager.setText(data.toString());

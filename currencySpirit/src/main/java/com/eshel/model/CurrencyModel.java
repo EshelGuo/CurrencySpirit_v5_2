@@ -1,13 +1,17 @@
 package com.eshel.model;
 
+import com.eshel.currencyspirit.R;
+import com.eshel.currencyspirit.activity.CurrencyDetailsActivity;
 import com.eshel.currencyspirit.factory.FragmentFactory;
 import com.eshel.currencyspirit.fragment.currency.MarketValueFragment;
+import com.eshel.currencyspirit.util.UIUtil;
 import com.eshel.viewmodel.BaseViewModel;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import baseproject.base.BaseActivity;
 import baseproject.base.BaseFragment;
 import baseproject.util.DataUtil;
 
@@ -108,6 +112,24 @@ public class CurrencyModel implements Serializable{
 					baseFragment.loadModeFailed();
 				}
 			}
+		}
+	}
+
+	// TODO: 2017/10/17
+	public static void attentionFailed(String msg){
+		UIUtil.toast(msg);
+		BaseActivity topActivity = BaseActivity.getTopActivity();
+		if(topActivity instanceof CurrencyDetailsActivity){
+			CurrencyDetailsActivity currencyDetailsActivity = (CurrencyDetailsActivity) topActivity;
+			currencyDetailsActivity.attentionOver(msg);
+		}
+	}
+	public static void attentionSuccess(){
+		UIUtil.toast(UIUtil.getString(R.string.attention_success));
+		BaseActivity topActivity = BaseActivity.getTopActivity();
+		if(topActivity instanceof CurrencyDetailsActivity){
+			CurrencyDetailsActivity currencyDetailsActivity = (CurrencyDetailsActivity) topActivity;
+			currencyDetailsActivity.attentionOver(null);
 		}
 	}
 }

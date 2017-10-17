@@ -60,8 +60,9 @@ public abstract class CurrencyBaseFragment extends BaseFragment{
 		}
 		mRv_currency.setSwipeEnable(true);//open swipe
 		mRv_currency.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-		mRv_currency.getRecyclerView().addItemDecoration(new RecycleViewDivider(getActivity(), LinearLayoutManager.HORIZONTAL,
-				DensityUtil.dp2px(Config.dividerHeight), UIUtil.getColor(R.color.dividerColor), DensityUtil.dp2px(10), DensityUtil.dp2px(10)));
+/*		mRv_currency.getRecyclerView().addItemDecoration(new RecycleViewDivider(getActivity(), LinearLayoutManager.HORIZONTAL,
+				DensityUtil.dp2px(Config.dividerHeight), UIUtil.getColor(R.color.dividerColor),
+				DensityUtil.dp2px(10), DensityUtil.dp2px(10)));*/
 		mAdapter = new CurrencyBaseFragment.BaseAdapter();
 		mRv_currency.setAdapter(mAdapter);
 

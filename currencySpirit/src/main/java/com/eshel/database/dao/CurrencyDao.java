@@ -32,28 +32,28 @@ public class CurrencyDao {
 			e.printStackTrace();
 		}
 	}
-	/*public static void del(String url){
+	public static void del(String coin_id){
 		try {
-			getDao().delete(queryByUrl(url));
+			getDao().delete(queryByCoinId(coin_id));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	}*/
-	/*public static void update(EssenceModel model){
-		EssenceHistory history = queryByUrl(model.url);
-		history.set(model);
+	}
+	public static void update(CurrencyModel model){
+		CurrencyTable currencyTable = queryByCoinId(model.coin_id);
+		currencyTable.set(model);
 		try {
-			getDao().update(history);
+			getDao().update(currencyTable);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public static EssenceHistory queryByUrl(String url){
+	public static CurrencyTable queryByCoinId(String coin_id){
 		try {
-			List<EssenceHistory> essenceCacheTables = getDao().queryForEq("url", url);
-			if(essenceCacheTables.size() > 0)
-				return essenceCacheTables.get(0);
+			List<CurrencyTable> currencyTableList = getDao().queryForEq("coin_id", coin_id);
+			if(currencyTableList.size() > 0)
+				return currencyTableList.get(0);
 			else
 				return null;
 		} catch (SQLException e) {
@@ -61,15 +61,15 @@ public class CurrencyDao {
 		}
 		return null;
 	}
-	public static List<EssenceHistory> queryAll(){
+	public static List<CurrencyTable> queryAll(){
 		try {
-			Dao<EssenceHistory, Integer> dao = getDao();
+			Dao<CurrencyTable, Integer> dao = getDao();
 			if(dao!= null)
 				return dao.queryForAll();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return null;
-	}*/
+	}
 
 }

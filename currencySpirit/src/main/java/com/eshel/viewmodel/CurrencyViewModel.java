@@ -1,8 +1,13 @@
 package com.eshel.viewmodel;
 
+import com.eshel.config.AppConfig;
+import com.eshel.config.AppConstant;
 import com.eshel.currencyspirit.CurrencySpiritApp;
+import com.eshel.currencyspirit.R;
 import com.eshel.currencyspirit.fragment.currency.AOIFragment;
 import com.eshel.currencyspirit.fragment.currency.MarketValueFragment;
+import com.eshel.currencyspirit.util.UIUtil;
+import com.eshel.database.dao.CurrencyDao;
 import com.eshel.model.CurrencyModel;
 import com.eshel.net.api.NewListApi;
 import com.eshel.net.factory.RetrofitFactory;
@@ -14,6 +19,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import baseproject.util.Log;
+import baseproject.util.NetUtils;
+import baseproject.util.StringUtils;
+import baseproject.util.shape.ShapeUtil;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -115,5 +123,72 @@ public class CurrencyViewModel {
 				baseModel.notifyView(mode,true,fragmentClass);
 			}
 		},base.getRefreshTime(mode,ago));
+	}
+
+	public static void attention(final CurrencyModel currencyModel){
+		if(!checkAttention()){
+			return;
+		}
+		NewListApi newListApi = RetrofitFactory.getRetrofit().create(NewListApi.class);
+		Call<ResponseBody> currency = newListApi.addtag(
+				AppConfig.token,AppConfig.deviceId,"",currencyModel.coin_id,AppConfig.deviceType);
+		currency.enqueue(new Callback<ResponseBody>() {
+			@Override
+			public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+				if(response.isSuccessful()){
+					CurrencyDao.add(currencyModel);
+					CurrencyModel.attentionSuccess();
+				}else {
+					CurrencyModel.attentionFailed(UIUtil.getString(R.string.attention_failed_net));
+				}
+			}
+			@Override
+			public void onFailure(Call<ResponseBody> call, Throwable t) {
+				CurrencyModel.attentionFailed(UIUtil.getString(R.string.attention_failed_net));
+			}
+		});
+	}
+	public static void unAttention(final CurrencyModel currencyModel){
+		if(!checkAttention()){
+			return;
+		}
+		NewListApi newListApi = RetrofitFactory.getRetrofit().create(NewListApi.class);
+		Call<ResponseBody> currency = newListApi.deltag(
+				AppConfig.token,AppConfig.deviceId,"",currencyModel.coin_id,AppConfig.deviceType);
+		currency.enqueue(new Callback<ResponseBody>() {
+			@Override
+			public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+				if(response.isSuccessful()){
+					CurrencyDao.del(currencyModel.coin_id);
+					CurrencyModel.attentionSuccess();
+				}else {
+					CurrencyModel.attentionFailed(UIUtil.getString(R.string.attention_failed_net));
+				}
+			}
+			@Override
+			public void onFailure(Call<ResponseBody> call, Throwable t) {
+				CurrencyModel.attentionFailed(UIUtil.getString(R.string.attention_failed_net));
+			}
+		});
+	}
+	private static boolean checkAttention(){
+		if(!NetUtils.hasNetwork(CurrencySpiritApp.getContext())){
+			CurrencyModel.attentionFailed(UIUtil.getString(R.string.attention_failed_net));
+			return false;
+		}
+		if(StringUtils.isEmpty(AppConfig.token)){
+			CurrencyModel.attentionFailed(UIUtil.getString(R.string.attention_failed_token));
+			return false;
+		}
+		if(StringUtils.isEmpty(AppConfig.deviceId)){
+			String deviceId = ShapeUtil.get(AppConstant.key_deviceId, "");
+			if(StringUtils.isEmpty(deviceId)){
+				CurrencyModel.attentionFailed(UIUtil.getString(R.string.deviceId));
+				return false;
+			}else {
+				AppConfig.deviceId = deviceId;
+			}
+		}
+		return true;
 	}
 }
