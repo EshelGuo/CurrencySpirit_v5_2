@@ -88,12 +88,7 @@ public class HomeActivity extends BaseActivity {
 		ViewGroup.LayoutParams layoutParams = topCutOffLine.getLayoutParams();
 		if(layoutParams == null)
 			layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,0);
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-			toolbar.setElevation(DensityUtil.dp2px(titleElevation/2));
-			layoutParams.height = 0;
-		} else {
-			layoutParams.height = 1;
-		}
+		layoutParams.height = 1;
 		topCutOffLine.setLayoutParams(layoutParams);
 		updateActionBar(UIUtil.getString(R.string.item_essence));
 	}

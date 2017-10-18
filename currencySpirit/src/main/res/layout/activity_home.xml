@@ -12,12 +12,7 @@
         android:layout_height="?android:attr/actionBarSize">
         <TextView
             android:id="@+id/title"
-            android:textSize="20sp"
-            android:textColor="#000"
-            android:textStyle="bold"
-            android:text="aa"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            style="@style/TextTitle"/>
     </LinearLayout>
     <View
         android:id="@+id/top_cut_off_line"

@@ -71,4 +71,5 @@ dependencies {
     //mid包
     compile 'com.tencent.mid:mid:3.72.4-alpha'
     compile project(':SpinKit')
+    compile 'com.kyleduo.switchbutton:library:1.4.6'
 }

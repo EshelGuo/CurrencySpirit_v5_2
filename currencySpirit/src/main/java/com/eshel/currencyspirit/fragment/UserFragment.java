@@ -102,4 +102,10 @@ public class UserFragment extends BaseFragment {
 		@BindView(R.id.OverScroller)
 		OverScrollView OverScroller;
 	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		mRoot = null;
+	}
 }

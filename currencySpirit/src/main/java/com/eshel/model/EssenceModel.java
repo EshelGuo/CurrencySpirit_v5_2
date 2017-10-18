@@ -90,4 +90,18 @@ public class EssenceModel implements Serializable{
 			activity.notifyView();
 		}
 	}
+
+	@Override
+	public String toString() {
+		return "News{" +
+				"new_type=" + new_type +
+				", title='" + title + '\'' +
+				", update_time=" + update_time +
+				", abstracts='" + abstracts + '\'' +
+				", url='" + url + '\'' +
+				", imageurl='" + imageurl + '\'' +
+				", webicon='" + webicon + '\'' +
+				", webname='" + webname + '\'' +
+				'}';
+	}
 }

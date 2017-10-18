@@ -36,6 +36,8 @@ import java.util.Locale;
 
 import baseproject.base.BaseFragment;
 import baseproject.util.DensityUtil;
+import baseproject.util.MD5Utils;
+import baseproject.util.ReflectUtil;
 import baseproject.util.StringUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -203,8 +205,15 @@ public class EssenceFragment extends BaseFragment {
 						.transform(new GlideRoundedRectangleTransform(getActivity()))
 						.into(icon);
 			} else {
-				Glide.with(getActivity()).
+				/*Glide.with(getActivity()).
 						load(R.drawable.default_image)
+						.transform(new GlideRoundedRectangleTransform(getActivity()))
+						.into(icon);*/
+				String md5 = MD5Utils.encode(essenceModel.toString());
+				char c = md5.charAt(md5.length() - 1);
+				int index = getIndex(c);
+				Glide.with(getActivity()).
+						load(ReflectUtil.getPublicStaticInt(R.drawable.class,"image_"+getIndex(c)))
 						.transform(new GlideRoundedRectangleTransform(getActivity()))
 						.into(icon);
 			}
@@ -228,6 +237,27 @@ public class EssenceFragment extends BaseFragment {
 				title.setTextColor(UIUtil.getColor(android.R.color.darker_gray));
 			}else {
 				title.setTextColor(UIUtil.getColor(android.R.color.black));
+			}
+		}
+	}
+	public static int getIndex(char c){
+		if(c >= '0' && c <= '9'){
+			return c - '0';
+		}else {
+			if(c == 'a'||c == 'A'){
+				return 10;
+			}else if(c == 'b'||c == 'B'){
+				return 11;
+			}else if(c == 'c'||c == 'C'){
+				return 12;
+			}else if(c == 'd'||c == 'D'){
+				return 13;
+			}else if(c == 'e'||c == 'E'){
+				return 14;
+			}else if(c == 'f'||c == 'F'){
+				return 15;
+			}else {
+				return 0;
 			}
 		}
 	}

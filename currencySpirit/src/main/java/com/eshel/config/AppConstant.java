@@ -8,4 +8,5 @@ public class AppConstant {
 	public static final String key_fristRun = "fristRun";
 	public static final String key_token = "token";
 	public static String key_deviceId = "deviceId";
+	public static String key_push = "push";
 }

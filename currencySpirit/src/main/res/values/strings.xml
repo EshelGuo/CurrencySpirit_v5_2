@@ -44,4 +44,8 @@
     <string name="share">分享给好友</string>
     <string name="evaluate">给我们评分</string>
     <string name="version">版本号</string>
+
+    <string name="app_version">version: 1.0</string>
+    <string name="push_on">消息推送开启</string>
+    <string name="push_off">消息推送关闭</string>
 </resources>

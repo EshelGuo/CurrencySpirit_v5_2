@@ -1,6 +1,7 @@
 package com.eshel.currencyspirit.fragment;
 
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import com.eshel.currencyspirit.R;
@@ -79,6 +81,10 @@ public class CurrencyFragment extends BaseFragment {
 					}
 				}
 			});
+			TextView textView = (TextView) tab.getTabAt(zhangfu).findViewById(R.id.currency_tab_textview);
+			Drawable drawable = getResources().getDrawable(R.drawable.sort_arrow_up);
+			drawable.setBounds(0,0,drawable.getMinimumWidth(),drawable.getMinimumHeight());
+			textView.setCompoundDrawables(null,null,drawable,null);
 		}
 		return mView;
 	}

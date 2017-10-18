@@ -47,12 +47,6 @@ public abstract class WebActivity extends BaseActivity {
 		ButterKnife.bind(this);
 		mTitle.addView(initTitleView(),
 				new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-			mTitle.setElevation(DensityUtil.dp2px(HomeActivity.titleElevation/2));
-		}
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-			UIUtil.debugToast("elevation: "+mTitle.getElevation());
-		}
 		mProgressBar.setProgress(0);
 		initWebView();
 	}

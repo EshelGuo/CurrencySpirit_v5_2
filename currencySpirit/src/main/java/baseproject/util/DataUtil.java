@@ -33,4 +33,14 @@ public class DataUtil {
 		nf.setGroupingUsed(useSeparator);
 		return (nf.format(d));
 	}
+
+	/**
+	 * 保留小数点
+	 * @param value 小数
+	 * @param format 小数点位数
+	 * @return
+	 */
+	public static float saveD(float value, int format){
+		return (float) (Math.round(value*Math.pow(format,format))/Math.pow(format,format));
+	}
 }

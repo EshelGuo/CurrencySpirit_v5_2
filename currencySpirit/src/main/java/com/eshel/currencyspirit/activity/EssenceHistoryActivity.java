@@ -32,6 +32,8 @@ import java.util.Locale;
 
 import baseproject.base.BaseActivity;
 import baseproject.util.DensityUtil;
+import baseproject.util.MD5Utils;
+import baseproject.util.ReflectUtil;
 import baseproject.util.StringUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,9 +55,6 @@ public class EssenceHistoryActivity extends BaseActivity {
 		hideActionBar();
 		setContentView(R.layout.activity_essence_history);
 		ButterKnife.bind(this);
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-			mTitle.setElevation(DensityUtil.dp2px(HomeActivity.titleElevation/2));
-		}
 		init();
 		EssenceViewModel.getEssenceDataFromHistory();
 	}
@@ -158,8 +157,15 @@ public class EssenceHistoryActivity extends BaseActivity {
 						.transform(new GlideRoundedRectangleTransform(EssenceHistoryActivity.this))
 						.into(icon);
 			} else {
-				Glide.with(EssenceHistoryActivity.this).
+				/*Glide.with(EssenceHistoryActivity.this).
 						load(R.drawable.default_image)
+						.transform(new GlideRoundedRectangleTransform(EssenceHistoryActivity.this))
+						.into(icon);*/
+				String md5 = MD5Utils.encode(essenceModel.toString());
+				char c = md5.charAt(md5.length() - 1);
+				int index = getIndex(c);
+				Glide.with(EssenceHistoryActivity.this).
+						load(ReflectUtil.getPublicStaticInt(R.drawable.class,"image_"+getIndex(c)))
 						.transform(new GlideRoundedRectangleTransform(EssenceHistoryActivity.this))
 						.into(icon);
 			}
@@ -182,6 +188,27 @@ public class EssenceHistoryActivity extends BaseActivity {
 				title.setTextColor(UIUtil.getColor(android.R.color.darker_gray));
 			}else {
 				title.setTextColor(UIUtil.getColor(android.R.color.black));
+			}
+		}
+	}
+	public static int getIndex(char c){
+		if(c >= '0' && c <= '9'){
+			return c - '0';
+		}else {
+			if(c == 'a'||c == 'A'){
+				return 10;
+			}else if(c == 'b'||c == 'B'){
+				return 11;
+			}else if(c == 'c'||c == 'C'){
+				return 12;
+			}else if(c == 'd'||c == 'D'){
+				return 13;
+			}else if(c == 'e'||c == 'E'){
+				return 14;
+			}else if(c == 'f'||c == 'F'){
+				return 15;
+			}else {
+				return 0;
 			}
 		}
 	}

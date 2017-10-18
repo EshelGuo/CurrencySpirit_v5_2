@@ -35,9 +35,9 @@ public class UtilManager {
 	}
 
 	public static void setUtilConfig(){
-		Log.openLog();
-//		Log.closeLog();
-		UIUtil.setDebug(true);
+//		Log.openLog();
+		Log.closeLog();
+		UIUtil.setDebug(false);
 		ShapeUtil.setDefaultName("config.sp");
 	}
 

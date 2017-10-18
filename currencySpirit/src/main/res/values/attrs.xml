@@ -28,5 +28,11 @@
             <enum name="normal" value="1"/>
         </attr>
         <attr name="item_title_size" format="integer"/>
+        <attr name="item_style" format="integer">
+            <enum name="style_normal" value="0"/>
+            <enum name="style_switch" value="1"/>
+            <enum name="style_text" value="2"/>
+        </attr>
+        <attr name="item_text" format="reference|string" />
     </declare-styleable>
 </resources>

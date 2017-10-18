@@ -1,6 +1,10 @@
 package baseproject.util;
 
+import android.content.Context;
 import android.os.Environment;
+
+import com.eshel.currencyspirit.CurrencySpiritApp;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -397,5 +401,77 @@ public class FileUtils {
 			file.delete();
 		}
 		return true;
+	}
+
+	public static String fileSizeFormat(long fileSize){
+		String format = "未知";
+		float size = fileSize;
+		if(size < 1024){
+			format = DataUtil.saveD(size,2) + "B";
+		}else {
+			size /= 1024;
+			if(size < 1024){
+				format = DataUtil.saveD(size,2) + "KB";
+			}else {
+				size /= 1024;
+				if(size < 1024){
+					format = DataUtil.saveD(size,2) + "MB";
+				}else {
+					size /= 1024;
+					if(size < 1024){
+						format = DataUtil.saveD(size,2) + "GB";
+					}else {
+						size /= 1024;
+						format = DataUtil.saveD(size,2) + "TB";
+					}
+				}
+			}
+		}
+		return format;
+	}
+
+	public static void clearCache(final Context context, final ClearCacheCallback callback) {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				for (File file : context.getCacheDir().listFiles()) {
+					delDirOrFile(file);
+				}
+				if(callback != null)
+					CurrencySpiritApp.getApp().getHandler().post(new Runnable() {
+						@Override
+						public void run() {
+							callback.clearCacheSuccess();
+						}
+					});
+			}
+		}).start();
+	}
+	public static void delFile(File file){
+		if(file != null && file.exists() && file.isFile())
+			file.delete();
+	}
+	public static void delDirOrFile(File file){
+		if(file != null && file.exists() && file.isFile()){
+			delFile(file);
+		}else if(file != null && file.exists() && file.isDirectory()){
+			delDir(file);
+		}
+	}
+	public static void delDir(File dir){
+		if(dir == null || !dir.exists() || !dir.isDirectory()){
+			return;
+		}
+		for (File file : dir.listFiles()) {
+			if(file.isDirectory()){
+				delDir(file);
+			}else if(file.isFile()){
+				delFile(file);
+			}
+		}
+		dir.delete();
+	}
+	public interface ClearCacheCallback {
+		void clearCacheSuccess();
 	}
 }
