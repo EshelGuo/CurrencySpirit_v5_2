@@ -2,6 +2,21 @@ apply plugin: 'com.android.application'
 
 android {
     //#26
+   /* productFlavors {
+        yingyongbao {
+            manifestPlaceholders = [ CHANNEL_NAME:"yingyongbao"]
+        }
+        xiaomi {
+            manifestPlaceholders = [ CHANNEL_NAME:"xiaomi" ]
+        }
+        qihu360 {
+            manifestPlaceholders = [ CHANNEL_NAME:"qihu360" ]
+        }
+        baidu {
+            manifestPlaceholders = [ CHANNEL_NAME:"baidu" ]
+        }
+
+    }*/
 
     compileSdkVersion 25
     //"25.0.3"
@@ -25,6 +40,8 @@ android {
         manifestPlaceholders = [
                 XG_ACCESS_ID:"2100265989",
                 XG_ACCESS_KEY : "A8LBIX2827JL",
+                MTA_APPKEY:"3102570311",
+                MTA_CHANNEL:"360"
         ]
     }
     buildTypes {
@@ -72,4 +89,11 @@ dependencies {
     compile 'com.tencent.mid:mid:3.72.4-alpha'
     compile project(':SpinKit')
     compile 'com.kyleduo.switchbutton:library:1.4.6'
+
+    //MTA的jar包
+    compile 'com.qq.mta:mta:3.1.41-alpha'
+    //midjar包
+    compile 'com.tencent.mid:mid:3.73-alpha'
+    //可视化埋点的相关jar包 （根据需要添加），可视化埋点的版本号，和MTA的版本号必须匹配，只能是当前版本号成对存在。
+    compile 'com.qq.visual:visual:1.0.7-alpha'
 }
