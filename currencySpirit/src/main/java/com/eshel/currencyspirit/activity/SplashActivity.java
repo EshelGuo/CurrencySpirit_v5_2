@@ -17,6 +17,8 @@ import com.eshel.currencyspirit.CurrencySpiritApp;
 import com.eshel.currencyspirit.R;
 import com.eshel.currencyspirit.util.PermissionUtil;
 import com.eshel.currencyspirit.util.UIUtil;
+import com.tencent.stat.MtaSDkException;
+import com.tencent.stat.StatService;
 
 import baseproject.base.BaseActivity;
 import baseproject.permission.Permissions;
@@ -98,6 +100,7 @@ public class SplashActivity extends BaseActivity {
 		if(actionBar != null) {
 			actionBar.hide();
 		}
+		initMTA();
 		requestPermission();
 	}
 	@Override
@@ -124,6 +127,18 @@ public class SplashActivity extends BaseActivity {
 			requestPermissionOver();
 		}
 	}
+
+	private void initMTA() {
+		try {
+			StatService.setContext(this.getApplication());
+			StatService.startStatService(getApplicationContext(),null,com.tencent.stat.common.StatConstants.VERSION);
+			UIUtil.debugToast("MTA 初始化成功");
+		} catch (MtaSDkException e) {
+			e.printStackTrace();
+			UIUtil.debugToast("MTA 初始化失败");
+		}
+	}
+
 	private void requestPermissionOver(){
 		new Thread(mainTask).start();
 		CurrencySpiritApp.getApp().getHandler().postDelayed(finishSplashTask,lifeTime);

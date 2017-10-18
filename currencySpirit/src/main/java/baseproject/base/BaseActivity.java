@@ -6,6 +6,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 
+import com.tencent.stat.StatService;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -47,6 +49,7 @@ public class BaseActivity extends AppCompatActivity {
 			Log.i("curentTopActivity: "+topActivity);
 		else
 			Log.i("curentTopActivity: null");
+		StatService.onResume(this);
 	}
 
 	@Override
@@ -57,6 +60,7 @@ public class BaseActivity extends AppCompatActivity {
 			Log.i("curentTopActivity: "+topActivity);
 		else
 			Log.i("curentTopActivity: null");
+		StatService.onPause(this);
 	}
 
 	@Override

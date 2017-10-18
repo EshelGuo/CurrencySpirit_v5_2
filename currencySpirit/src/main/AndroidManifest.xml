@@ -7,6 +7,9 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
     <uses-sdk tools:overrideLibrary="com.lc.xinge,
                                      lc.com.wup,com.qq.mid,
                                      me.weyye.hipermission
@@ -55,8 +58,12 @@
                 <action android:name="com.tencent.android.tpush.action.FEEDBACK" />
             </intent-filter>
         </receiver>
-        <meta-data
-            android:name="UMENG_CHANEL"
-            android:value="${CHANNEL_NAME}"/>
+        <provider
+            android:name="com.tencent.mid.api.MidProvider"
+            android:authorities="com.eshel.currencyspirit.TENCENT.MID.V3"
+            android:exported="true" >
+        </provider>
+        <meta-data android:name="TA_APPKEY" android:value="3102570311"/>
+        <meta-data android:name="InstallChannel" android:value="${InstallChannel}"/>
     </application>
 </manifest>

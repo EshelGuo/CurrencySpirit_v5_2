@@ -10,6 +10,11 @@ import com.eshel.currencyspirit.util.UIUtil;
 import com.tencent.android.tpush.XGIOperateCallback;
 import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
+import com.tencent.mta.track.DebugMode;
+import com.tencent.mta.track.StatisticsDataAPI;
+import com.tencent.stat.MtaSDkException;
+import com.tencent.stat.StatConfig;
+import com.tencent.stat.StatService;
 
 import baseproject.base.BaseApplication;
 import baseproject.util.Log;
@@ -28,6 +33,8 @@ public class CurrencySpiritApp extends BaseApplication{
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		StatConfig.setAutoExceptionCaught(true);//开启异常捕获
+//		StatConfig.initNativeCrashReport (this, null);//native 异常捕获
 		Log.i("appprocess: "+ProcessUtil.getCurrentProcessName(getApplicationContext()));
 		app = this;
 		mainThreadName = Thread.currentThread().getName();
@@ -41,12 +48,14 @@ public class CurrencySpiritApp extends BaseApplication{
 	}
 	static boolean registerSuccess;
 	public void mainOnCreate(){
+		StatisticsDataAPI.instance(this,DebugMode.DEBUG_OFF);
 		//开启信鸽日志输出
 		XGPushConfig.enableDebug(getApplicationContext(), UIUtil.isDebug());
 		if(!ShapeUtil.get(AppConstant.key_push,true))
 			return;
 		registerXGPush();
 	}
+
 	public static void registerXGPush(){
 		if(!registerSuccess)
 			//信鸽注册代码
