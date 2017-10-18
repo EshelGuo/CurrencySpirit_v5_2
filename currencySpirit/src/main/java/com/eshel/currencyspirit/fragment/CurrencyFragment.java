@@ -20,6 +20,7 @@ import com.eshel.currencyspirit.util.UIUtil;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
 import baseproject.base.BaseFragment;
+import baseproject.util.Log;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -59,28 +60,26 @@ public class CurrencyFragment extends BaseFragment {
 			mView = View.inflate(getActivity(), R.layout.view_currency, null);
 			tab = (SmartTabLayout) mView.findViewById(R.id.tab);
 			viewpager = (ViewPager) mView.findViewById(R.id.viewpager);
-		}
-		if (mCurrencyAdapter == null) {
 			mCurrencyAdapter = new CurrencyAdapter();
 			viewpager.setAdapter(mCurrencyAdapter);
 			tab.setViewPager(viewpager);
-		}
-		tab.setOnTabClickListener(new SmartTabLayout.OnTabClickListener() {
-			@Override
-			public void onTabClicked(int position) {
-				if(viewpager.getCurrentItem() == position){
-					UIUtil.debugToast("tab再次被点击了 position: "+position);
-					if(position == zhangfu){
-						// TODO: 2017/10/16  做更新 RecyleView 对涨幅栏目重新排序
-						TextView textView = (TextView) tab.getTabAt(position).findViewById(R.id.currency_tab_textview);
-						AOIFragment aoiFragment = (AOIFragment) FragmentFactory.getFragment(AOIFragment.class);
-						aoiFragment.changeState(textView);
+			tab.setOnTabClickListener(new SmartTabLayout.OnTabClickListener() {
+				@Override
+				public void onTabClicked(int position) {
+					if(viewpager.getCurrentItem() == position){
+						UIUtil.debugToast("tab再次被点击了 position: "+position);
+						if(position == zhangfu){
+							// TODO: 2017/10/16  做更新 RecyleView 对涨幅栏目重新排序
+							TextView textView = (TextView) tab.getTabAt(position).findViewById(R.id.currency_tab_textview);
+							AOIFragment aoiFragment = (AOIFragment) FragmentFactory.getFragment(AOIFragment.class);
+							aoiFragment.changeState(textView);
+						}
+					}else {
+						UIUtil.debugToast("tab被点击了 position: " + position);
 					}
-				}else {
-					UIUtil.debugToast("tab被点击了 position: " + position);
 				}
-			}
-		});
+			});
+		}
 		return mView;
 	}
 
@@ -120,6 +119,7 @@ public class CurrencyFragment extends BaseFragment {
 					textView.setCompoundDrawables(null,null,drawable,null);
 					break;
 			}
+			Log.i("fragment: ",fragment);
 			return fragment;
 		}
 
@@ -139,4 +139,10 @@ public class CurrencyFragment extends BaseFragment {
 	public final int self_select = 0;
 	public final int shizhi = 1;
 	public final int zhangfu = 2;
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		mView = null;
+	}
 }

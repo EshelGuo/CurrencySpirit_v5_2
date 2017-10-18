@@ -25,9 +25,14 @@ public class CurrencyDao {
 	}
 	public static void add(CurrencyModel model){
 		try {
-			CurrencyTable table = new CurrencyTable();
-			table.set(model);
-			getDao().create(table);
+			CurrencyTable currencyTable = queryByCoinId(model.coin_id);
+			if(currencyTable == null){
+				currencyTable = new CurrencyTable();
+				currencyTable.set(model);
+				getDao().create(currencyTable);
+			}else {
+				update(model);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

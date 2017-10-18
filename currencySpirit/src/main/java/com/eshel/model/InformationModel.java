@@ -1,5 +1,6 @@
 package com.eshel.model;
 
+import com.eshel.currencyspirit.CurrencySpiritApp;
 import com.eshel.currencyspirit.factory.FragmentFactory;
 import com.eshel.currencyspirit.fragment.EssenceFragment;
 import com.eshel.currencyspirit.fragment.InformationFragment;
@@ -42,16 +43,21 @@ public class InformationModel implements Serializable{
 	public static InformationModel getInformationDataByPosition(int position){
 		return informationData.get(position);
 	}
-	public static void notifyView(boolean isSuccess){
-		BaseFragment informationFragment = (BaseFragment) FragmentFactory.getFragment(InformationFragment.class);
-		if(isSuccess) {
-			if (informationFragment.getCurrState() != BaseFragment.LoadState.StateLoadSuccess)
-				informationFragment.changeState(BaseFragment.LoadState.StateLoadSuccess);
-			else {
-				informationFragment.notifyView();
+	public static void notifyView(final boolean isSuccess){
+		CurrencySpiritApp.getApp().getHandler().post(new Runnable() {
+			@Override
+			public void run() {
+				BaseFragment informationFragment = (BaseFragment) FragmentFactory.getFragment(InformationFragment.class);
+				if(isSuccess) {
+					if (informationFragment.getCurrState() != BaseFragment.LoadState.StateLoadSuccess)
+						informationFragment.changeState(BaseFragment.LoadState.StateLoadSuccess);
+					else {
+						informationFragment.notifyView();
+					}
+				}else {
+					informationFragment.changeState(BaseFragment.LoadState.StateLoadFailed);
+				}
 			}
-		}else {
-			informationFragment.changeState(BaseFragment.LoadState.StateLoadFailed);
-		}
+		});
 	}
 }

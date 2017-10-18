@@ -37,6 +37,7 @@ import retrofit2.Response;
  */
 
 public class CurrencyViewModel {
+
 	static BaseViewModel marketValue = new BaseViewModel() {
 		@Override
 		public void getData(Mode mode) {
@@ -64,10 +65,11 @@ public class CurrencyViewModel {
 				public void run() {
 					final List<CurrencyTable> currencyTables = CurrencyDao.queryAll();
 					if(currencyTables == null || currencyTables.size() == 0){
+						CurrencyModel.selfSelectModel.data.clear();
 						CurrencyModel.selfSelectModel.notifyView(mode,true, SelfSelectFragment.class);
 						return;
 					}
-					if(mode == Mode.REFRESH)
+					if(mode == Mode.REFRESH || mode == Mode.NORMAL)
 						CurrencyModel.selfSelectModel.data.clear();
 					for (CurrencyTable currencyTable : currencyTables) {
 						CurrencyModel.selfSelectModel.data.add(currencyTable.get(null));
@@ -144,7 +146,7 @@ public class CurrencyViewModel {
 		CurrencySpiritApp.getApp().getHandler().postDelayed(new Runnable() {
 			@Override
 			public void run() {
-				if(mode == Mode.REFRESH)
+				if(mode == Mode.REFRESH || mode == Mode.NORMAL)
 					baseModel.data.clear();
 				else {
 					base.start += base.count;

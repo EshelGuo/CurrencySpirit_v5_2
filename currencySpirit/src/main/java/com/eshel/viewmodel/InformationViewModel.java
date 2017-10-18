@@ -51,7 +51,7 @@ public class InformationViewModel {
 						CurrencySpiritApp.getApp().getHandler().postDelayed(new Runnable() {
 							@Override
 							public void run() {
-								if(mode == Mode.REFRESH)
+								if(mode == Mode.REFRESH || mode == Mode.NORMAL)
 									InformationModel.informationData.clear();
 								else {
 									start += count;

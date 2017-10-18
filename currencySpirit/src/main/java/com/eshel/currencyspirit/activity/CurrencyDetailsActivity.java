@@ -52,9 +52,9 @@ public class CurrencyDetailsActivity extends WebActivity {
 	public void attentionOver(boolean isAttention ,String msg) {
 		mTitle.mTvAttention.setClickable(true);
 		if(msg == null){
-			mTitle.changeAttentionState(isAttention);
-		} else {
 			mTitle.changeAttentionState(!isAttention);
+		} else {
+			mTitle.changeAttentionState(isAttention);
 		}
 	}
 

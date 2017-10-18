@@ -1,9 +1,13 @@
 package com.eshel.model;
 
+import android.support.v4.app.Fragment;
+
+import com.eshel.currencyspirit.CurrencySpiritApp;
 import com.eshel.currencyspirit.R;
 import com.eshel.currencyspirit.activity.CurrencyDetailsActivity;
 import com.eshel.currencyspirit.factory.FragmentFactory;
 import com.eshel.currencyspirit.fragment.currency.MarketValueFragment;
+import com.eshel.currencyspirit.fragment.currency.SelfSelectFragment;
 import com.eshel.currencyspirit.util.UIUtil;
 import com.eshel.viewmodel.BaseViewModel;
 
@@ -21,10 +25,10 @@ import baseproject.util.DataUtil;
  * desc: TODO
  */
 
-public class CurrencyModel implements Serializable{
-
-	public static String moneyFormat(String pre,double turnnumber){
-		return pre + DataUtil.double2Str(turnnumber,true);
+public class CurrencyModel implements Serializable {
+	public static boolean isRefreshed = false;
+	public static String moneyFormat(String pre, double turnnumber) {
+		return pre + DataUtil.double2Str(turnnumber, true);
 	}
 
 	public static BaseModel martetValueModel = new BaseModel();
@@ -70,7 +74,7 @@ public class CurrencyModel implements Serializable{
 	public String url;
 	public String yprice;
 
-	public static class InfoBean  implements Serializable{
+	public static class InfoBean implements Serializable {
 		/**
 		 * chinesename : Ethereum
 		 * englishname : Ethereum
@@ -82,47 +86,63 @@ public class CurrencyModel implements Serializable{
 		public String imageurl;
 		public String symbol;
 	}
-	public static class BaseModel{
+
+	public static class BaseModel {
 		public List<CurrencyModel> data = new ArrayList<>();
 		public int loadDataCount = 20;
-		public CurrencyModel getDataByPosition(int position){
+
+		public CurrencyModel getDataByPosition(int position) {
 			return data.get(position);
 		}
-		public static void notifyView(BaseViewModel.Mode mode , boolean isSuccess,Class FragmentClass){
-			BaseFragment baseFragment = (BaseFragment) FragmentFactory.getFragment(FragmentClass);
-			if(isSuccess) {
-				if (baseFragment.getCurrState() != BaseFragment.LoadState.StateLoadSuccess)
-					baseFragment.changeState(BaseFragment.LoadState.StateLoadSuccess);
-				else {
-					baseFragment.notifyView();
+
+		public static void notifyView(final BaseViewModel.Mode mode, final boolean isSuccess, final Class FragmentClass) {
+			CurrencySpiritApp.getApp().getHandler().post(new Runnable() {
+				@Override
+				public void run() {
+					BaseFragment baseFragment = (BaseFragment) FragmentFactory.getFragment(FragmentClass);
+					if (isSuccess) {
+						if (baseFragment.getCurrState() != BaseFragment.LoadState.StateLoadSuccess)
+							baseFragment.changeState(BaseFragment.LoadState.StateLoadSuccess);
+						else {
+							baseFragment.notifyView();
+						}
+					} else {
+						if (mode == BaseViewModel.Mode.NORMAL)
+							baseFragment.changeState(BaseFragment.LoadState.StateLoadFailed);
+						else if (mode == BaseViewModel.Mode.REFRESH) {
+							baseFragment.refreshFailed();
+						} else {
+							baseFragment.loadModeFailed();
+						}
+					}
 				}
-			}else {
-				if(mode == BaseViewModel.Mode.NORMAL)
-					baseFragment.changeState(BaseFragment.LoadState.StateLoadFailed);
-				else if(mode == BaseViewModel.Mode.REFRESH){
-					baseFragment.refreshFailed();
-				}else {
-					baseFragment.loadModeFailed();
-				}
-			}
+			});
 		}
 	}
 
 	// TODO: 2017/10/17
-	public static void attentionFailed(boolean isAttention ,String msg){
+	public static void attentionFailed(boolean isAttention, String msg) {
 		UIUtil.toast(msg);
 		BaseActivity topActivity = BaseActivity.getTopActivity();
-		if(topActivity instanceof CurrencyDetailsActivity){
+		if (topActivity instanceof CurrencyDetailsActivity) {
 			CurrencyDetailsActivity currencyDetailsActivity = (CurrencyDetailsActivity) topActivity;
-			currencyDetailsActivity.attentionOver(isAttention,msg);
+			currencyDetailsActivity.attentionOver(isAttention, msg);
 		}
 	}
-	public static void attentionSuccess(boolean isAttention){
-		UIUtil.toast(UIUtil.getString(R.string.attention_success));
+
+	public static void attentionSuccess(boolean isAttention) {
+		UIUtil.toast(UIUtil.getString(isAttention ? R.string.attention_success : R.string.unattention_success));
 		BaseActivity topActivity = BaseActivity.getTopActivity();
-		if(topActivity instanceof CurrencyDetailsActivity){
+		if(SelfSelectFragment.isOnResume){
+			SelfSelectFragment fragment = (SelfSelectFragment) FragmentFactory.getFragment(SelfSelectFragment.class);
+			if(fragment != null)
+				fragment.refreshData();
+		}else {
+			CurrencyModel.isRefreshed = true;
+		}
+		if (topActivity instanceof CurrencyDetailsActivity) {
 			CurrencyDetailsActivity currencyDetailsActivity = (CurrencyDetailsActivity) topActivity;
-			currencyDetailsActivity.attentionOver(isAttention,null);
+			currencyDetailsActivity.attentionOver(isAttention, null);
 		}
 	}
 }

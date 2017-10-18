@@ -44,7 +44,7 @@ public  class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.dropTable(connectionSource, EssenceCacheTable.class, true);
             TableUtils.dropTable(connectionSource, EssenceHistory.class, true);
             TableUtils.dropTable(connectionSource, CurrencyTable.class, true);
-            onCreate(database, connectionSource);
+//            onCreate(database, connectionSource);
         } catch (SQLException e) {
             e.printStackTrace();  
         }  

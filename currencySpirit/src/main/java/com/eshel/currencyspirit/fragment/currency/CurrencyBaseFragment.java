@@ -57,51 +57,56 @@ public abstract class CurrencyBaseFragment extends BaseFragment{
 		if(mRoot == null) {
 			mRoot = View.inflate(getActivity(), R.layout.view_currency_child, null);
 			mRv_currency = (PullToRefreshRecyclerView) mRoot.findViewById(R.id.rv_currency);
+			mRv_currency.getRecyclerView().addItemDecoration(new RecycleViewDivider(getActivity(), LinearLayoutManager.HORIZONTAL,
+					DensityUtil.dp2px(Config.dividerHeight), UIUtil.getColor(R.color.dividerColor),
+					DensityUtil.dp2px(10), DensityUtil.dp2px(10)));
+			mRv_currency.setSwipeEnable(true);//open swipe
+			mRv_currency.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+			mAdapter = new CurrencyBaseFragment.BaseAdapter();
+			mRv_currency.setAdapter(mAdapter);
+
+			LoadMoreView loadMoreView = new LoadMoreView(getActivity(), mRv_currency.getRecyclerView());
+			loadMoreView.setLoadmoreString(getString(R.string.string_loadmore));
+			loadMoreView.setLoadMorePadding(100);
+			mRv_currency.setLoadMoreFooter(loadMoreView);
+			//remove header
+			mRv_currency.removeHeader();
+			// set true to open swipe(pull to refresh, default is true)
+			// set PagingableListener
+			mRv_currency.setPagingableListener(new PullToRefreshRecyclerView.PagingableListener() {
+				@Override
+				public void onLoadMoreItems() {
+					loadData(BaseViewModel.Mode.LOADMORE);
+				}
+			});
+
+			// set OnRefreshListener
+			mRv_currency.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+				@Override
+				public void onRefresh() {
+					mRv_currency.setRefreshing(true);
+					CurrencySpiritApp.getApp().getHandler().postDelayed(new Runnable() {
+						@Override
+						public void run() {
+							refreshData();
+						}
+					}, 0);
+				}
+			});
+			mRv_currency.onFinishLoading(true, false);
 		}
-		mRv_currency.setSwipeEnable(true);//open swipe
-		mRv_currency.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-/*		mRv_currency.getRecyclerView().addItemDecoration(new RecycleViewDivider(getActivity(), LinearLayoutManager.HORIZONTAL,
-				DensityUtil.dp2px(Config.dividerHeight), UIUtil.getColor(R.color.dividerColor),
-				DensityUtil.dp2px(10), DensityUtil.dp2px(10)));*/
-		mAdapter = new CurrencyBaseFragment.BaseAdapter();
-		mRv_currency.setAdapter(mAdapter);
 
-		LoadMoreView loadMoreView = new LoadMoreView(getActivity(), mRv_currency.getRecyclerView());
-		loadMoreView.setLoadmoreString(getString(R.string.string_loadmore));
-		loadMoreView.setLoadMorePadding(100);
-		mRv_currency.setLoadMoreFooter(loadMoreView);
-		//remove header
-		mRv_currency.removeHeader();
-		// set true to open swipe(pull to refresh, default is true)
-		// set PagingableListener
-		mRv_currency.setPagingableListener(new PullToRefreshRecyclerView.PagingableListener() {
-			@Override
-			public void onLoadMoreItems() {
-				loadData(BaseViewModel.Mode.LOADMORE);
-			}
-		});
-
-		// set OnRefreshListener
-		mRv_currency.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-			@Override
-			public void onRefresh() {
-				mRv_currency.setRefreshing(true);
-				CurrencySpiritApp.getApp().getHandler().postDelayed(new Runnable() {
-					@Override
-					public void run() {
-						refreshData();
-						mRv_currency.setOnRefreshComplete();
-						mRv_currency.onFinishLoading(true, false);
-					}
-				}, 1000);
-			}
-		});
-		mRv_currency.onFinishLoading(true, false);
 		return mRoot;
 	}
 	
 	@Override
 	public void notifyView() {
+		mRv_currency.post(new Runnable() {
+			@Override
+			public void run() {
+				mRv_currency.setOnRefreshComplete();
+			}
+		});
 		if (getBaseMode().loadDataCount < 20)
 			mRv_currency.onFinishLoading(false, false);
 		else

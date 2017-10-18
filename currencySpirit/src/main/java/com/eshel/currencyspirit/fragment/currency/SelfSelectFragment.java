@@ -24,7 +24,23 @@ public class SelfSelectFragment extends CurrencyBaseFragment{
 	}
 
 	@Override
-	protected void refreshData() {
+	public void refreshData() {
 		CurrencyViewModel.selfSelect.getData(BaseViewModel.Mode.REFRESH);
+	}
+	public static boolean isOnResume = false;
+	@Override
+	public void onResume() {
+		super.onResume();
+		isOnResume = true;
+		if(CurrencyModel.isRefreshed){
+			CurrencyModel.isRefreshed = false;
+			refreshData();
+		}
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		isOnResume = false;
 	}
 }
