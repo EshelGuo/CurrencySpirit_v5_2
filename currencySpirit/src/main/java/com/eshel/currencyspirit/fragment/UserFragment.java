@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.eshel.currencyspirit.R;
+import com.eshel.currencyspirit.activity.AboutActivity;
 import com.eshel.currencyspirit.activity.EssenceHistoryActivity;
 import com.eshel.currencyspirit.activity.HomeActivity;
 import com.eshel.currencyspirit.activity.OptionActivity;
@@ -58,6 +59,7 @@ public class UserFragment extends BaseFragment {
 			mSuccessViewHolder.itemAbout.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
+					startActivity(new Intent(getActivity(),AboutActivity.class));
 				}
 			});
 			mSuccessViewHolder.itemOption.setOnClickListener(new View.OnClickListener() {

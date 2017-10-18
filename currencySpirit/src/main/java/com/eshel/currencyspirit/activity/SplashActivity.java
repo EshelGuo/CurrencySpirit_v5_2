@@ -2,6 +2,9 @@ package com.eshel.currencyspirit.activity;
 
 import android.Manifest;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
@@ -13,6 +16,7 @@ import com.eshel.config.AppConstant;
 import com.eshel.currencyspirit.CurrencySpiritApp;
 import com.eshel.currencyspirit.R;
 import com.eshel.currencyspirit.util.PermissionUtil;
+import com.eshel.currencyspirit.util.UIUtil;
 
 import baseproject.base.BaseActivity;
 import baseproject.permission.Permissions;
@@ -82,8 +86,9 @@ public class SplashActivity extends BaseActivity {
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
-		getWindow().setBackgroundDrawableResource(R.drawable.splash);
+		getWindow().setBackgroundDrawable(new ColorDrawable(UIUtil.getColor(R.color.white)));
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_splash);
 		if(!CurrencySpiritApp.isExit) {
 			enterHomeByMsg();
 			return;

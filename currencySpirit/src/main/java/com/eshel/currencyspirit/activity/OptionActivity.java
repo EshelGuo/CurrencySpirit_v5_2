@@ -1,5 +1,6 @@
 package com.eshel.currencyspirit.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -69,6 +70,9 @@ public class OptionActivity extends BaseActivity {
 			case R.id.message_onoff:
 				Log.i("pushChecked: "+mMessageOnoff.getChecked());
 				ShapeUtil.put(AppConstant.key_push,mMessageOnoff.getChecked());
+				if(!isOnResume){
+					return;
+				}
 				if(mMessageOnoff.getChecked()){
 					CurrencySpiritApp.registerXGPush();
 					UIUtil.toast(UIUtil.getString(R.string.push_on));
@@ -78,6 +82,7 @@ public class OptionActivity extends BaseActivity {
 				}
 				break;
 			case R.id.about:
+				startActivity(new Intent(this,AboutActivity.class));
 				break;
 			case R.id.share:
 				break;
@@ -88,9 +93,17 @@ public class OptionActivity extends BaseActivity {
 		}
 	}
 
+	private boolean isOnResume;
 	@Override
 	protected void onResume() {
 		super.onResume();
+		isOnResume = true;
 		mCleanCache.setItemText(FileUtils.fileSizeFormat(getCacheDir().length()));
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		isOnResume = false;
 	}
 }
