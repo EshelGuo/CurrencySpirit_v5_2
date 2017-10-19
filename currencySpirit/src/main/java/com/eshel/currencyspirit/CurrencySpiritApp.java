@@ -16,6 +16,8 @@ import com.tencent.stat.MtaSDkException;
 import com.tencent.stat.StatConfig;
 import com.tencent.stat.StatService;
 
+import org.json.JSONObject;
+
 import baseproject.base.BaseApplication;
 import baseproject.util.Log;
 import baseproject.util.shape.ShapeUtil;

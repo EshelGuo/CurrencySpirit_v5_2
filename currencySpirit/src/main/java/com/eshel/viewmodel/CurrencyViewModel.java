@@ -60,29 +60,61 @@ public class CurrencyViewModel {
 		@Override
 		public void getData(final Mode mode) {
 			final long ago = System.currentTimeMillis();
-			new Thread(){
-				@Override
-				public void run() {
-					final List<CurrencyTable> currencyTables = CurrencyDao.queryAll();
-					if(currencyTables == null || currencyTables.size() == 0){
-						CurrencyModel.selfSelectModel.data.clear();
-						CurrencyModel.selfSelectModel.notifyView(mode,true, SelfSelectFragment.class);
-						return;
-					}
-					if(mode == Mode.REFRESH || mode == Mode.NORMAL)
-						CurrencyModel.selfSelectModel.data.clear();
-					for (CurrencyTable currencyTable : currencyTables) {
-						CurrencyModel.selfSelectModel.data.add(currencyTable.get(null));
-					}
-					CurrencySpiritApp.getApp().getHandler().postDelayed(new Runnable() {
-						@Override
-						public void run() {
-							CurrencyModel.selfSelectModel.loadDataCount = currencyTables.size();
-							CurrencyModel.selfSelectModel.notifyView(mode,true, SelfSelectFragment.class);
-						}
-					},getRefreshTime(mode,ago));
+			if(mode == Mode.REFRESH)
+				selfSelect.start = 0;
+			final List<CurrencyTable> currencyTables = CurrencyDao.queryByCount(selfSelect.start,count);
+			if((currencyTables == null || currencyTables.size() == 0)){
+				selfSelect.start = 0;
+				CurrencyModel.selfSelectModel.data.clear();
+				CurrencyModel.selfSelectModel.notifyView(mode,true, SelfSelectFragment.class);
+				return;
+			}
+			if(mode == Mode.REFRESH || mode == Mode.NORMAL) {
+				CurrencyModel.selfSelectModel.data.clear();
+			}
+			if(!NetUtils.hasNetwork(UIUtil.getContext())) {
+				for (CurrencyTable currencyTable : currencyTables) {
+					// TODO: 2017/10/19
+					CurrencyModel.selfSelectModel.data.add(currencyTable.get(null));
 				}
-			}.start();
+				CurrencySpiritApp.getApp().getHandler().postDelayed(new Runnable() {
+					@Override
+					public void run() {
+						CurrencyModel.selfSelectModel.loadDataCount = currencyTables.size();
+						CurrencyModel.selfSelectModel.notifyView(mode, true, SelfSelectFragment.class);
+					}
+				}, getRefreshTime(mode, ago));
+			}else {
+				NewListApi api = RetrofitFactory.getRetrofit().create(NewListApi.class);
+				List<String> ids = new ArrayList<>();
+				for (CurrencyTable currencyTable : currencyTables) {
+					ids.add(currencyTable.coin_id);
+				}
+				Call<ResponseBody> select = api.select("USD", ids);
+				select.enqueue(new Callback<ResponseBody>() {
+					@Override
+					public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+						if(response.isSuccessful()){
+							try {
+								String json = response.body().string();
+								refreshView(json,mode,ago,selfSelect,CurrencyModel.selfSelectModel,SelfSelectFragment.class);
+
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						}else {
+						}
+					}
+
+					@Override
+					public void onFailure(Call<ResponseBody> call, Throwable t) {
+						Log.w(CurrencyViewModel.class,call.toString());
+						t.printStackTrace();
+					}
+				});
+			}
+
+
 		}
 	};
 	public static void getAOIData(Mode mode){
@@ -143,6 +175,10 @@ public class CurrencyViewModel {
 	private static void refreshView(String json, final Mode mode, long ago, final BaseViewModel base, final CurrencyModel.BaseModel baseModel, final Class fragmentClass) {
 		Gson gson = new Gson();
 		final ArrayList<CurrencyModel> data = gson.fromJson(json, new TypeToken<ArrayList<CurrencyModel>>() {}.getType());
+		if(SelfSelectFragment.class == fragmentClass)
+			for (CurrencyModel currencyModel : data) {
+				CurrencyDao.update(currencyModel);
+			}
 		CurrencySpiritApp.getApp().getHandler().postDelayed(new Runnable() {
 			@Override
 			public void run() {

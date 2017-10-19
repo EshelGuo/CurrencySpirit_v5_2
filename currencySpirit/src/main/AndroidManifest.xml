@@ -48,6 +48,9 @@
             android:name=".activity.WeiboDetailsActivity"/>
         <activity android:name=".activity.AboutActivity"/>
         <activity android:name=".activity.OptionActivity"/>
+        <activity
+            android:windowSoftInputMode="stateVisible|adjustResize"
+            android:name=".activity.SearchCurrencyActivity"/>
         <!--信鸽推送-->
         <receiver android:name="xgpush.receiver.XGMessageReceiver"
                   android:exported="true">

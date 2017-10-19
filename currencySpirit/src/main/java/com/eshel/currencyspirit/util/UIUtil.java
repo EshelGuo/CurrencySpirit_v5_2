@@ -1,5 +1,6 @@
 package com.eshel.currencyspirit.util;
 
+import android.content.Context;
 import android.widget.Toast;
 
 import com.eshel.currencyspirit.CurrencySpiritApp;
@@ -76,5 +77,8 @@ public class UIUtil {
 	}
 	public static int getScreenWidth(){
 		return CurrencySpiritApp.getContext().getResources().getDisplayMetrics().widthPixels;
+	}
+	public static Context getContext(){
+		return CurrencySpiritApp.getContext();
 	}
 }

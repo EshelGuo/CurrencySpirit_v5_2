@@ -131,7 +131,7 @@ public class SplashActivity extends BaseActivity {
 	private void initMTA() {
 		try {
 			StatService.setContext(this.getApplication());
-			StatService.startStatService(getApplicationContext(),null,com.tencent.stat.common.StatConstants.VERSION);
+			StatService.startStatService(getApplicationContext(),"3102570311",com.tencent.stat.common.StatConstants.VERSION);
 			UIUtil.debugToast("MTA 初始化成功");
 		} catch (MtaSDkException e) {
 			e.printStackTrace();

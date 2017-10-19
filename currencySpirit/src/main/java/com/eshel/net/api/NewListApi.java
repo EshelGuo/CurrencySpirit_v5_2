@@ -1,5 +1,7 @@
 package com.eshel.net.api;
 
+import java.util.List;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -13,8 +15,9 @@ import retrofit2.http.Query;
  * https://fengzhihen.com/btcapp/weiboInfo?start=1&count=20    // 微博专栏
  * https://fengzhihen.com/btcapp/coinInfo?start=1&count=20&sort=volume&desc=false&symbol=USD   // 牛币专栏
  * https://fengzhihen.com/btcapp/coinInfo?start=1&count=20&sort=percent&desc=false&symbol=USD   // 牛币专栏
- * https://fengzhihen.com/token/addtag?token=edf2ab61baef4ffc45a1928f0c7302d1db9ad2a6&pid=20&account=a&tagname=aaa&device=android   // 订阅
- * https://fengzhihen.com/token/deltag?token=edf2ab61baef4ffc45a1928f0c7302d1db9ad2a6&pid=20&account=a   // 取消订阅
+ * https://fengzhihen.com/btcapp/token/addtag?token=edf2ab61baef4ffc45a1928f0c7302d1db9ad2a6&pid=20&account=a&tagname=aaa&device=android   // 订阅
+ * https://fengzhihen.com/btcapp/token/deltag?token=edf2ab61baef4ffc45a1928f0c7302d1db9ad2a6&pid=20&account=a   // 取消订阅
+ * https://fengzhihen.com/btcapp/coinInfo/select?symbol=USD&ids=bitcoin&ids=aaa   // 获取自选信息
  *
  */
 
@@ -68,5 +71,10 @@ public interface NewListApi {
 			@Query("account") String account,
 			@Query("tagname") String tagname,
 			@Query("device") String device
+	);
+	@GET("btcapp/coinInfo/select")
+	Call<ResponseBody> select(
+			@Query("symbol") String symbol,
+			@Query("ids") List<String> ids
 	);
 }

@@ -8,6 +8,7 @@ import com.eshel.model.CurrencyModel;
 import com.j256.ormlite.dao.Dao;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -74,6 +75,17 @@ public class CurrencyDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return null;
+	}
+	public static List<CurrencyTable> queryByCount(int start, int count){
+		Dao<CurrencyTable, Integer> dao = getDao();
+		try {
+			List<CurrencyTable> query = dao.queryBuilder().offset(start).limit(count).query();
+			return query;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
 		return null;
 	}
 

@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.eshel.currencyspirit.CurrencySpiritApp;
 import com.eshel.currencyspirit.R;
 import com.eshel.currencyspirit.activity.CurrencyDetailsActivity;
+import com.eshel.currencyspirit.activity.SearchCurrencyActivity;
 import com.eshel.currencyspirit.util.UIUtil;
 import com.eshel.currencyspirit.widget.RecycleViewDivider;
 import com.eshel.currencyspirit.widget.util.Config;
@@ -114,24 +115,58 @@ public abstract class CurrencyBaseFragment extends BaseFragment{
 		mAdapter.notifyDataSetChanged();
 	}
 
-	public class BaseAdapter extends RecyclerView.Adapter<BaseViewHolder> {
+	public class BaseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 		@Override
-		public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+		public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+			if(viewType == TYPE_ADD){
+				return new AddViewHolder();
+			}
 			return new BaseViewHolder();
 		}
 
 		@Override
-		public void onBindViewHolder(BaseViewHolder holder, int position) {
-			holder.bindDataToView(getBaseMode().getDataByPosition(position));
+		public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+			if(holder instanceof BaseViewHolder) {
+				BaseViewHolder baseViewHolder = (BaseViewHolder) holder;
+				baseViewHolder.bindDataToView(getBaseMode().getDataByPosition(position));
+			}else if(holder instanceof AddViewHolder){
+				AddViewHolder addViewHolder = (AddViewHolder) holder;
+				addViewHolder.bindDataToView();
+			}
 		}
 
 		@Override
 		public int getItemCount() {
+			int extra = CurrencyBaseFragment.this instanceof SelfSelectFragment ? 1 : 0;
 			List<CurrencyModel> data = getBaseMode().data;
 			if (data!= null)
-				return data.size();
-			return 0;
+				return data.size() + extra;
+			return extra;
+		}
+
+		@Override
+		public int getItemViewType(int position) {
+			if(CurrencyBaseFragment.this instanceof SelfSelectFragment && position == getItemCount() - 1)
+				return TYPE_ADD;
+			return super.getItemViewType(position);
+		}
+	}
+	public final int TYPE_ADD = 1;//添加自选
+
+	class AddViewHolder extends RecyclerView.ViewHolder{
+
+		public AddViewHolder() {
+			super(View.inflate(getActivity(),R.layout.item_add,null));
+		}
+
+		public void bindDataToView() {
+			itemView.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					startActivity(new Intent(getActivity(), SearchCurrencyActivity.class));
+				}
+			});
 		}
 	}
 

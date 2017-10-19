@@ -48,4 +48,5 @@
     <string name="app_version">version: 1.0</string>
     <string name="push_on">消息推送开启</string>
     <string name="push_off">消息推送关闭</string>
+    <string name="self_select_add">+添加, 编辑自选行情</string>
 </resources>
