@@ -14,6 +14,7 @@ import com.tencent.mta.track.DebugMode;
 import com.tencent.mta.track.StatisticsDataAPI;
 import com.tencent.stat.MtaSDkException;
 import com.tencent.stat.StatConfig;
+import com.tencent.stat.StatReportStrategy;
 import com.tencent.stat.StatService;
 
 import org.json.JSONObject;
@@ -50,6 +51,9 @@ public class CurrencySpiritApp extends BaseApplication{
 	}
 	static boolean registerSuccess;
 	public void mainOnCreate(){
+		StatConfig.setDebugEnable(true);
+		StatConfig.setStatSendStrategy(StatReportStrategy.INSTANT);
+		StatConfig.setAppKey("AG69XWKJB64D");
 		StatisticsDataAPI.instance(this,DebugMode.DEBUG_OFF);
 		//开启信鸽日志输出
 		XGPushConfig.enableDebug(getApplicationContext(), UIUtil.isDebug());

@@ -35,4 +35,8 @@
         </attr>
         <attr name="item_text" format="reference|string" />
     </declare-styleable>
+    <declare-styleable name="SearchView">
+        <attr name="search_icon" format="reference" />
+        <attr name="clean_icon" format="reference" />
+    </declare-styleable>
 </resources>

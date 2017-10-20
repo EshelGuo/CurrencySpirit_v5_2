@@ -66,7 +66,8 @@
             android:authorities="com.eshel.currencyspirit.TENCENT.MID.V3"
             android:exported="true" >
         </provider>
-        <meta-data android:name="TA_APPKEY" android:value="3102570311"/>
+        <meta-data android:name="TA_APPKEY" android:value="AG69XWKJB64D"/>
         <meta-data android:name="InstallChannel" android:value="${InstallChannel}"/>
+        <meta-data android:name="Provider" android:value="com.eshel.currencyspirit.TENCENT.MID.V3"/>
     </application>
 </manifest>
