@@ -49,4 +49,6 @@
     <string name="push_on">消息推送开启</string>
     <string name="push_off">消息推送关闭</string>
     <string name="self_select_add">+添加, 编辑自选行情</string>
+    <string name="self_selector_title">牛币自选</string>
+    <string name="search">搜索</string>
 </resources>

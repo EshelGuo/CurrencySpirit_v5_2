@@ -1,12 +1,9 @@
 package com.eshel.model;
 
-import android.support.v4.app.Fragment;
-
 import com.eshel.currencyspirit.CurrencySpiritApp;
 import com.eshel.currencyspirit.R;
 import com.eshel.currencyspirit.activity.CurrencyDetailsActivity;
 import com.eshel.currencyspirit.factory.FragmentFactory;
-import com.eshel.currencyspirit.fragment.currency.MarketValueFragment;
 import com.eshel.currencyspirit.fragment.currency.SelfSelectFragment;
 import com.eshel.currencyspirit.util.UIUtil;
 import com.eshel.viewmodel.BaseViewModel;

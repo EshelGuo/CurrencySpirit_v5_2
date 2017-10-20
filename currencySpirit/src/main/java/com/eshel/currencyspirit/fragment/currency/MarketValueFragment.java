@@ -1,32 +1,8 @@
 package com.eshel.currencyspirit.fragment.currency;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-
-import com.eshel.currencyspirit.CurrencySpiritApp;
-import com.eshel.currencyspirit.R;
-import com.eshel.currencyspirit.util.UIUtil;
-import com.eshel.currencyspirit.widget.RecycleViewDivider;
-import com.eshel.currencyspirit.widget.util.Config;
-import com.eshel.currencyspirit.widget.util.LoadMoreView;
 import com.eshel.model.CurrencyModel;
 import com.eshel.viewmodel.BaseViewModel;
 import com.eshel.viewmodel.CurrencyViewModel;
-import com.lhh.ptrrv.library.PullToRefreshRecyclerView;
-
-import java.util.List;
-
-import baseproject.base.BaseFragment;
-import baseproject.util.DensityUtil;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 
 /**

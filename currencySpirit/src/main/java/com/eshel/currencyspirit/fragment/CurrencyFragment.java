@@ -1,7 +1,6 @@
 package com.eshel.currencyspirit.fragment;
 
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,7 +9,6 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import com.eshel.currencyspirit.R;
@@ -23,9 +21,6 @@ import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
 import baseproject.base.BaseFragment;
 import baseproject.util.Log;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 /**
  * createBy Eshel

@@ -53,7 +53,7 @@ public class CurrencyViewModel {
 	public static BaseViewModel aoi2 = new BaseViewModel() {
 		@Override
 		public void getData(Mode mode) {
-			CurrencyViewModel.getData(aoi,mode,"percent",false,CurrencyModel.aoiModel2, AOIFragment.class);
+			CurrencyViewModel.getData(aoi2,mode,"percent",false,CurrencyModel.aoiModel2, AOIFragment.class);
 		}
 	};
 	public static BaseViewModel selfSelect = new BaseViewModel() {
