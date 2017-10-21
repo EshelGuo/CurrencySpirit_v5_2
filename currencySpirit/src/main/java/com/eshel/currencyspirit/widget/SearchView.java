@@ -2,11 +2,14 @@ package com.eshel.currencyspirit.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.ViewTreeObserver;
 import android.widget.EditText;
 
 import com.eshel.currencyspirit.R;
@@ -55,9 +58,9 @@ public class SearchView extends android.support.v7.widget.AppCompatEditText {
 		public void afterTextChanged(Editable s) {
 			if(getText().length() != 0){
 				if(cleanIcon != null)
-					setCompoundDrawables(null,null,cleanIcon,null);
+					setCompoundDrawables(searchIcon,null,cleanIcon,null);
 			}else {
-				setCompoundDrawables(null,null,null,null);
+				setCompoundDrawables(searchIcon,null,null,null);
 			}
 		}
 	};
@@ -70,6 +73,7 @@ public class SearchView extends android.support.v7.widget.AppCompatEditText {
 				setText("");
 			}
 		});
+		getFocus();
 	}
 
 	// 触摸事件
@@ -99,7 +103,13 @@ public class SearchView extends android.support.v7.widget.AppCompatEditText {
 				}
 			}
 		}
+		getFocus();
 		return super.onTouchEvent(event);
+	}
+	public void getFocus(){
+		setFocusable(true);
+		setFocusableInTouchMode(true);
+		requestFocus();
 	}
 
 	// 定义一个DrawableLeft点击事件接口

@@ -28,7 +28,7 @@ android {
         //26
         targetSdkVersion 25
         versionCode 1
-        versionName "1.0"
+        versionName "0.9.011.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         //信鸽推送
@@ -91,4 +91,5 @@ dependencies {
     compile files('libs/mta-android-sdk-3.1.4.jar')
     compile files('libs/slf4j-api-1.7.24.jar')
     compile files('libs/track-sdk_v3.1.4.jar')
+    compile 'com.liulishuo.filedownloader:library:1.6.8'
 }

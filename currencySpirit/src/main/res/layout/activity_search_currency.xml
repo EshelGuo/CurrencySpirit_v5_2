@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
     <RelativeLayout
@@ -14,25 +15,42 @@
             android:layout_centerInParent="true"
             android:text="@string/search"/>
     </RelativeLayout>
-    <LinearLayout
+    <RelativeLayout
         android:background="@color/titleColor"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="30dp">
-        <com.eshel.currencyspirit.widget.SearchView
-            android:id="@+id/searchView"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="30dp"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/search_drawable"
-            app:clean_icon="@drawable/search_close"
-            app:search_icon="@drawable/search_icon"/>
+        android:layout_height="wrap_content">
         <Button
+            android:id="@+id/btn_search"
+            android:layout_alignParentRight="true"
             android:background="@drawable/btn_selector"
             android:text="@string/search"
+            android:textColor="@color/white"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_alignBottom="@+id/searchView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
-    </LinearLayout>
+        <com.eshel.currencyspirit.widget.SearchView
+            android:id="@+id/searchView"
+            android:layout_width="match_parent"
+            android:layout_toLeftOf="@id/btn_search"
+            android:singleLine="true"
+            android:textCursorDrawable="@drawable/search_cursor_drawable"
+            android:shadowColor="@color/bb_darkBackgroundColor"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_gravity="center_horizontal"
+            android:inputType="text|textMultiLine"
+            android:background="@drawable/search_drawable"
+            android:paddingRight="5dp"
+            android:paddingLeft="5dp"
+            android:textSelectHandleLeft="@color/btn_normal_color"
+            android:textSelectHandleRight="@color/btn_normal_color"
+            android:textColorHighlight="@color/edit_hight_color"
+            app:clean_icon="@drawable/search_close"
+            app:search_icon="@drawable/search_icon"/>
+        <!--todo textSelectHandleRight 修改 增加图标-->
+    </RelativeLayout>
 
 </LinearLayout>
