@@ -18,7 +18,7 @@ import retrofit2.http.Query;
  * https://fengzhihen.com/btcapp/token/addtag?token=edf2ab61baef4ffc45a1928f0c7302d1db9ad2a6&pid=20&account=a&tagname=aaa&device=android   // 订阅
  * https://fengzhihen.com/btcapp/token/deltag?token=edf2ab61baef4ffc45a1928f0c7302d1db9ad2a6&pid=20&account=a   // 取消订阅
  * https://fengzhihen.com/btcapp/coinInfo/select?symbol=USD&ids=bitcoin&ids=aaa   // 获取自选信息
- *
+ * https://fengzhihen.com/btcapp/file/version?device=android
  */
 
 public interface NewListApi {
@@ -76,5 +76,9 @@ public interface NewListApi {
 	Call<ResponseBody> select(
 			@Query("symbol") String symbol,
 			@Query("ids") List<String> ids
+	);
+	@GET("btcapp/file/version")
+	Call<ResponseBody> update(
+			@Query("device") String device
 	);
 }

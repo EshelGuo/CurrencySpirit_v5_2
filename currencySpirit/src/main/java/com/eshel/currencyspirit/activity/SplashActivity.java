@@ -1,10 +1,10 @@
 package com.eshel.currencyspirit.activity;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
@@ -15,8 +15,13 @@ import com.eshel.config.AppConfig;
 import com.eshel.config.AppConstant;
 import com.eshel.currencyspirit.CurrencySpiritApp;
 import com.eshel.currencyspirit.R;
+import com.eshel.currencyspirit.bean.Version;
 import com.eshel.currencyspirit.util.PermissionUtil;
 import com.eshel.currencyspirit.util.UIUtil;
+import com.eshel.viewmodel.UpdateVersionUtil;
+import com.liulishuo.filedownloader.BaseDownloadTask;
+import com.liulishuo.filedownloader.FileDownloadListener;
+import com.liulishuo.filedownloader.FileDownloader;
 import com.tencent.stat.MtaSDkException;
 import com.tencent.stat.StatService;
 
@@ -38,6 +43,9 @@ public class SplashActivity extends BaseActivity {
 	public final int ALL_TIME = 3000;
 	public final int REQUEST_PERMISSION_TIME = 1500;
 	public int lifeTime = ALL_TIME;
+	boolean permissionRequestOver = false;
+	static boolean updating = false;
+	private static Version mVersion;
 	private Runnable finishSplashTask = new Runnable() {
 		@Override
 		public void run() {
@@ -47,13 +55,18 @@ public class SplashActivity extends BaseActivity {
 	private Runnable mainTask = new Runnable() {
 		@Override
 		public void run() {
+			if(mVersion != null && !CurrencySpiritApp.isExit){
+				while (BaseActivity.getTopActivity() == null)
+					Thread.yield();
+				downloadNewVersion(BaseActivity.getTopActivity(),mVersion);
+			}
 			saveDrviceId();
 			checkFristRun();
-			updateNewVersion();
 			if(StringUtils.isEmpty(AppConfig.token))
 				AppConfig.token = ShapeUtil.get(AppConstant.key_token,"");
 		}
 	};
+	private static boolean noEntryHome;
 
 	private void checkFristRun() {
 		boolean fristRun = ShapeUtil.get(AppConstant.key_fristRun, true);
@@ -62,11 +75,106 @@ public class SplashActivity extends BaseActivity {
 		}else {
 		}
 	}
+	public synchronized static void downloadNewVersion(final BaseActivity activity, final Version version){
+		if(updating)
+			return;
+		updating = true;
+		activity.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				new AlertDialog.Builder(activity)
+						.setTitle(activity.getString(R.string.new_version)+version.versionName)
+						.setMessage(version.versionDesc)
+						.setNegativeButton(R.string.talk_later, new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								updating = false;
+								if(noEntryHome){
+									noEntryHome = false;
+									if(activity instanceof SplashActivity){
+										((SplashActivity) activity).enterHomeActivity();
+									}
+								}
+							}
+						})
+						.setPositiveButton(R.string.now_update, new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								FileDownloader.getImpl().create(version.versionDownloadUrl)
+										.setPath(activity.getExternalFilesDir(null).getAbsolutePath())
+										.setListener(new FileDownloadListener() {
+											@Override
+											protected void pending(BaseDownloadTask task, int soFarBytes, int totalBytes) {
+											}
+
+											@Override
+											protected void connected(BaseDownloadTask task, String etag, boolean isContinue, int soFarBytes, int totalBytes) {
+											}
+
+											@Override
+											protected void progress(BaseDownloadTask task, int soFarBytes, int totalBytes) {
+											}
+
+											@Override
+											protected void blockComplete(BaseDownloadTask task) {
+											}
+
+											@Override
+											protected void retry(final BaseDownloadTask task, final Throwable ex, final int retryingTimes, final int soFarBytes) {
+											}
+
+											@Override
+											protected void completed(BaseDownloadTask task) {
+											}
+
+											@Override
+											protected void paused(BaseDownloadTask task, int soFarBytes, int totalBytes) {
+											}
+
+											@Override
+											protected void error(BaseDownloadTask task, Throwable e) {
+											}
+
+											@Override
+											protected void warn(BaseDownloadTask task) {
+											}
+										}).start();
+										//		mVersion = null;
+							}
+						}).setCancelable(false)
+						.show();
+			}
+		});
+	}
 
 	private void updateNewVersion() {
-		// TODO: 2017/10/4 检查更新
+		UpdateVersionUtil.updateVersion(new UpdateVersionUtil.NewVersionCallback() {
+			@Override
+			public void hasNewVersion(boolean hasNewVersion, String versionCode, String versionDesc, String versionDownloadUrl) {
+				if(hasNewVersion){
+					mVersion = new Version(versionCode,versionDesc,versionDownloadUrl);
+					if(permissionRequestOver && !CurrencySpiritApp.isExit){
+						new Thread(new Runnable() {
+							@Override
+							public void run() {
+								while(BaseActivity.getTopActivity() == null)
+									Thread.yield();
+								downloadNewVersion(BaseActivity.getTopActivity(),mVersion);
+							}
+						}).start();
+					}
+				}
+			}
+			@Override
+			public void updateNewVersionFailed() {
+			}
+		});
 	}
 	private void enterHomeActivity() {
+		if(updating){
+			noEntryHome = true;
+			return;
+		}
 		Intent intent = new Intent(this,HomeActivity.class);
 		startActivity(intent);
 		finish();
@@ -101,6 +209,7 @@ public class SplashActivity extends BaseActivity {
 			actionBar.hide();
 		}
 		initMTA();
+		updateNewVersion();
 		requestPermission();
 	}
 	@Override
@@ -140,6 +249,7 @@ public class SplashActivity extends BaseActivity {
 	}
 
 	private void requestPermissionOver(){
+		permissionRequestOver = true;
 		new Thread(mainTask).start();
 		CurrencySpiritApp.getApp().getHandler().postDelayed(finishSplashTask,lifeTime);
 	}
@@ -162,5 +272,16 @@ public class SplashActivity extends BaseActivity {
 		if(PermissionUtil.gotosettinged){
 			requestPermission();
 		}
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		updating = false;
+	}
+	@Override
+	public void onBackPressed() {
+		CurrencySpiritApp.isExit = true;
+		super.onBackPressed();
 	}
 }
