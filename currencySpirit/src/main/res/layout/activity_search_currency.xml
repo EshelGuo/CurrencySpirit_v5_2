@@ -36,21 +36,23 @@
             android:layout_width="match_parent"
             android:layout_toLeftOf="@id/btn_search"
             android:singleLine="true"
+            android:maxLines="1"
+            android:imeOptions="actionSearch"
             android:textCursorDrawable="@drawable/search_cursor_drawable"
             android:shadowColor="@color/bb_darkBackgroundColor"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:layout_gravity="center_horizontal"
-            android:inputType="text|textMultiLine"
+            android:inputType="text"
             android:background="@drawable/search_drawable"
             android:paddingRight="5dp"
             android:paddingLeft="5dp"
-            android:textSelectHandleLeft="@color/btn_normal_color"
-            android:textSelectHandleRight="@color/btn_normal_color"
+            android:textSelectHandleLeft="@drawable/handle_left"
+            android:textSelectHandleRight="@drawable/handle_right"
+            android:textSelectHandle="@drawable/handle_middle"
             android:textColorHighlight="@color/edit_hight_color"
             app:clean_icon="@drawable/search_close"
             app:search_icon="@drawable/search_icon"/>
-        <!--todo textSelectHandleRight 修改 增加图标-->
     </RelativeLayout>
 
 </LinearLayout>

@@ -24,6 +24,8 @@ public class UpdateVersionUtil {
 	public static final String key_code = "code";//0 成功, 其他失败
 	public static final String key_download_url = "download_url";
 	public static final String key_version_code = "message";
+	private static String key_desc = "desc";
+
 	// "1.0.2"	"1.22.0.112"
 	public static boolean isNewsVersion(String currentVersion, String newVersion){
 		String[] current = currentVersion.split("\\.");
@@ -49,7 +51,8 @@ public class UpdateVersionUtil {
 							Context context = CurrencySpiritApp.getContext();
 							String versionName = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
 							String versioncode = json.getString(key_version_code);
-							callback.hasNewVersion(isNewsVersion(versionName,versioncode),versioncode,"",json.getString(key_download_url));
+							String desc = json.getString(key_desc);
+							callback.hasNewVersion(isNewsVersion(versionName,versioncode),versioncode,desc,json.getString(key_download_url));
 						}else {
 							callback.updateNewVersionFailed();
 						}

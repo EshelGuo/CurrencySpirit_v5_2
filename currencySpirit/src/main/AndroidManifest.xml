@@ -66,6 +66,15 @@
             android:authorities="com.eshel.currencyspirit.TENCENT.MID.V3"
             android:exported="true" >
         </provider>
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.eshel.currencyspirit.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"/>
+        </provider>
         <meta-data android:name="TA_APPKEY" android:value="AG69XWKJB64D"/>
         <meta-data android:name="InstallChannel" android:value="${InstallChannel}"/>
         <meta-data android:name="Provider" android:value="com.eshel.currencyspirit.TENCENT.MID.V3"/>

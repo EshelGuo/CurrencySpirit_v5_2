@@ -8,6 +8,7 @@ import com.eshel.config.AppConstant;
 import com.eshel.currencyspirit.util.ProcessUtil;
 import com.eshel.currencyspirit.util.UIUtil;
 import com.liulishuo.filedownloader.FileDownloader;
+import com.liulishuo.filedownloader.util.FileDownloadLog;
 import com.tencent.android.tpush.XGIOperateCallback;
 import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
@@ -53,7 +54,8 @@ public class CurrencySpiritApp extends BaseApplication{
 	static boolean registerSuccess;
 	public void mainOnCreate(){
 		FileDownloader.setup(this);
-		StatConfig.setDebugEnable(true);
+//		FileDownloadLog.NEED_LOG = true;
+		StatConfig.setDebugEnable(false);
 		StatConfig.setStatSendStrategy(StatReportStrategy.INSTANT);
 		StatConfig.setAppKey("AG69XWKJB64D");
 		StatisticsDataAPI.instance(this,DebugMode.DEBUG_OFF);

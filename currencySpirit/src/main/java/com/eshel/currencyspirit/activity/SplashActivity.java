@@ -2,12 +2,16 @@ package com.eshel.currencyspirit.activity;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.ActionBar;
 import android.telephony.TelephonyManager;
 
@@ -20,10 +24,12 @@ import com.eshel.currencyspirit.util.PermissionUtil;
 import com.eshel.currencyspirit.util.UIUtil;
 import com.eshel.viewmodel.UpdateVersionUtil;
 import com.liulishuo.filedownloader.BaseDownloadTask;
-import com.liulishuo.filedownloader.FileDownloadListener;
+import com.liulishuo.filedownloader.FileDownloadSampleListener;
 import com.liulishuo.filedownloader.FileDownloader;
 import com.tencent.stat.MtaSDkException;
 import com.tencent.stat.StatService;
+
+import java.io.File;
 
 import baseproject.base.BaseActivity;
 import baseproject.permission.Permissions;
@@ -46,10 +52,12 @@ public class SplashActivity extends BaseActivity {
 	boolean permissionRequestOver = false;
 	static boolean updating = false;
 	private static Version mVersion;
+	private static boolean apkInstall;
 	private Runnable finishSplashTask = new Runnable() {
 		@Override
 		public void run() {
-			enterHomeActivity();
+			if(!apkInstall)
+				enterHomeActivity();
 		}
 	};
 	private Runnable mainTask = new Runnable() {
@@ -100,46 +108,56 @@ public class SplashActivity extends BaseActivity {
 						.setPositiveButton(R.string.now_update, new DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(DialogInterface dialog, int which) {
-								FileDownloader.getImpl().create(version.versionDownloadUrl)
-										.setPath(activity.getExternalFilesDir(null).getAbsolutePath())
-										.setListener(new FileDownloadListener() {
-											@Override
-											protected void pending(BaseDownloadTask task, int soFarBytes, int totalBytes) {
-											}
-
-											@Override
-											protected void connected(BaseDownloadTask task, String etag, boolean isContinue, int soFarBytes, int totalBytes) {
-											}
-
+								final ProgressDialog progressDialog = new ProgressDialog(activity);
+								progressDialog.setTitle("下载中");
+								progressDialog.setProgress(0);
+								progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+								progressDialog.setCancelable(false);
+								progressDialog.show();
+								final String filePath = activity.getExternalFilesDir(null).getAbsolutePath() + "/bidongjingling_" + version.versionName + ".apk";
+								BaseDownloadTask task = FileDownloader.getImpl().create(version.versionDownloadUrl)
+										.setPath(filePath)
+										.setListener(new FileDownloadSampleListener() {
 											@Override
 											protected void progress(BaseDownloadTask task, int soFarBytes, int totalBytes) {
+												progressDialog.setProgress(soFarBytes * 100 / totalBytes);
+												if(soFarBytes == totalBytes) {
+													progressDialog.setProgress(100);
+												}
 											}
-
-											@Override
-											protected void blockComplete(BaseDownloadTask task) {
-											}
-
-											@Override
-											protected void retry(final BaseDownloadTask task, final Throwable ex, final int retryingTimes, final int soFarBytes) {
-											}
-
-											@Override
-											protected void completed(BaseDownloadTask task) {
-											}
-
 											@Override
 											protected void paused(BaseDownloadTask task, int soFarBytes, int totalBytes) {
 											}
-
 											@Override
 											protected void error(BaseDownloadTask task, Throwable e) {
+												progressDialog.dismiss();
+												UIUtil.toast("下载失败");
+												updating = false;
+												if(noEntryHome){
+													if(activity instanceof SplashActivity){
+														((SplashActivity) activity).enterHomeActivity();
+													}
+												}
 											}
-
 											@Override
-											protected void warn(BaseDownloadTask task) {
+											protected void completed(BaseDownloadTask task) {
+												progressDialog.dismiss();
+												updating = false;
+												Intent intent = new Intent(Intent.ACTION_VIEW);
+												Uri uri;
+												if(Build.VERSION.SDK_INT >= 24){
+													uri = FileProvider.getUriForFile(activity, "com.eshel.currencyspirit.fileprovider", new File(filePath));
+													intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+												}else {
+													uri = Uri.fromFile(new File(filePath));
+												}
+												intent.setDataAndType(uri,"application/vnd.android.package-archive");
+												activity.startActivity(intent);
+												apkInstall = true;
+												mVersion = null;
 											}
-										}).start();
-										//		mVersion = null;
+										});
+								int id = task.start();
 							}
 						}).setCancelable(false)
 						.show();
@@ -272,12 +290,16 @@ public class SplashActivity extends BaseActivity {
 		if(PermissionUtil.gotosettinged){
 			requestPermission();
 		}
+		if(apkInstall){
+			enterHomeActivity();
+		}
 	}
 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
 		updating = false;
+		apkInstall = false;
 	}
 	@Override
 	public void onBackPressed() {
