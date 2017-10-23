@@ -1,6 +1,7 @@
 package com.eshel.currencyspirit.activity;
 
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.KeyEvent;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.eshel.currencyspirit.R;
+import com.eshel.currencyspirit.util.UIUtil;
 import com.eshel.currencyspirit.widget.SearchView;
 
 import baseproject.base.BaseActivity;
@@ -32,6 +34,7 @@ public class SearchCurrencyActivity extends BaseActivity {
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
+		getWindow().setBackgroundDrawable(new ColorDrawable(UIUtil.getColor(android.R.color.transparent)));
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search_currency);
 		ButterKnife.bind(this);
@@ -52,6 +55,7 @@ public class SearchCurrencyActivity extends BaseActivity {
 				return false;
 			}
 		});
+		setSwipeBackEnable(true);
 	}
 	private void search(View v){
 		//让mPasswordEdit获取输入焦点

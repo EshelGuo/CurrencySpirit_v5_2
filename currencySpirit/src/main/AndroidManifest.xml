@@ -36,19 +36,28 @@
             android:name=".activity.HomeActivity"/>
         <activity
             android:exported="true"
+            android:theme="@style/BackgroundTranslucentTheme"
             android:name=".activity.EssenceDetailsActivity"/>
         <activity
             android:exported="true"
+            android:theme="@style/BackgroundTranslucentTheme"
             android:name=".activity.CurrencyDetailsActivity"/>
         <activity
             android:exported="true"
+            android:theme="@style/BackgroundTranslucentTheme"
             android:name=".activity.EssenceHistoryActivity"/>
         <activity
             android:exported="true"
+            android:theme="@style/BackgroundTranslucentTheme"
             android:name=".activity.WeiboDetailsActivity"/>
-        <activity android:name=".activity.AboutActivity"/>
-        <activity android:name=".activity.OptionActivity"/>
         <activity
+            android:theme="@style/BackgroundTranslucentTheme"
+            android:name=".activity.AboutActivity"/>
+        <activity
+            android:name=".activity.OptionActivity"
+            android:theme="@style/BackgroundTranslucentTheme"/>
+        <activity
+            android:theme="@style/BackgroundTranslucentTheme"
             android:windowSoftInputMode="stateVisible|adjustResize"
             android:name=".activity.SearchCurrencyActivity"/>
         <!--信鸽推送-->

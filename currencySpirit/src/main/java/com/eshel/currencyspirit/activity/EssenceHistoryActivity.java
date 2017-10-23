@@ -56,6 +56,7 @@ public class EssenceHistoryActivity extends BaseActivity {
 		setContentView(R.layout.activity_essence_history);
 		ButterKnife.bind(this);
 		init();
+		setSwipeBackEnable(true);
 		EssenceViewModel.getEssenceDataFromHistory();
 	}
 

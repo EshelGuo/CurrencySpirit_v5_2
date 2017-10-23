@@ -49,6 +49,7 @@ public abstract class WebActivity extends BaseActivity {
 				new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 		mProgressBar.setProgress(0);
 		initWebView();
+		setSwipeBackEnable(true);
 	}
 	private boolean loadFailed;
 	private void initWebView() {

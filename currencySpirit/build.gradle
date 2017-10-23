@@ -92,4 +92,5 @@ dependencies {
     compile files('libs/slf4j-api-1.7.24.jar')
     compile files('libs/track-sdk_v3.1.4.jar')
     compile 'com.liulishuo.filedownloader:library:1.6.8'
+    compile 'me.imid.swipebacklayout.lib:library:1.0.0'
 }

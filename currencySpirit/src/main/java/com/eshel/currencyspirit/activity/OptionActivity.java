@@ -50,6 +50,7 @@ public class OptionActivity extends BaseActivity {
 		setContentView(R.layout.activity_option);
 		ButterKnife.bind(this);
 		mMessageOnoff.setChecked(ShapeUtil.get(AppConstant.key_push,true));
+		setSwipeBackEnable(true);
 //		mCleanCache.setItemText(FileUtils.fileSizeFormat(getCacheDir().length()));
 	}
 
