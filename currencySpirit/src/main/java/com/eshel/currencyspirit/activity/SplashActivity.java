@@ -1,10 +1,13 @@
 package com.eshel.currencyspirit.activity;
 
 import android.Manifest;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -72,8 +75,22 @@ public class SplashActivity extends BaseActivity {
 			checkFristRun();
 			if(StringUtils.isEmpty(AppConfig.token))
 				AppConfig.token = ShapeUtil.get(AppConstant.key_token,"");
+			delApk();
 		}
 	};
+
+	private void delApk() {
+		try {
+			String versionName = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+			File apk = new File(getExternalFilesDir(null).getAbsolutePath() + "/bidongjingling_"+versionName+".apk");
+			if(apk.exists() && apk.isFile()){
+				apk.delete();
+			}
+		} catch (PackageManager.NameNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+
 	private static boolean noEntryHome;
 
 	private void checkFristRun() {
