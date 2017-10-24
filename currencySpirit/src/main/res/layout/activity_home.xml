@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
     <LinearLayout
         android:id="@+id/toolbar"
-        android:background="@color/colorPrimary"
+        style="@style/TitleStyle"
         android:layout_width="match_parent"
         android:gravity="center"
         android:layout_height="?android:attr/actionBarSize">
@@ -21,6 +21,7 @@
         android:layout_below="@id/toolbar"
         android:background="@color/dividerColor"/>
     <com.roughike.bottombar.BottomBar
+        android:background="@drawable/bottom_bar_bg"
         android:id="@+id/bottomBar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottombar_height"

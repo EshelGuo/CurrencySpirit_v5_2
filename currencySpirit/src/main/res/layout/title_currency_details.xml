@@ -8,7 +8,7 @@
         android:id="@+id/rl_title"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/titleColor">
+        style="@style/TitleStyle">
         <TextView
             android:id="@+id/tv_title"
             style="@style/TextTitle"

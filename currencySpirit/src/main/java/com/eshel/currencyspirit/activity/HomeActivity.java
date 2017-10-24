@@ -88,7 +88,7 @@ public class HomeActivity extends BaseActivity {
 		ViewGroup.LayoutParams layoutParams = topCutOffLine.getLayoutParams();
 		if(layoutParams == null)
 			layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,0);
-		layoutParams.height = 1;
+		layoutParams.height = 0;
 		topCutOffLine.setLayoutParams(layoutParams);
 		updateActionBar(UIUtil.getString(R.string.item_essence));
 	}
@@ -105,10 +105,10 @@ public class HomeActivity extends BaseActivity {
 		if(layoutParams == null)
 			layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,0);
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-			bottomBar.setElevation(DensityUtil.dp2px(titleElevation));
+			//bottomBar.setElevation(DensityUtil.dp2px(titleElevation));
 			layoutParams.height = 0;
 		}else {
-			layoutParams.height = 1;
+			layoutParams.height = 0;
 		}
 		cutOffLine.setLayoutParams(layoutParams);
 		bottomBar.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {

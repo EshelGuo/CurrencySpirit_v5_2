@@ -12,6 +12,7 @@
         android:orientation="vertical">
         <com.eshel.currencyspirit.widget.OptionItemView
             android:id="@+id/item_icon"
+            android:layout_marginTop="10dp"
             android:background="#E9E8EB"
             app:item_title_gravity="top"
             app:item_icon_type="center"

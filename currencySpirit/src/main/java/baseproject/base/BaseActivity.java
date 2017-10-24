@@ -123,7 +123,7 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
 
 	@Override
 	public void setSwipeBackEnable(boolean enable) {
-		getSwipeBackLayout().setEnableGesture(false);
+		getSwipeBackLayout().setEnableGesture(enable);
 	}
 
 	@Override

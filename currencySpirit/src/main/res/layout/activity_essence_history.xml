@@ -4,13 +4,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <TextView
-        android:id="@+id/title"
-        style="@style/TextTitle"
+    <LinearLayout
+        style="@style/TitleStyle"
+        android:orientation="horizontal"
         android:gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="?android:attr/actionBarSize"
-        android:text="@string/item_history"/>
+        android:layout_height="?attr/actionBarSize">
+        <TextView
+            android:id="@+id/title"
+            style="@style/TextTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/item_history"/>
+    </LinearLayout>
+
     <com.lhh.ptrrv.library.PullToRefreshRecyclerView
         android:id="@+id/rv_essence"
         android:layout_width="match_parent"
