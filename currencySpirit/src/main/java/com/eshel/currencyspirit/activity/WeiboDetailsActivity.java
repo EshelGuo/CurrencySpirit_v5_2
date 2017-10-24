@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.eshel.currencyspirit.R;
+import com.eshel.currencyspirit.util.UIUtil;
 import com.eshel.model.InformationModel;
 import com.eshel.net.Url;
 
@@ -27,6 +28,8 @@ public class WeiboDetailsActivity extends WebActivity {
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		showTitle();
+		setTitleText(UIUtil.getString(R.string.item_information));
 		Intent intent = getIntent();
 		if (intent != null) {
 			mInformationModel = (InformationModel) intent.getSerializableExtra(key);
@@ -36,20 +39,6 @@ public class WeiboDetailsActivity extends WebActivity {
 
 	@Override
 	public View initTitleView() {
-		return new TitleHolder().mView;
-	}
-
-	class TitleHolder {
-
-		private final View mView;
-		@BindView(R.id.title)
-		TextView mTitle;
-		@BindView(R.id.rl_title)
-		RelativeLayout mRlTitle;
-
-		public TitleHolder() {
-			mView = View.inflate(WeiboDetailsActivity.this, R.layout.activity_weibo_details, null);
-			ButterKnife.bind(this, mView);
-		}
+		return null;
 	}
 }

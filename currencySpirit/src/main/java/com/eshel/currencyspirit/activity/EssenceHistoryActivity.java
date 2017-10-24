@@ -44,8 +44,6 @@ import butterknife.ButterKnife;
 
 public class EssenceHistoryActivity extends BaseActivity {
 
-	@BindView(R.id.title)
-	TextView mTitle;
 	@BindView(R.id.rv_essence)
 	PullToRefreshRecyclerView mRvEssence;
 	private EssenceHistoryActivity.EssenceAdapter mEssenceAdapter;
@@ -54,7 +52,10 @@ public class EssenceHistoryActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		hideActionBar();
 		setContentView(R.layout.activity_essence_history);
-		ButterKnife.bind(this);
+		ButterKnife.bind(this,getContentView());
+		showTitle();
+		showBack();
+		setTitleText(UIUtil.getString(R.string.item_history));
 		init();
 		setSwipeBackEnable(true);
 		EssenceViewModel.getEssenceDataFromHistory();

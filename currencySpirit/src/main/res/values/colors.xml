@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#F8F8F8</color>
+    <color name="back_pressed">#aaF8F8F8</color>
     <color name="black">#000</color>
     <color name="colorPrimaryDark">#c8c8c8</color>
     <color name="colorAccent">@color/tabColor</color><!--#FF4081-->

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/TitleStyle"
+    android:id="@+id/title"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize">
+    <ImageView
+        android:id="@+id/iv_back"
+        android:background="@drawable/back_selector"
+        android:layout_centerVertical="true"
+        android:src="@drawable/action_back"
+        android:padding="15dp"
+        android:layout_width="?attr/actionBarSize"
+        android:layout_height="?attr/actionBarSize"/>
+    <TextView
+        android:id="@+id/tv_title_text"
+        android:layout_centerInParent="true"
+        style="@style/TextTitle"/>
+</RelativeLayout>

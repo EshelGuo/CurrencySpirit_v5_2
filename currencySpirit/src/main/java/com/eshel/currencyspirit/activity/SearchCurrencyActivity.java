@@ -25,8 +25,6 @@ import butterknife.ButterKnife;
 
 public class SearchCurrencyActivity extends BaseActivity {
 
-	@BindView(R.id.tv_title)
-	TextView mTvTitle;
 	@BindView(R.id.btn_search)
 	Button mBtnSearch;
 	@BindView(R.id.searchView)
@@ -37,7 +35,10 @@ public class SearchCurrencyActivity extends BaseActivity {
 		getWindow().setBackgroundDrawable(new ColorDrawable(UIUtil.getColor(android.R.color.transparent)));
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search_currency);
-		ButterKnife.bind(this);
+		ButterKnife.bind(this,getContentView());
+		showTitle();
+		showBack();
+		setTitleText(UIUtil.getString(R.string.search));
 		mBtnSearch.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {

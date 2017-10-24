@@ -48,7 +48,10 @@ public class OptionActivity extends BaseActivity {
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_option);
-		ButterKnife.bind(this);
+		ButterKnife.bind(this,getContentView());
+		showTitle();
+		showBack();
+		setTitleText(UIUtil.getString(R.string.item_option));
 		mMessageOnoff.setChecked(ShapeUtil.get(AppConstant.key_push,true));
 		setSwipeBackEnable(true);
 //		mCleanCache.setItemText(FileUtils.fileSizeFormat(getCacheDir().length()));

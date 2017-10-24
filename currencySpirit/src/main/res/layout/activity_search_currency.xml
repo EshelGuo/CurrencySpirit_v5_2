@@ -6,16 +6,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        style="@style/TitleStyle">
-        <TextView
-            android:id="@+id/tv_title"
-            style="@style/TextTitle"
-            android:layout_centerInParent="true"
-            android:text="@string/search"/>
-    </RelativeLayout>
-    <RelativeLayout
         android:background="@color/titleColor"
         android:orientation="horizontal"
         android:layout_width="match_parent"

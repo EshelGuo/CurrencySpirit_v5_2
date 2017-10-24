@@ -28,7 +28,8 @@ public class EssenceDetailsActivity extends WebActivity {
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		showTitle();
+		setTitleText(UIUtil.getString(R.string.item_essence));
 		Intent intent = getIntent();
 		if (intent != null) {
 			mEssenceModel = (EssenceModel) intent.getSerializableExtra(key);
@@ -42,19 +43,6 @@ public class EssenceDetailsActivity extends WebActivity {
 
 	@Override
 	public View initTitleView() {
-		return new TitleHolder().mView;
-	}
-
-	class TitleHolder {
-		public View mView;
-		@BindView(R.id.title)
-		public TextView mTitle;
-		@BindView(R.id.rl_title)
-		RelativeLayout mRlTitle;
-
-		public TitleHolder() {
-			mView = View.inflate(EssenceDetailsActivity.this, R.layout.activity_essence_details, null);
-			ButterKnife.bind(this, mView);
-		}
+		return null;
 	}
 }

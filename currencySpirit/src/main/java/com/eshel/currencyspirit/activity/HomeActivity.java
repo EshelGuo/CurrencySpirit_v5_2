@@ -45,17 +45,6 @@ public class HomeActivity extends BaseActivity {
 	BottomBar bottomBar;
 	@BindView(R.id.vp_main)
 	ViewPager vpMain;
-	@BindView(R.id.title)
-	TextView title;
-	@BindView(R.id.toolbar)
-	LinearLayout toolbar;
-	@BindView(R.id.top_cut_off_line)
-	View topCutOffLine;
-	@BindView(R.id.cut_off_line)
-	View cutOffLine;
-	public View getTitle2(){
-		return toolbar;
-	}
 
 	private MainPagerAdapter mMainPagerAdapter;
 	private int fragmentSize = 4;
@@ -75,7 +64,7 @@ public class HomeActivity extends BaseActivity {
 	}
 
 	public void updateActionBar(String title) {
-		this.title.setText(title);
+		setTitleText(title);
 	}
 
 	private void initView() {
@@ -85,11 +74,8 @@ public class HomeActivity extends BaseActivity {
 	}
 
 	private void initActionBar() {
-		ViewGroup.LayoutParams layoutParams = topCutOffLine.getLayoutParams();
-		if(layoutParams == null)
-			layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,0);
-		layoutParams.height = 0;
-		topCutOffLine.setLayoutParams(layoutParams);
+		showTitle();
+		hideBack();
 		updateActionBar(UIUtil.getString(R.string.item_essence));
 	}
 
@@ -101,16 +87,6 @@ public class HomeActivity extends BaseActivity {
 	private BottomBarTab nearby;
 
 	private void initBottomBar() {
-		ViewGroup.LayoutParams layoutParams = topCutOffLine.getLayoutParams();
-		if(layoutParams == null)
-			layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,0);
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-			//bottomBar.setElevation(DensityUtil.dp2px(titleElevation));
-			layoutParams.height = 0;
-		}else {
-			layoutParams.height = 0;
-		}
-		cutOffLine.setLayoutParams(layoutParams);
 		bottomBar.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 			@Override
 			public void onGlobalLayout() {
@@ -237,7 +213,6 @@ public class HomeActivity extends BaseActivity {
 
 	private void exitApp() {
 		CurrencySpiritApp.isExit = true;
-//		System.exit(0);
 	}
 
 	@Override

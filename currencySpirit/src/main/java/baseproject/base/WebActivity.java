@@ -44,9 +44,11 @@ public abstract class WebActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_web_base);
 		hideActionBar();
-		ButterKnife.bind(this);
-		mTitle.addView(initTitleView(),
-				new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+		ButterKnife.bind(this,getContentView());
+		View view = initTitleView();
+		if(view != null)
+			mTitle.addView(view,
+					new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 		mProgressBar.setProgress(0);
 		initWebView();
 		setSwipeBackEnable(true);
