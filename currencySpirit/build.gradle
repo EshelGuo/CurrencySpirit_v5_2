@@ -109,3 +109,16 @@ dependencies {
     compile 'com.liulishuo.filedownloader:library:1.6.8'
     compile 'me.imid.swipebacklayout.lib:library:1.0.0'
 }
+
+
+/*
+- 多种数字货币市值、涨跌幅排名查询
+- 各种新币价格及交易市场查询
+- 国内外多个交易市场价格对比
+- 实时微博twiter 消息推送早知道
+
+- 新增实时消息推送
+- 优化体验
+
+调用电话权限是用于读取本机标识码, 更好的向用户推送消息 和 订阅消息
+调用存储权限是用于存储用户订阅币种的信息*/
