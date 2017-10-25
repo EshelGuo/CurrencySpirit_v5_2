@@ -85,7 +85,7 @@
                 android:resource="@xml/file_paths"/>
         </provider>
         <meta-data android:name="TA_APPKEY" android:value="AG69XWKJB64D"/>
-        <meta-data android:name="InstallChannel" android:value="${InstallChannel}"/>
+        <meta-data android:name="InstallChannel" android:value="360"/>
         <meta-data android:name="Provider" android:value="com.eshel.currencyspirit.TENCENT.MID.V3"/>
     </application>
 </manifest>

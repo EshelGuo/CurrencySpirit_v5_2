@@ -2,6 +2,7 @@ package com.eshel.currencyspirit;
 
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.os.Process;
 
 import com.eshel.config.AppConfig;
 import com.eshel.config.AppConstant;
@@ -39,6 +40,15 @@ public class CurrencySpiritApp extends BaseApplication{
 	public void onCreate() {
 		super.onCreate();
 		StatConfig.setAutoExceptionCaught(true);//开启异常捕获
+		Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+			@Override
+			public void uncaughtException(Thread t, Throwable e) {
+				Log.e(e.getMessage());
+				e.printStackTrace();
+				Process.killProcess(Process.myPid());
+				System.exit(0);
+			}
+		});
 //		StatConfig.initNativeCrashReport (this, null);//native 异常捕获
 		Log.i("appprocess: "+ProcessUtil.getCurrentProcessName(getApplicationContext()));
 		app = this;
