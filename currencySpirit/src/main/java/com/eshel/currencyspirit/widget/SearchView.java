@@ -22,6 +22,8 @@ import com.eshel.currencyspirit.R;
 
 public class SearchView extends android.support.v7.widget.AppCompatEditText {
 
+	private float mDownX = -1;
+
 	// 构造方法
 	public SearchView(Context context) {
 		this(context,null);
@@ -80,6 +82,9 @@ public class SearchView extends android.support.v7.widget.AppCompatEditText {
 	// 判断DrawableLeft/DrawableRight是否被点击
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
+		if(event.getAction() == MotionEvent.ACTION_DOWN){
+			mDownX = event.getRawX();
+		}
 		// 触摸状态
 		if (event.getAction() == MotionEvent.ACTION_UP) {
 			// 监听DrawableLeft
@@ -94,14 +99,17 @@ public class SearchView extends android.support.v7.widget.AppCompatEditText {
 			}
 
 			// 监听DrawableRight
-			if (onDrawableRightListener != null) {
+			if (onDrawableRightListener != null && mDownX != -1) {
 				Drawable drawableRight = getCompoundDrawables()[2];
 				// 当按下的位置 > 在EditText的到右边间距-图标的宽度-Padding
-				if (drawableRight != null && event.getRawX() >= (getRight() - getTotalPaddingRight() - drawableRight.getBounds().width())) {
+				if (drawableRight != null && event.getRawX() >= (getRight() - getTotalPaddingRight() - drawableRight.getBounds().width())
+						&& event.getRawX() < getRight()-3
+						&& mDownX >= (getRight() - getTotalPaddingRight() - drawableRight.getBounds().width())) {
 					// 执行DrawableRight点击事件
 					onDrawableRightListener.onDrawableRightClick();
 				}
 			}
+			mDownX = -1;
 		}
 		getFocus();
 		return super.onTouchEvent(event);

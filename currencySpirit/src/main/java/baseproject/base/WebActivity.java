@@ -135,6 +135,7 @@ public abstract class WebActivity extends BaseActivity {
 	}
 
 	public class LoadFailedJs {
+
 		BaseActivity webActivity;
 
 		public LoadFailedJs(BaseActivity webActivity) {

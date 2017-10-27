@@ -6,23 +6,28 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
     <RelativeLayout
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
         android:background="@color/titleColor"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <Button
+            android:layout_centerVertical="true"
             android:id="@+id/btn_search"
             android:layout_alignParentRight="true"
             android:background="@drawable/btn_selector"
             android:text="@string/search"
             android:textColor="@color/white"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:layout_alignBottom="@+id/searchView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <com.eshel.currencyspirit.widget.SearchView
+            android:layout_centerVertical="true"
             android:id="@+id/searchView"
+            android:layout_marginLeft="5dp"
             android:layout_width="match_parent"
             android:layout_toLeftOf="@id/btn_search"
             android:singleLine="true"
