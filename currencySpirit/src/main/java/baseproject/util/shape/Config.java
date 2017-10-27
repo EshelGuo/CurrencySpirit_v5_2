@@ -53,6 +53,11 @@ public class Config{
 			return new SpPut(edit).put(name,value);
 		}
 		protected static void putBySP(SharedPreferences.Editor edit, String name, Object value){
+			if(name == null) {
+				throw new NullPointerException("往 SharedPreferences 里存数据时 key 不能是 null");
+			}
+			if(value == null)
+				return;
 			if(value instanceof Integer){
 				edit.putInt(name, (Integer) value);
 			}else if(value instanceof Boolean){
@@ -80,6 +85,9 @@ public class Config{
 			return this;
 		}
 		public <T>T get(String name , T value){
+			if(name == null){
+				throw new NullPointerException("从 SharedPreferences 取值时 key 不能为 null");
+			}
 			if (value == null)
 				return null;
 			Object result = null;
