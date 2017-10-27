@@ -1,6 +1,5 @@
 package baseproject.base;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.KeyEvent;
@@ -14,11 +13,9 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.eshel.currencyspirit.R;
-import com.eshel.currencyspirit.activity.HomeActivity;
 import com.eshel.currencyspirit.util.ThreadUtil;
 import com.eshel.currencyspirit.util.UIUtil;
 
-import baseproject.util.DensityUtil;
 import baseproject.util.NetUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,7 +31,7 @@ public abstract class WebActivity extends BaseActivity {
 	@BindView(R.id.progress_bar)
 	protected ProgressBar mProgressBar;
 	@BindView(R.id.wv_essence)
-	protected WebView mWvEssence;
+	protected WebView mWebView;
 
 	private String url;
 	private boolean isReadLoad = false;
@@ -55,20 +52,20 @@ public abstract class WebActivity extends BaseActivity {
 	}
 	private boolean loadFailed;
 	private void initWebView() {
-		WebSettings settings = mWvEssence.getSettings();
-//		settings.setDefaultFontSize();
+		WebSettings settings = mWebView.getSettings();
 
 		settings.setCacheMode(NetUtils.hasNetwork(this) ? WebSettings.LOAD_DEFAULT : WebSettings.LOAD_CACHE_ELSE_NETWORK);
 		settings.setJavaScriptEnabled(true);
-		mWvEssence.addJavascriptInterface(new LoadFailedJs(this),"LoadFailedJs");
+		mWebView.addJavascriptInterface(new LoadFailedJs(this),"LoadFailedJs");
 
 		settings.setUseWideViewPort(true);
 		settings.setLoadWithOverviewMode(true);
 		settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
 		settings.setSupportZoom(true);
 		settings.setBuiltInZoomControls(true);
+		settings.setDisplayZoomControls(false);
 
-		mWvEssence.setWebViewClient(new WebViewClient(){
+		mWebView.setWebViewClient(new WebViewClient(){
 			@Override
 			public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
 				view.loadUrl("file:///android_asset/currency/offline.html");
@@ -76,14 +73,14 @@ public abstract class WebActivity extends BaseActivity {
 				super.onReceivedError(view, errorCode, description, failingUrl);
 			}
 		});
-		mWvEssence.setWebChromeClient(new WebChromeClient(){
+		mWebView.setWebChromeClient(new WebChromeClient(){
 			@Override
 			public void onProgressChanged(WebView view, int newProgress) {
 //				Log.i(newProgress);
 				if(newProgress == 100){
 					mProgressBar.setVisibility(View.GONE);
 					if(isReadLoad){
-						mWvEssence.clearHistory();
+						mWebView.clearHistory();
 						isReadLoad = false;
 					}
 				}else {
@@ -101,12 +98,12 @@ public abstract class WebActivity extends BaseActivity {
 	public void loadUrl(String url){
 		this.url = url;
 		if(ThreadUtil.isMainThread())
-			mWvEssence.loadUrl(url);
+			mWebView.loadUrl(url);
 		else
 			ThreadUtil.getHandler().post(new Runnable() {
 				@Override
 				public void run() {
-					mWvEssence.loadUrl(WebActivity.this.url);
+					mWebView.loadUrl(WebActivity.this.url);
 				}
 			});
 	}
@@ -116,8 +113,8 @@ public abstract class WebActivity extends BaseActivity {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			if(loadFailed)
 				return super.onKeyDown(keyCode, event);
-			if (mWvEssence.canGoBack()) {
-				mWvEssence.goBack();//返回上一页面
+			if (mWebView.canGoBack()) {
+				mWebView.goBack();//返回上一页面
 				return true;
 			}
 		}
@@ -127,13 +124,13 @@ public abstract class WebActivity extends BaseActivity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		mWvEssence.removeAllViews();
-		mWvEssence.destroy();
+		mWebView.removeAllViews();
+		mWebView.destroy();
 	}
 
 	public void reLoad() {
 		isReadLoad = true;
-		mWvEssence.clearHistory();
+		mWebView.clearHistory();
 		loadUrl(url);
 	}
 
@@ -161,5 +158,38 @@ public abstract class WebActivity extends BaseActivity {
 					});
 			}
 		}
+	}
+
+	/**
+	 * 1 到 72 之间, 默认是 16
+	 * @param fontsize 字体大小
+	 */
+	public void setFontsize(int fontsize){
+		mWebView.getSettings().setDefaultFontSize(fontsize);
+	}
+	/**
+	 * LOAD_CACHE_ELSE_NETWORK	只要本地有缓存, 无论是否过期或者 no-cache 都使用缓存中的数据
+	 * LOAD_CACHE_ONLY 			不使用网络, 只读取本地缓存数据
+	 * LOAD_DEFAULT				默认, 根据 cache-control 决定是否从网络上取数据
+	 * LOAD_NORMAL				已废弃, 作用跟 LOAD_DEFAULT 相同
+	 * LOAD_NO_CACHE			不使用缓存, 只从网络获取数据
+	 * @param cacheMode			缓存模式
+	 */
+	public void setCacheMode(CacheMode cacheMode){
+		mWebView.getSettings().setCacheMode(cacheMode.mode);
+	}
+	public enum CacheMode{
+		LOAD_CACHE_ELSE_NETWORK(WebSettings.LOAD_CACHE_ELSE_NETWORK),
+		LOAD_CACHE_ONLY(WebSettings.LOAD_CACHE_ONLY),
+		LOAD_DEFAULT(WebSettings.LOAD_DEFAULT),
+		LOAD_NO_CACHE(WebSettings.LOAD_NO_CACHE);
+		public int mode;
+		CacheMode(int mode){
+			this.mode = mode;
+		}
+	}
+
+	public WebSettings getSettings(){
+		return mWebView.getSettings();
 	}
 }
