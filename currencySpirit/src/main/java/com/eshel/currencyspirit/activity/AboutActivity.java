@@ -28,5 +28,6 @@ public class AboutActivity extends BaseActivity {
 		setSwipeBackEnable(true);
 		showTitle();
 		setTitleText(UIUtil.getString(R.string.item_about));
+//		System.runFinalization();
 	}
 }
