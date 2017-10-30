@@ -43,4 +43,5 @@ public class DataUtil {
 	public static float saveD(float value, int format){
 		return (float) (Math.round(value*Math.pow(format,format))/Math.pow(format,format));
 	}
+
 }

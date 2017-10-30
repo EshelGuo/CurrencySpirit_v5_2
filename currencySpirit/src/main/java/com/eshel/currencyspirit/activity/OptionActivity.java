@@ -16,6 +16,7 @@ import java.io.File;
 import baseproject.base.BaseActivity;
 import baseproject.util.FileUtils;
 import baseproject.util.Log;
+import baseproject.util.ViewUtil;
 import baseproject.util.shape.ShapeUtil;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,6 +50,7 @@ public class OptionActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_option);
 		ButterKnife.bind(this,getContentView());
+//		ViewUtil.findAllViewById(this,getContentView(),R.id.class);
 		showTitle();
 		showBack();
 		setTitleText(UIUtil.getString(R.string.item_option));

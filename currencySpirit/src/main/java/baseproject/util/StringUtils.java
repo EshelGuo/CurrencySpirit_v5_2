@@ -168,4 +168,17 @@ public class StringUtils {
 		}
 		return size;
 	}
+
+	public static char toLowerCase(char c){
+		if(c >= 'A' && c <= 'Z'){
+			return (char) (c+32);
+		}
+		return c;
+	}
+	public static char toUpperCase(char c){
+		if(c >= 'a' && c <= 'z'){
+			return (char) (c-32);
+		}
+		return c;
+	}
 }

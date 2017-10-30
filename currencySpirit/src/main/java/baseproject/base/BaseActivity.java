@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -98,7 +99,7 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
 		return mContentView;
 	}
 	public View getOriginalContentView(){
-		return getRootView().findViewById(com.android.internal.R.id.content);
+		return getRootView().findViewById(Window.ID_ANDROID_CONTENT);
 	}
 
 	@Override

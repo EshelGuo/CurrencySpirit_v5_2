@@ -183,7 +183,8 @@ public class OptionItemView extends FrameLayout {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				OptionItemView.this.isChecked = isChecked;
-				l.onClick(OptionItemView.this);
+				if(l != null)
+					l.onClick(OptionItemView.this);
 			}
 		});
 		mSwitchButton.setClickable(false);
