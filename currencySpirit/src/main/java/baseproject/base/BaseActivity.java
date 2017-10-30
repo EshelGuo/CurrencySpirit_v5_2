@@ -1,5 +1,6 @@
 package baseproject.base;
 
+import android.app.Service;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
@@ -96,12 +97,19 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
 	public View getContentView(){
 		return mContentView;
 	}
+	public View getOriginalContentView(){
+		return getRootView().findViewById(com.android.internal.R.id.content);
+	}
 
 	@Override
 	public void setContentView(@LayoutRes int layoutResID) {
 		mContent.removeAllViews();
 		mContentView = View.inflate(this, layoutResID, null);
 		mContent.addView(mContentView);
+	}
+
+	public View getRootView(){
+		return getWindow().getDecorView();
 	}
 
 	@Override
@@ -168,6 +176,11 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
 	protected void onDestroy() {
 		activitys.remove(getClass());
 		super.onDestroy();
+	}
+
+	@Override
+	public void onContentChanged() {
+		// 当 setContentView()执行后该方法被触发
 	}
 
 	public void hideActionBar() {

@@ -1,7 +1,10 @@
 package com.eshel.currencyspirit;
 
+import android.app.Activity;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.os.Build;
+import android.os.Bundle;
 import android.os.Process;
 
 import com.eshel.config.AppConfig;
@@ -33,6 +36,7 @@ import baseproject.util.shape.ShapeUtil;
  */
 
 public class CurrencySpiritApp extends BaseApplication{
+	private static final String ACTIVITY_LIFECYCLE_TAG = "activityLifecycle";
 	private static CurrencySpiritApp app;
 	private static String mainThreadName;
 	public static boolean isExit = true;
@@ -74,6 +78,44 @@ public class CurrencySpiritApp extends BaseApplication{
 		if(!ShapeUtil.get(AppConstant.key_push,true))
 			return;
 		registerXGPush();
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+			registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
+				@Override
+				public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+					Log.i(ACTIVITY_LIFECYCLE_TAG,activity.getClass().getSimpleName() + " onCreate");
+				}
+
+				@Override
+				public void onActivityStarted(Activity activity) {
+					Log.i(ACTIVITY_LIFECYCLE_TAG,activity.getClass().getSimpleName() + " onStart");
+				}
+
+				@Override
+				public void onActivityResumed(Activity activity) {
+					Log.i(ACTIVITY_LIFECYCLE_TAG,activity.getClass().getSimpleName() + " onResume");
+				}
+
+				@Override
+				public void onActivityPaused(Activity activity) {
+					Log.i(ACTIVITY_LIFECYCLE_TAG,activity.getClass().getSimpleName() + " onPause");
+				}
+
+				@Override
+				public void onActivityStopped(Activity activity) {
+					Log.i(ACTIVITY_LIFECYCLE_TAG,activity.getClass().getSimpleName() + " onStop");
+				}
+
+				@Override
+				public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+					Log.i(ACTIVITY_LIFECYCLE_TAG,activity.getClass().getSimpleName() + " onActivitysaveInstanceState");
+				}
+
+				@Override
+				public void onActivityDestroyed(Activity activity) {
+					Log.i(ACTIVITY_LIFECYCLE_TAG,activity.getClass().getSimpleName() + " onDestorye");
+				}
+			});
+		}
 	}
 
 	public static void registerXGPush(){
