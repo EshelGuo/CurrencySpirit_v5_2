@@ -58,12 +58,12 @@ public class CurrencySpiritApp extends BaseApplication{
 		app = this;
 		mainThreadName = Thread.currentThread().getName();
 		String currentProcessName = ProcessUtil.getCurrentProcessName(getApplicationContext());
-//		if(currentProcessName.equals(getPackageName())) {
-		UIUtil.debugToast("信鸽推送 开始注册");
-		mainOnCreate();
-//		}else {
-//			otherOnCreate(currentProcessName);
-//		}
+		if(currentProcessName.equals(getPackageName())) {
+			mainOnCreate();
+			UIUtil.debugToast("信鸽推送 开始注册");
+		}else {
+			otherOnCreate(currentProcessName);
+		}
 	}
 	static boolean registerSuccess;
 	public void mainOnCreate(){
