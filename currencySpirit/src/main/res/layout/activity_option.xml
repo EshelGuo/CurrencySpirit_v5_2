@@ -11,7 +11,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#EFEFF4"
+            android:background="@color/day_option_bg"
             android:orientation="vertical">
             <com.eshel.currencyspirit.widget.OptionItemView
                 android:id="@+id/feedback"
@@ -76,6 +76,19 @@
                 app:item_text="@string/app_version"
                 app:item_mode="bottom"
                 app:item_title="@string/version"/>
+
+            <com.eshel.currencyspirit.widget.OptionItemView
+                android:id="@+id/night_mode"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
+                app:item_style="style_switch"
+                app:item_icon="@drawable/option_icon"
+                app:item_icon2_visivity="invisivity"
+                app:item_mode="all"
+                app:item_title="@string/night_mode"
+                app:paddingStart="4dp"/>
         </LinearLayout>
     </com.eshel.currencyspirit.widget.OverScrollView>
 </LinearLayout>

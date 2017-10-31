@@ -10,4 +10,5 @@ public class AppConstant {
 	public static String key_deviceId = "deviceId";
 	public static String key_push = "push";
 	public static String device = "android";
+	public static String key_nightMode = "nightMode";
 }

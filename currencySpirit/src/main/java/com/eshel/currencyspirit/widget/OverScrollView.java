@@ -36,6 +36,8 @@ import android.widget.FrameLayout;
 import android.widget.Scroller;
 import android.view.View.OnTouchListener;
 
+import com.eshel.currencyspirit.widget.night.NightFrameLayout;
+
 import java.lang.reflect.Field;
 import java.util.List;
 
@@ -57,7 +59,7 @@ import java.util.List;
  * <p>
  * ScrollView only supports vertical scrolling.
  */
-public class OverScrollView extends FrameLayout implements OnTouchListener
+public class OverScrollView extends NightFrameLayout implements OnTouchListener
 {
 
 	static final int ANIMATED_SCROLL_GAP = 250;

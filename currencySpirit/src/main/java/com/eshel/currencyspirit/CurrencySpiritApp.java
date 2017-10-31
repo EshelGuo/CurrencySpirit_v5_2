@@ -11,6 +11,7 @@ import com.eshel.config.AppConfig;
 import com.eshel.config.AppConstant;
 import com.eshel.currencyspirit.util.ProcessUtil;
 import com.eshel.currencyspirit.util.UIUtil;
+import com.eshel.currencyspirit.widget.night.NightViewUtil;
 import com.liulishuo.filedownloader.FileDownloader;
 import com.liulishuo.filedownloader.util.FileDownloadLog;
 import com.tencent.android.tpush.XGIOperateCallback;
@@ -43,6 +44,7 @@ public class CurrencySpiritApp extends BaseApplication{
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		NightViewUtil.setNightMode(true);
 		StatConfig.setAutoExceptionCaught(true);//开启异常捕获
 		Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
 			@Override

@@ -5,8 +5,11 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
+import android.support.v4.view.LayoutInflaterCompat;
+import android.support.v4.view.LayoutInflaterFactory;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -23,6 +26,7 @@ import java.util.Map;
 
 import baseproject.util.DataUtil;
 import baseproject.util.Log;
+import baseproject.view.ViewFactory;
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import me.imid.swipebacklayout.lib.Utils;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivityBase;
@@ -35,7 +39,7 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivityHelper;
  * 描述: TODO
  */
 
-public class BaseActivity extends AppCompatActivity implements SwipeBackActivityBase {
+public class BaseActivity extends AppCompatActivity implements SwipeBackActivityBase{
 	private SwipeBackActivityHelper mHelper;
 	protected String TAG = "defaultActivity";
 
@@ -56,6 +60,8 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		TAG = getClass().getSimpleName();
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		LayoutInflater inflater = LayoutInflater.from(this);
+		LayoutInflaterCompat.setFactory(inflater,new ViewFactory());
 		super.onCreate(savedInstanceState);
 		super.setContentView(R.layout.activity_base);
 

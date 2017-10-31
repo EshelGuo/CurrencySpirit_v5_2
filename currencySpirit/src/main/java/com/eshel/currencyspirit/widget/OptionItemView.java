@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.bumptech.glide.DrawableTypeRequest;
 import com.bumptech.glide.Glide;
 import com.eshel.currencyspirit.R;
+import com.eshel.currencyspirit.widget.night.NightFrameLayout;
 import com.eshel.currencyspirit.widget.util.GlideCircleTransform;
 import com.kyleduo.switchbutton.SwitchButton;
 
@@ -32,7 +33,7 @@ import butterknife.ButterKnife;
  * desc: TODO
  */
 
-public class OptionItemView extends FrameLayout {
+public class OptionItemView extends NightFrameLayout {
 
 	@BindView(R.id.iv_icon)
 	ImageView ivIcon;

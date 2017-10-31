@@ -5,9 +5,10 @@ import com.eshel.currencyspirit.util.UIUtil;
 
 import baseproject.base.BaseApplication;
 import baseproject.interfaces.Utilable;
-import baseproject.util.DensityUtil;
 import baseproject.util.Log;
 import baseproject.util.shape.ShapeUtil;
+
+import static com.eshel.config.AppConfig.utilables;
 
 /**
  * createBy Eshel
@@ -16,7 +17,7 @@ import baseproject.util.shape.ShapeUtil;
  */
 
 public class UtilManager {
-	static Class<?>[] utilables = {Log.class,DensityUtil.class, ShapeUtil.class};
+
 	public static void initUtils(){
 		for (Class<?> utilable : utilables) {
 			try {

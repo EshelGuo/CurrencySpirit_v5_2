@@ -1,8 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="titleColor">@color/colorPrimary</color>
+    <color name="night_titleColor">#252525</color>
+
+    <color name="day_option_bg">#EFEFF4</color>
+    <color name="night_option_bg">#1B1B1B</color>
+
+    <color name="item_down">#F0F0F0</color>
+    <color name="night_item_down">#3A3A3A</color>
+
+    <color name="item_up">@android:color/white</color>
+    <color name="night_item_up">#252525</color>
+
+    <color name="black">#000</color>
+    <color name="night_black">#707070</color>
+
+    <color name="text_gray">#888888</color>
+    <color name="night_text_gray">#707070</color>
+
+
+
     <color name="colorPrimary">#F8F8F8</color>
     <color name="back_pressed">#aaF8F8F8</color>
-    <color name="black">#000</color>
+
     <color name="colorPrimaryDark">#c8c8c8</color>
     <color name="colorAccent">@color/tabColor</color><!--#FF4081-->
     <color name="edit_hight_color">#88B0BEC5</color>
@@ -10,11 +30,10 @@
     <color name="btn_pressed_color">#51b9dc</color>
     <color name="tabColor">#007EFB</color>
     <color name="dividerColor">#cccc</color>
-    <color name="item_down">#F0F0F0</color>
-    <color name="item_up">@android:color/white</color>
+
     <color name="progressbar_drawable">#43BF17</color>
-    <color name="text_gray">#888888</color>
+
     <color name="white">#fff</color>
-    <color name="titleColor">@color/colorPrimary</color>
+
     <color name="violet">#ffaa66cc</color>
 </resources>
