@@ -42,8 +42,8 @@ public class OptionActivity extends BaseActivity {
 	OptionItemView mEvaluate;
 	@BindView(R.id.version)
 	OptionItemView mVersion;
-	@BindView(R.id.night_mode)
-	OptionItemView mNightMode;
+//	@BindView(R.id.night_mode)
+//	OptionItemView mNightMode;
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,12 +55,12 @@ public class OptionActivity extends BaseActivity {
 		showBack();
 		setTitleText(UIUtil.getString(R.string.item_option));
 		mMessageOnoff.setChecked(ShapeUtil.get(AppConstant.key_push, true));
-		mNightMode.setChecked(NightViewUtil.getNightMode());
+//		mNightMode.setChecked(NightViewUtil.getNightMode());
 		setSwipeBackEnable(true);
 //		mCleanCache.setItemText(FileUtils.fileSizeFormat(getCacheDir().length()));
 	}
 
-	@OnClick({R.id.feedback, R.id.clean_cache, R.id.message_onoff, R.id.about, R.id.share, R.id.evaluate, R.id.version,R.id.night_mode})
+	@OnClick({R.id.feedback, R.id.clean_cache, R.id.message_onoff, R.id.about, R.id.share, R.id.evaluate, R.id.version/*,R.id.night_mode*/})
 	public void onViewClicked(View view) {
 		switch (view.getId()) {
 			case R.id.feedback:
@@ -97,10 +97,10 @@ public class OptionActivity extends BaseActivity {
 				break;
 			case R.id.version:
 				break;
-			case R.id.night_mode:
+			/*case R.id.night_mode:
 				mNightMode.setChecked(!NightViewUtil.getNightMode());
 				NightViewUtil.changeNightMode(!NightViewUtil.getNightMode(),this);
-				break;
+				break;*/
 		}
 	}
 

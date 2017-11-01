@@ -3,6 +3,9 @@
     <color name="titleColor">@color/colorPrimary</color>
     <color name="night_titleColor">#252525</color>
 
+    <color name="day_option_item_line_bg">#EFEFF5</color>
+    <color name="night_option_item_line_bg">#464646</color>
+
     <color name="day_option_bg">#EFEFF4</color>
     <color name="night_option_bg">#1B1B1B</color>
 

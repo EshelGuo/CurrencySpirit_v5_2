@@ -30,11 +30,18 @@ import baseproject.util.shape.ShapeUtil;
 
 public class NightViewUtil implements Utilable{
 	private static Context mContext;
+	private static ArrayList<Integer> dayResIds = new ArrayList<>();
+	private static ArrayList<Integer> nightResIds = new ArrayList<>();
+
 	private static ArrayList<Integer> dayColors = new ArrayList<>();
 	private static ArrayList<Integer> nightColors = new ArrayList<>();
 	public static void addColor(int dayColor,int nightColor){
 		dayColors.add(dayColor);
 		nightColors.add(nightColor);
+	}
+	public static void addResId(int dayResId,int nightResId){
+		dayResIds.add(dayResId);
+		nightResIds.add(nightResId);
 	}
 	public static void changeNightDrawable(Drawable drawable){
 		if(NightViewUtil.getNightMode()) {
@@ -56,6 +63,20 @@ public class NightViewUtil implements Utilable{
 			}
 		}
 		return color;
+	}
+	public static int changeNightResId(int resId){
+		if(NightViewUtil.getNightMode()) {
+			int index = dayResIds.indexOf(resId);
+			if(index != -1){
+				resId = nightResIds.get(index);
+			}
+		}else {
+			int index = nightResIds.indexOf(resId);
+			if(index != -1){
+				resId = dayResIds.get(index);
+			}
+		}
+		return resId;
 	}
 	public static void changeNightBackgroundDrawable(Drawable drawable){
 		if(drawable instanceof ColorDrawable){
@@ -111,6 +132,9 @@ public class NightViewUtil implements Utilable{
 			changeNightMode(isNight,fragment.getView());
 		}
 	}
+	public static void onResume(Activity activity){
+		changeNightMode(getNightMode(),activity);
+	}
 
 	public static void changeNightMode(boolean isNight, Activity activity) {
 		changeNightMode(isNight);
@@ -164,13 +188,7 @@ public class NightViewUtil implements Utilable{
 	public void init(Context context) {
 		AppConfig.isNight = ShapeUtil.get(AppConstant.key_nightMode,false);
 		mContext = context;
-		addColor(UIUtil.getColor(R.color.day_option_bg),UIUtil.getColor(R.color.night_option_bg));
-		addColor(UIUtil.getColor(R.color.item_down),UIUtil.getColor(R.color.night_item_down));
-		addColor(UIUtil.getColor(R.color.item_up),UIUtil.getColor(R.color.night_item_up));
-		addColor(UIUtil.getColor(R.color.black),UIUtil.getColor(R.color.night_black));
-		addColor(UIUtil.getColor(R.color.text_gray),UIUtil.getColor(R.color.night_text_gray));
-		addColor(UIUtil.getColor(R.color.titleColor),UIUtil.getColor(R.color.night_titleColor));
-		// TODO: 2017/10/31  添加颜色
+		AppConfig.nightConfig();
 	}
 
 	@Override
@@ -178,5 +196,7 @@ public class NightViewUtil implements Utilable{
 		mContext = null;
 		dayColors.clear();
 		nightColors.clear();
+		dayResIds.clear();
+		nightResIds.clear();
 	}
 }

@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.eshel.currencyspirit.R;
+import com.eshel.currencyspirit.widget.night.NightViewUtil;
 import com.tencent.stat.StatService;
 
 import java.util.LinkedHashMap;
@@ -161,6 +162,7 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
 		else
 			Log.i("curentTopActivity: null");
 		StatService.onResume(this);
+		NightViewUtil.onResume(this);
 	}
 
 	@Override

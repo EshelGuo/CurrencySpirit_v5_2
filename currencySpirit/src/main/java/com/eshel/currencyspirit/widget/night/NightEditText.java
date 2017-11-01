@@ -5,6 +5,7 @@ import android.content.res.ColorStateList;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
+import android.support.annotation.DrawableRes;
 import android.util.AttributeSet;
 import android.widget.EditText;
 
@@ -41,15 +42,27 @@ public class NightEditText extends android.support.v7.widget.AppCompatEditText i
 
 		super.setTextColor(colors);
 	}
-
+	@Override
+	public void setBackgroundColor(@ColorInt int color) {
+		super.setBackgroundColor(getCallback().setBackgroundColor(color));
+	}
+	@Override
+	public void setBackgroundResource(@DrawableRes int resid) {
+		super.setBackgroundResource(getCallback().setBackgroundResource(resid));
+	}
 	@Override
 	public void setBackgroundDrawable(Drawable background) {
-		NightViewUtil.changeNightBackgroundDrawable(background);
-		super.setBackgroundDrawable(background);
+		super.setBackgroundDrawable(getCallback().setBackgroundDrawable(background));
 	}
-
 	@Override
 	public void changeNightMode(boolean isNight) {
-		setBackgroundDrawable(getBackground());
+		getCallback().changeNightMode(this,isNight);
+	}
+	private NightViewCallback mCallback;
+	public NightViewCallback getCallback(){
+		if(mCallback == null){
+			mCallback = new NightViewCallback();
+		}
+		return mCallback;
 	}
 }

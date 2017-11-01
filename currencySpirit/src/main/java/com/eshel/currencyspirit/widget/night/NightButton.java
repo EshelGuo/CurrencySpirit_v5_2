@@ -5,6 +5,7 @@ import android.content.res.ColorStateList;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
+import android.support.annotation.DrawableRes;
 import android.util.AttributeSet;
 import android.widget.Button;
 
@@ -14,11 +15,11 @@ import android.widget.Button;
 
 public class NightButton extends android.support.v7.widget.AppCompatButton implements INight{
 	public NightButton(Context context) {
-		super(context);
+		this(context,null);
 	}
 
 	public NightButton(Context context, AttributeSet attrs) {
-		super(context, attrs);
+		this(context,attrs,0);
 	}
 
 	public NightButton(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -29,27 +30,27 @@ public class NightButton extends android.support.v7.widget.AppCompatButton imple
 		color = NightViewUtil.changeNightColor(color);
 		super.setTextColor(color);
 	}
-
 	@Override
-	public void setTextColor(ColorStateList colors) {
-		/*int[] color = colors.getColors();
-		if(mColorDrawable == null)
-			mColorDrawable = new ColorDrawable(colors.getDefaultColor());
-		else
-			mColorDrawable.setColor(colors.getDefaultColor());
-		NightViewUtil.changeNightDrawable(mColorDrawable);*/
-
-		super.setTextColor(colors);
+	public void setBackgroundColor(@ColorInt int color) {
+		super.setBackgroundColor(getCallback().setBackgroundColor(color));
 	}
-
+	@Override
+	public void setBackgroundResource(@DrawableRes int resid) {
+		super.setBackgroundResource(getCallback().setBackgroundResource(resid));
+	}
 	@Override
 	public void setBackgroundDrawable(Drawable background) {
-		NightViewUtil.changeNightBackgroundDrawable(background);
-		super.setBackgroundDrawable(background);
+		super.setBackgroundDrawable(getCallback().setBackgroundDrawable(background));
 	}
-
 	@Override
 	public void changeNightMode(boolean isNight) {
-		setBackgroundDrawable(getBackground());
+		getCallback().changeNightMode(this,isNight);
+	}
+	private NightViewCallback mCallback;
+	public NightViewCallback getCallback(){
+		if(mCallback == null){
+			mCallback = new NightViewCallback();
+		}
+		return mCallback;
 	}
 }

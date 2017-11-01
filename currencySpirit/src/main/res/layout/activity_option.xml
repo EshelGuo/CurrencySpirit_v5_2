@@ -14,6 +14,7 @@
             android:background="@color/day_option_bg"
             android:orientation="vertical">
             <com.eshel.currencyspirit.widget.OptionItemView
+                android:background="@color/day_option_item_line_bg"
                 android:id="@+id/feedback"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -24,6 +25,7 @@
                 app:item_title="@string/feedback"
                 app:paddingStart="4dp"/>
             <com.eshel.currencyspirit.widget.OptionItemView
+                android:background="@color/day_option_item_line_bg"
                 android:id="@+id/clean_cache"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -33,6 +35,7 @@
                 app:item_title="@string/clean_cache"
                 app:paddingStart="4dp"/>
             <com.eshel.currencyspirit.widget.OptionItemView
+                android:background="@color/day_option_item_line_bg"
                 android:id="@+id/message_onoff"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -42,6 +45,7 @@
                 app:item_mode="middle"
                 app:item_title="@string/message_onoff"/>
             <com.eshel.currencyspirit.widget.OptionItemView
+                android:background="@color/day_option_item_line_bg"
                 android:id="@+id/about"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -50,6 +54,7 @@
                 app:item_mode="bottom"
                 app:item_title="@string/item_about"/>
             <com.eshel.currencyspirit.widget.OptionItemView
+                android:background="@color/day_option_item_line_bg"
                 android:id="@+id/share"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -59,6 +64,7 @@
                 app:item_mode="top"
                 app:item_title="@string/share"/>
             <com.eshel.currencyspirit.widget.OptionItemView
+                android:background="@color/day_option_item_line_bg"
                 android:id="@+id/evaluate"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -67,6 +73,7 @@
                 app:item_mode="middle"
                 app:item_title="@string/evaluate"/>
             <com.eshel.currencyspirit.widget.OptionItemView
+                android:background="@color/day_option_item_line_bg"
                 android:id="@+id/version"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -77,7 +84,8 @@
                 app:item_mode="bottom"
                 app:item_title="@string/version"/>
 
-            <com.eshel.currencyspirit.widget.OptionItemView
+           <!-- <com.eshel.currencyspirit.widget.OptionItemView
+                android:background="@color/day_option_item_line_bg"
                 android:id="@+id/night_mode"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -88,7 +96,7 @@
                 app:item_icon2_visivity="invisivity"
                 app:item_mode="all"
                 app:item_title="@string/night_mode"
-                app:paddingStart="4dp"/>
+                app:paddingStart="4dp"/>-->
         </LinearLayout>
     </com.eshel.currencyspirit.widget.OverScrollView>
 </LinearLayout>
