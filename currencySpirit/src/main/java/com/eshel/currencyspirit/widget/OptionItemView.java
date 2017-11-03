@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.bumptech.glide.DrawableTypeRequest;
 import com.bumptech.glide.Glide;
 import com.eshel.currencyspirit.R;
+import com.eshel.currencyspirit.util.UIUtil;
 import com.eshel.currencyspirit.widget.night.NightFrameLayout;
 import com.eshel.currencyspirit.widget.util.GlideCircleTransform;
 import com.kyleduo.switchbutton.SwitchButton;
@@ -189,6 +190,9 @@ public class OptionItemView extends NightFrameLayout {
 			}
 		});
 		mSwitchButton.setClickable(false);
+		tvTitle.setBackgroundColor(0xffffffff);
+		ivIcon.setBackgroundColor(0xffffffff);
+		setBackgroundColor(UIUtil.getColor(R.color.day_option_item_line_bg));
 	}
 
 	public void setIcon(int resId) {
@@ -294,4 +298,17 @@ public class OptionItemView extends NightFrameLayout {
 		mSwitchButton.setChecked(checked);
 	}
 	public boolean isChecked = false;
+
+	@Override
+	public void changeNightMode(boolean isNight) {
+//		super.changeNightMode(isNight);
+		tvTitle.setBackgroundColor(0xffffffff);
+		ivIcon.setBackgroundColor(0xffffffff);
+		setBackgroundColor(UIUtil.getColor(R.color.day_option_item_line_bg));
+		/*getCallback().changeNightMode(ivIcon,isNight);
+		getCallback().changeNightMode(tvTitle,isNight);
+		getCallback().changeNightMode(ivIcon2,isNight);
+		getCallback().changeNightMode(mTvDesc,isNight);
+		getCallback().changeNightMode(mSwitchButton,isNight);*/
+	}
 }

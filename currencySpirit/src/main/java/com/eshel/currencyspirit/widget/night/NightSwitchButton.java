@@ -2,34 +2,31 @@ package com.eshel.currencyspirit.widget.night;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.AttrRes;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.widget.FrameLayout;
 
-import com.eshel.currencyspirit.R;
-import com.eshel.currencyspirit.widget.OptionItemView;
-
-import baseproject.util.Log;
+import com.kyleduo.switchbutton.SwitchButton;
 
 /**
- * Created by guoshiwen on 2017/10/31.
+ * Created by guoshiwen on 2017/11/3.
  */
 
-public class NightFrameLayout extends FrameLayout implements INight{
-	public NightFrameLayout(@NonNull Context context) {
-		super(context);
+public class NightSwitchButton extends SwitchButton implements INight {
+	public NightSwitchButton(Context context, AttributeSet attrs, int defStyle) {
+		super(context, attrs, defStyle);
 	}
 
-	public NightFrameLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
+	public NightSwitchButton(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
 
-	public NightFrameLayout(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
-		super(context, attrs, defStyleAttr);
+	public NightSwitchButton(Context context) {
+		super(context);
+	}
+	@Override
+	public void setTextColor(@ColorInt int color) {
+		super.setTextColor(getCallback().setTextColor(color));
 	}
 	@Override
 	public void setBackgroundColor(@ColorInt int color) {
@@ -40,14 +37,11 @@ public class NightFrameLayout extends FrameLayout implements INight{
 		super.setBackgroundResource(getCallback().setBackgroundResource(resid));
 	}
 	@Override
-	public void setBackground(Drawable background) {
-		super.setBackground(getCallback().setBackgroundDrawable(background));
+	public void setBackgroundDrawable(Drawable background) {
+		super.setBackgroundDrawable(getCallback().setBackgroundDrawable(background));
 	}
 	@Override
 	public void changeNightMode(boolean isNight) {
-		if(this instanceof OptionItemView){
-			Log.i("");
-		}
 		getCallback().changeNightMode(this,isNight);
 	}
 	private NightViewCallback mCallback;

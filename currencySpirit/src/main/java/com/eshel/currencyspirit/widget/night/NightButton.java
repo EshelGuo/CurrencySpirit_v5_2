@@ -27,8 +27,7 @@ public class NightButton extends android.support.v7.widget.AppCompatButton imple
 	}
 	@Override
 	public void setTextColor(@ColorInt int color) {
-		color = NightViewUtil.changeNightColor(color);
-		super.setTextColor(color);
+		super.setTextColor(getCallback().setTextColor(color));
 	}
 	@Override
 	public void setBackgroundColor(@ColorInt int color) {

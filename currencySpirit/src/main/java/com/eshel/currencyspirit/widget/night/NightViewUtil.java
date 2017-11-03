@@ -21,6 +21,7 @@ import com.eshel.currencyspirit.util.UIUtil;
 import java.util.ArrayList;
 
 import baseproject.interfaces.Utilable;
+import baseproject.util.Log;
 import baseproject.util.ReflectUtil;
 import baseproject.util.shape.ShapeUtil;
 
@@ -35,7 +36,7 @@ public class NightViewUtil implements Utilable{
 
 	private static ArrayList<Integer> dayColors = new ArrayList<>();
 	private static ArrayList<Integer> nightColors = new ArrayList<>();
-	public static void addColor(int dayColor,int nightColor){
+	public static synchronized void addColor(int dayColor,int nightColor){
 		dayColors.add(dayColor);
 		nightColors.add(nightColor);
 	}
@@ -55,11 +56,17 @@ public class NightViewUtil implements Utilable{
 			int index = dayColors.indexOf(color);
 			if(index != -1){
 				color = nightColors.get(index);
+			}else {
+				if(nightColors.indexOf(color) == -1)
+					color = Color.RED;
 			}
 		}else {
 			int index = nightColors.indexOf(color);
 			if(index != -1){
 				color = dayColors.get(index);
+			}else {
+				if(dayColors.indexOf(color) == -1)
+					color = Color.GREEN;
 			}
 		}
 		return color;
@@ -81,9 +88,10 @@ public class NightViewUtil implements Utilable{
 	public static void changeNightBackgroundDrawable(Drawable drawable){
 		if(drawable instanceof ColorDrawable){
 			ColorDrawable colorDrawable = (ColorDrawable) drawable;
-			colorDrawable.setColor(changeNightColor(colorDrawable.getColor()));
+			int color = changeNightColor(colorDrawable.getColor());
+			colorDrawable.setColor(color);
 		}else if(drawable instanceof StateListDrawable){
-			StateListDrawable stateListDrawable = (StateListDrawable) drawable;
+			/*StateListDrawable stateListDrawable = (StateListDrawable) drawable;
 			DrawableContainer.DrawableContainerState state =
 					(DrawableContainer.DrawableContainerState) ReflectUtil.getFiledValue(stateListDrawable,"mStateListState");
 			Drawable[] drawables = (Drawable[])ReflectUtil.getFiledValue(
@@ -99,13 +107,46 @@ public class NightViewUtil implements Utilable{
 						NightViewUtil.removeFilter(drawable);
 					}
 				}
-			}
+			}*/
 		} else {
 			if(NightViewUtil.getNightMode()) {
 				NightViewUtil.setFilter(drawable);
 			}else {
 				NightViewUtil.removeFilter(drawable);
 			}
+		}
+	}
+	public static void changeNightBackgroundDrawable(Drawable drawable, Drawable cacheDrawable){
+		if(drawable instanceof ColorDrawable){
+			ColorDrawable colorDrawable = (ColorDrawable) drawable;
+			int color = changeNightColor(colorDrawable.getColor());
+			colorDrawable.setColor(color);
+		}else if(drawable instanceof StateListDrawable){
+			/*StateListDrawable stateListDrawable = (StateListDrawable) drawable;
+			DrawableContainer.DrawableContainerState state =
+					(DrawableContainer.DrawableContainerState) ReflectUtil.getFiledValue(stateListDrawable,"mStateListState");
+			Drawable[] drawables = (Drawable[])ReflectUtil.getFiledValue(
+					DrawableContainer.DrawableContainerState.class,state,"mDrawables");
+			for (Drawable drawable1 : drawables) {
+				if(drawable1 instanceof ColorDrawable){
+					ColorDrawable colorDrawable = (ColorDrawable) drawable1;
+					colorDrawable.setColor(changeNightColor(colorDrawable.getColor()));
+				}else {
+					if(NightViewUtil.getNightMode()) {
+						NightViewUtil.setFilter(drawable);
+					}else {
+						NightViewUtil.removeFilter(drawable);
+					}
+				}
+			}*/
+		} else {
+			/*if(cacheDrawable != null){
+			}*/
+			/*if(NightViewUtil.getNightMode()) {
+				NightViewUtil.setFilter(drawable);
+			}else {
+				NightViewUtil.removeFilter(drawable);
+			}*/
 		}
 	}
 	public static void setFilter(Drawable drawable){
@@ -189,6 +230,8 @@ public class NightViewUtil implements Utilable{
 		AppConfig.isNight = ShapeUtil.get(AppConstant.key_nightMode,false);
 		mContext = context;
 		AppConfig.nightConfig();
+		Log.i("COLOR","dayColors: "+dayColors);
+		Log.i("COLOR","dayColors: "+nightColors);
 	}
 
 	@Override

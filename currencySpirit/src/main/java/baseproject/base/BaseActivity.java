@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.eshel.currencyspirit.R;
+import com.eshel.currencyspirit.util.UIUtil;
 import com.eshel.currencyspirit.widget.night.NightViewUtil;
 import com.tencent.stat.StatService;
 
@@ -27,6 +28,7 @@ import java.util.Map;
 
 import baseproject.util.DataUtil;
 import baseproject.util.Log;
+import baseproject.util.ViewUtil;
 import baseproject.view.ViewFactory;
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import me.imid.swipebacklayout.lib.Utils;
@@ -77,6 +79,8 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
 			}
 		});
 		hideActionBar();
+		mTitle.setBackgroundResource(R.drawable.title_bg);
+		ViewUtil.changeStateBarColor(this, UIUtil.getColor(R.color.titleColor));
 		hideTitle();
 		activitys.put(getClass(), this);
 		mHelper = new SwipeBackActivityHelper(this);

@@ -27,8 +27,7 @@ public class NightEditText extends android.support.v7.widget.AppCompatEditText i
 	}
 	@Override
 	public void setTextColor(@ColorInt int color) {
-		color = NightViewUtil.changeNightColor(color);
-		super.setTextColor(color);
+		super.setTextColor(getCallback().setTextColor(color));
 	}
 
 	@Override

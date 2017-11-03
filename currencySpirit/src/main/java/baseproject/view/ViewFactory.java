@@ -16,12 +16,14 @@ import android.support.v7.widget.AppCompatSpinner;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.eshel.currencyspirit.widget.night.NightBottomBar;
 import com.eshel.currencyspirit.widget.night.NightButton;
 import com.eshel.currencyspirit.widget.night.NightEditText;
 import com.eshel.currencyspirit.widget.night.NightFrameLayout;
 import com.eshel.currencyspirit.widget.night.NightImageView;
 import com.eshel.currencyspirit.widget.night.NightLinearLayout;
 import com.eshel.currencyspirit.widget.night.NightRelativeLayout;
+import com.eshel.currencyspirit.widget.night.NightSwitchButton;
 import com.eshel.currencyspirit.widget.night.NightTextView;
 
 /**
@@ -80,6 +82,12 @@ public class ViewFactory implements LayoutInflaterFactory {
 				break;
 			case "FrameLayout":
 				view = new NightFrameLayout(context, attrs);
+				break;
+			case "com.kyleduo.switchbutton.SwitchButton":
+				view = new NightSwitchButton(context, attrs);
+				break;
+			case "com.roughike.bottombar.BottomBar":
+				view = new NightBottomBar(context, attrs);
 				break;
 		}
 		return view;

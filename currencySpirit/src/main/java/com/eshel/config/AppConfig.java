@@ -31,6 +31,9 @@ public class AppConfig {
 		NightViewUtil.addResId(
 				R.drawable.item_selector,
 				R.drawable.night_item_selector);
+		NightViewUtil.addResId(
+				R.drawable.title_bg,
+				R.drawable.night_title_bg);
 
 		NightViewUtil.addColor(
 				UIUtil.getColor(R.color.day_option_bg),
@@ -47,6 +50,15 @@ public class AppConfig {
 		NightViewUtil.addColor(
 				UIUtil.getColor(R.color.day_option_item_line_bg),
 				UIUtil.getColor(R.color.night_option_item_line_bg));
+		NightViewUtil.addColor(
+				UIUtil.getColor(R.color.item_down),
+				UIUtil.getColor(R.color.night_item_down));
+		NightViewUtil.addColor(
+				UIUtil.getColor(R.color.item_up),
+				UIUtil.getColor(R.color.night_item_up));
+		NightViewUtil.addColor(
+				UIUtil.getColor(android.R.color.transparent),
+				UIUtil.getColor(android.R.color.transparent));
 		// TODO: 2017/10/31  添加颜色
 	}
 

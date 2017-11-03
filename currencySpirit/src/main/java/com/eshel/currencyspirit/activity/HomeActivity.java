@@ -111,7 +111,7 @@ public class HomeActivity extends BaseActivity {
 				}
 			}
 		});
-
+		bottomBar.setBackgroundResource(R.drawable.bottom_bar_bg);
 		bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
 			@Override
 			public void onTabSelected(@IdRes int tabId) {

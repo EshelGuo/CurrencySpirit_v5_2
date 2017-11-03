@@ -12,6 +12,9 @@ import org.junit.runner.RunWith;
 import java.io.Serializable;
 import java.util.Iterator;
 
+import dalvik.system.DexClassLoader;
+import dalvik.system.PathClassLoader;
+
 import static org.junit.Assert.*;
 
 /**
@@ -34,5 +37,8 @@ public class ExampleInstrumentedTest {
 		}
 		System.out.println(bundle.toString());
 		assertEquals("com.eshel.currencyspirit", appContext.getPackageName());
+//		PathClassLoader pathClassLoader = new PathClassLoader("/data/app/com.aduer.shouyin-2.apk", "/data/app", ClassLoader.getSystemClassLoader());
+//		pathClassLoader.loadClass()
+//		DexClassLoader dexClassLoader = new DexClassLoader()
 	}
 }

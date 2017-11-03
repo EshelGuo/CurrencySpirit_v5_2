@@ -13,8 +13,10 @@ import com.eshel.currencyspirit.activity.AboutActivity;
 import com.eshel.currencyspirit.activity.EssenceHistoryActivity;
 import com.eshel.currencyspirit.activity.HomeActivity;
 import com.eshel.currencyspirit.activity.OptionActivity;
+import com.eshel.currencyspirit.util.UIUtil;
 import com.eshel.currencyspirit.widget.OptionItemView;
 import com.eshel.currencyspirit.widget.OverScrollView;
+import com.eshel.currencyspirit.widget.night.NightViewUtil;
 
 import baseproject.base.BaseFragment;
 import baseproject.util.DensityUtil;
@@ -74,6 +76,7 @@ public class UserFragment extends BaseFragment {
 				}
 			});
 		}
+		mRoot.setBackgroundColor(UIUtil.getColor(R.color.day_option_bg));
 		return mRoot;
 	}
 

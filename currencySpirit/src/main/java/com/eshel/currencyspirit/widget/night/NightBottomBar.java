@@ -2,33 +2,27 @@ package com.eshel.currencyspirit.widget.night;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.AttrRes;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.widget.FrameLayout;
 
-import com.eshel.currencyspirit.R;
-import com.eshel.currencyspirit.widget.OptionItemView;
-
-import baseproject.util.Log;
+import com.roughike.bottombar.BottomBar;
 
 /**
- * Created by guoshiwen on 2017/10/31.
+ * Created by guoshiwen on 2017/11/3.
  */
 
-public class NightFrameLayout extends FrameLayout implements INight{
-	public NightFrameLayout(@NonNull Context context) {
+public class NightBottomBar extends BottomBar implements INight{
+	public NightBottomBar(Context context) {
 		super(context);
 	}
 
-	public NightFrameLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
+	public NightBottomBar(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
 
-	public NightFrameLayout(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
+	public NightBottomBar(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
 	}
 	@Override
@@ -40,14 +34,11 @@ public class NightFrameLayout extends FrameLayout implements INight{
 		super.setBackgroundResource(getCallback().setBackgroundResource(resid));
 	}
 	@Override
-	public void setBackground(Drawable background) {
-		super.setBackground(getCallback().setBackgroundDrawable(background));
+	public void setBackgroundDrawable(Drawable background) {
+		super.setBackgroundDrawable(getCallback().setBackgroundDrawable(background));
 	}
 	@Override
 	public void changeNightMode(boolean isNight) {
-		if(this instanceof OptionItemView){
-			Log.i("");
-		}
 		getCallback().changeNightMode(this,isNight);
 	}
 	private NightViewCallback mCallback;

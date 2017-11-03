@@ -1,17 +1,60 @@
 package baseproject.util;
 
+import android.app.Activity;
+import android.content.Context;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+
+import com.eshel.currencyspirit.util.UIUtil;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+
+import baseproject.base.BaseActivity;
 
 /**
  * Created by guoshiwen on 2017/10/30.
  */
 
 public class ViewUtil {
+	public static void changeCurrentActivityStateBarColor(int color){
+		BaseActivity topActivity = BaseActivity.getTopActivity();
+		if(topActivity != null){
+			changeStateBarColor(topActivity, color);
+		}
+	}
+	public static void changeCurrentActivityNavigationBarColor(int color){
+		BaseActivity topActivity = BaseActivity.getTopActivity();
+		if(topActivity != null){
+			changeStateBarColor(topActivity,color);
+		}
+	}
+	public static void changeStateBarColor(Activity context, int color){
+		try {
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+				Window window = context.getWindow();
+				window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+				window.setStatusBarColor(color);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	public static void changeNavigationBarColor(Activity context, int color){
+		try {
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+				Window window = context.getWindow();
+				window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+				window.setNavigationBarColor(color);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	@Deprecated
 	public static void findAllViewById(@NonNull Object taget,@NonNull View view,Class R_ID){
 		if(taget == null){

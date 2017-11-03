@@ -44,7 +44,7 @@ public class CurrencySpiritApp extends BaseApplication{
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		NightViewUtil.setNightMode(false);
+		NightViewUtil.setNightMode(true);
 		StatConfig.setAutoExceptionCaught(true);//开启异常捕获
 		Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
 			@Override

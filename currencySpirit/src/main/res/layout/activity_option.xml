@@ -84,7 +84,7 @@
                 app:item_mode="bottom"
                 app:item_title="@string/version"/>
 
-           <!-- <com.eshel.currencyspirit.widget.OptionItemView
+            <com.eshel.currencyspirit.widget.OptionItemView
                 android:background="@color/day_option_item_line_bg"
                 android:id="@+id/night_mode"
                 android:layout_width="match_parent"
@@ -96,7 +96,7 @@
                 app:item_icon2_visivity="invisivity"
                 app:item_mode="all"
                 app:item_title="@string/night_mode"
-                app:paddingStart="4dp"/>-->
+                app:paddingStart="4dp"/>
         </LinearLayout>
     </com.eshel.currencyspirit.widget.OverScrollView>
 </LinearLayout>
