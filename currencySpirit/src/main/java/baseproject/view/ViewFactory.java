@@ -3,10 +3,8 @@ package baseproject.view;
 import android.content.Context;
 import android.support.v4.view.LayoutInflaterFactory;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
-import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.AppCompatCheckedTextView;
-import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatMultiAutoCompleteTextView;
 import android.support.v7.widget.AppCompatRadioButton;
@@ -22,9 +20,13 @@ import com.eshel.currencyspirit.widget.night.NightEditText;
 import com.eshel.currencyspirit.widget.night.NightFrameLayout;
 import com.eshel.currencyspirit.widget.night.NightImageView;
 import com.eshel.currencyspirit.widget.night.NightLinearLayout;
+import com.eshel.currencyspirit.widget.night.NightPullToRefreshRecyclerView;
+import com.eshel.currencyspirit.widget.night.NightRecyclerView;
 import com.eshel.currencyspirit.widget.night.NightRelativeLayout;
+import com.eshel.currencyspirit.widget.night.NightSmartTabLayout;
 import com.eshel.currencyspirit.widget.night.NightSwitchButton;
 import com.eshel.currencyspirit.widget.night.NightTextView;
+import com.eshel.currencyspirit.widget.night.NightViewPager;
 
 /**
  * Created by guoshiwen on 2017/10/31.
@@ -88,6 +90,18 @@ public class ViewFactory implements LayoutInflaterFactory {
 				break;
 			case "com.roughike.bottombar.BottomBar":
 				view = new NightBottomBar(context, attrs);
+				break;
+			case "ViewPager":
+				view = new NightViewPager(context, attrs);
+				break;
+			case "android.support.v7.widget.RecyclerView":
+				view = new NightRecyclerView(context, attrs);
+				break;
+			case "com.ogaclejapan.smarttablayout.SmartTabLayout":
+				view = new NightSmartTabLayout(context, attrs);
+				break;
+			case "com.lhh.ptrrv.library.PullToRefreshRecyclerView":
+				view = new NightPullToRefreshRecyclerView(context, attrs);
 				break;
 		}
 		return view;

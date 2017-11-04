@@ -158,6 +158,10 @@ public abstract class CurrencyBaseFragment extends BaseFragment{
 
 		public AddViewHolder() {
 			super(View.inflate(getActivity(),R.layout.item_add,null));
+			itemView.setBackgroundResource(R.drawable.item_selector);
+			itemView.setLayoutParams(new ViewGroup.LayoutParams(
+					ViewGroup.LayoutParams.MATCH_PARENT,DensityUtil.dp2px(60)));
+
 		}
 
 		public void bindDataToView() {

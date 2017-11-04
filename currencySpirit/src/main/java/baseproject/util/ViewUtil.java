@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.eshel.currencyspirit.activity.SplashActivity;
 import com.eshel.currencyspirit.util.UIUtil;
 
 import java.lang.reflect.Field;
@@ -24,7 +25,11 @@ public class ViewUtil {
 	public static void changeCurrentActivityStateBarColor(int color){
 		BaseActivity topActivity = BaseActivity.getTopActivity();
 		if(topActivity != null){
-			changeStateBarColor(topActivity, color);
+			if(!(topActivity instanceof SplashActivity)){
+				changeStateBarColor(topActivity, color);
+			}else {
+				changeStateBarColor(topActivity, 0x00000000);
+			}
 		}
 	}
 	public static void changeCurrentActivityNavigationBarColor(int color){
@@ -38,7 +43,11 @@ public class ViewUtil {
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 				Window window = context.getWindow();
 				window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-				window.setStatusBarColor(color);
+				if(!(context instanceof SplashActivity)){
+					window.setStatusBarColor(color);
+				}else {
+					window.setStatusBarColor(0);
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

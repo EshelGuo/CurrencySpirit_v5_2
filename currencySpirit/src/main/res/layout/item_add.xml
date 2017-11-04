@@ -5,10 +5,9 @@
     android:layout_height="60dp">
     <TextView
         android:layout_centerInParent="true"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:textColor="@color/text_gray"
-        android:background="@drawable/item_selector"
         android:text="@string/self_select_add"/>
 </RelativeLayout>

@@ -5,7 +5,9 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
-public class NoScrollViewPager extends ViewPager {
+import com.eshel.currencyspirit.widget.night.NightViewPager;
+
+public class NoScrollViewPager extends NightViewPager {
     private boolean noScroll = true;
   
     public NoScrollViewPager(Context context, AttributeSet attrs) {

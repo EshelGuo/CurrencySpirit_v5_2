@@ -12,8 +12,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.eshel.currencyspirit.util.UIUtil;
+import com.eshel.currencyspirit.widget.night.INight;
+import com.eshel.currencyspirit.widget.night.NightView;
+import com.eshel.currencyspirit.widget.night.NightViewUtil;
 
-public class RecycleViewDivider extends RecyclerView.ItemDecoration {
+public class RecycleViewDivider extends RecyclerView.ItemDecoration implements INight{
 
     private Paint mPaint;
     private Drawable mDivider;
@@ -21,7 +24,7 @@ public class RecycleViewDivider extends RecyclerView.ItemDecoration {
     private int mOrientation;//列表的方向：LinearLayoutManager.VERTICAL或LinearLayoutManager.HORIZONTAL
     private static final int[] ATTRS = new int[]{android.R.attr.listDivider};
 
-    public int bgColor = UIUtil.getColor(android.R.color.white);
+    public int bgColor = NightViewUtil.changeNightColor(UIUtil.getColor(android.R.color.white));
     public int dividerColor = UIUtil.getColor(android.R.color.darker_gray);
     /**
      * 默认分割线：高度为2px，颜色为灰色
@@ -63,6 +66,7 @@ public class RecycleViewDivider extends RecyclerView.ItemDecoration {
      */
     public RecycleViewDivider(Context context, int orientation, int dividerHeight, int dividerColor) {
         this(context, orientation);
+        this.dividerColor = dividerColor;
         mDividerHeight = dividerHeight;
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setColor(dividerColor);
@@ -70,6 +74,7 @@ public class RecycleViewDivider extends RecyclerView.ItemDecoration {
     }
     public RecycleViewDivider(Context context, int orientation, int dividerHeight, int dividerColor,int left, int right) {
         this(context, orientation);
+        dividerColor = NightViewUtil.changeNightColor(dividerColor);
         this.dividerColor = dividerColor;
         mDividerHeight = dividerHeight;
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -149,6 +154,18 @@ public class RecycleViewDivider extends RecyclerView.ItemDecoration {
             if (mPaint != null) {
                 canvas.drawRect(left, top, right, bottom, mPaint);
             }
+        }
+    }
+
+    @Override
+    public void changeNightMode(boolean isNight) {
+        int originalColor = mPaint.getColor();
+        int changedColor = NightViewUtil.changeNightColor(originalColor);
+        int changeBackgroundColor = NightViewUtil.changeNightColor(bgColor);
+        bgColor = changeBackgroundColor;
+        if(changedColor != originalColor){
+            mPaint.setColor(changedColor);
+            dividerColor = changedColor;
         }
     }
 }

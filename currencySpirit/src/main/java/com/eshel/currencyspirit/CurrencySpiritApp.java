@@ -59,16 +59,20 @@ public class CurrencySpiritApp extends BaseApplication{
 		Log.i("appprocess: "+ProcessUtil.getCurrentProcessName(getApplicationContext()));
 		app = this;
 		mainThreadName = Thread.currentThread().getName();
-		String currentProcessName = ProcessUtil.getCurrentProcessName(getApplicationContext());
-		if(currentProcessName.equals(getPackageName())) {
+//		String currentProcessName = ProcessUtil.getCurrentProcessName(getApplicationContext());
+		if(/*currentProcessName.equals(getPackageName())*/true) {
 			mainOnCreate();
 			UIUtil.debugToast("信鸽推送 开始注册");
 		}else {
-			otherOnCreate(currentProcessName);
+//			otherOnCreate(currentProcessName);
 		}
 	}
 	static boolean registerSuccess;
+	boolean mainCreated;
 	public void mainOnCreate(){
+		if(mainCreated)
+			return;
+		mainCreated = true;
 		FileDownloader.setup(this);
 //		FileDownloadLog.NEED_LOG = true;
 		StatConfig.setDebugEnable(false);
@@ -160,7 +164,7 @@ public class CurrencySpiritApp extends BaseApplication{
 			public void run() {
 				if(!registerSuccess){
 					UIUtil.debugToast("信鸽推送 尝试重新注册");
-					getApp().mainOnCreate();
+					getApp().registerXGPush();
 				}
 			}
 		},10000);

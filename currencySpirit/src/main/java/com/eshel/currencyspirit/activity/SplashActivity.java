@@ -39,6 +39,7 @@ import baseproject.permission.Permissions;
 import baseproject.permission.RequestPermissionUtil;
 import baseproject.util.Log;
 import baseproject.util.StringUtils;
+import baseproject.util.ViewUtil;
 import baseproject.util.shape.ShapeUtil;
 import xgpush.XGMsage;
 
@@ -231,7 +232,6 @@ public class SplashActivity extends BaseActivity {
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
-		getWindow().setBackgroundDrawable(new ColorDrawable(UIUtil.getColor(R.color.white)));
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_splash);
 		if(!CurrencySpiritApp.isExit) {

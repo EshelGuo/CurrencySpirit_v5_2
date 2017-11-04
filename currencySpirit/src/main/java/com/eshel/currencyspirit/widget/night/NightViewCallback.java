@@ -3,15 +3,18 @@ package com.eshel.currencyspirit.widget.night;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.DrawableRes;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.eshel.currencyspirit.R;
+import com.eshel.currencyspirit.activity.OptionActivity;
 import com.eshel.currencyspirit.util.UIUtil;
 import com.eshel.currencyspirit.widget.OptionItemView;
 
+import baseproject.base.BaseActivity;
 import baseproject.util.Log;
 import baseproject.util.ViewUtil;
 
@@ -88,6 +91,18 @@ public class NightViewCallback {
 		if(view instanceof ImageView){
 			ImageView imageView = (ImageView) view;
 			imageView.setImageDrawable(imageView.getDrawable());
+		}
+		if(view instanceof RecyclerView){
+			RecyclerView recyclerView = (RecyclerView) view;
+			if(recyclerView.getAdapter() != null){
+				recyclerView.getAdapter().notifyDataSetChanged();
+			}
+			if(recyclerView instanceof NightRecyclerView){
+				NightRecyclerView nightRecyclerView = (NightRecyclerView) recyclerView;
+				if(nightRecyclerView.mItemDecoration instanceof INight){
+					((INight) nightRecyclerView.mItemDecoration).changeNightMode(NightViewUtil.getNightMode());
+				}
+			}
 		}
 	}
 	public boolean isSetResourse = false;

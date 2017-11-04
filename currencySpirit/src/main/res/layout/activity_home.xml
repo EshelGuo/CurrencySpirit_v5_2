@@ -11,6 +11,7 @@
         android:layout_height="@dimen/bottombar_height"
         android:layout_alignParentBottom="true"
         app:bb_activeTabColor="@color/tabColor"
+        app:bb_inActiveTabColor="@color/bottomTabColor"
         app:bb_tabXmlResource="@xml/bottombar_menu"/>
     <com.eshel.currencyspirit.widget.NoScrollViewPager
         android:id="@+id/vp_main"

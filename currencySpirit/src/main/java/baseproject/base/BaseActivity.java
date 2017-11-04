@@ -2,6 +2,7 @@ package baseproject.base;
 
 import android.app.Service;
 import android.content.pm.ActivityInfo;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
@@ -19,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.eshel.currencyspirit.R;
+import com.eshel.currencyspirit.activity.SplashActivity;
 import com.eshel.currencyspirit.util.UIUtil;
 import com.eshel.currencyspirit.widget.night.NightViewUtil;
 import com.tencent.stat.StatService;
@@ -51,7 +53,7 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
 	private RelativeLayout mTitle;
 	private FrameLayout mContent;
 	private View mContentView;
-
+	public boolean needBackground = true;
 	public static BaseActivity getActivity(Class clazz) {
 		return activitys.get(clazz);
 	}
@@ -65,6 +67,10 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		LayoutInflater inflater = LayoutInflater.from(this);
 		LayoutInflaterCompat.setFactory(inflater,new ViewFactory());
+		// 无效
+		if(needBackground)
+			getWindow().setBackgroundDrawable(new ColorDrawable(
+							NightViewUtil.changeNightColor(UIUtil.getColor(R.color.day_option_bg))));
 		super.onCreate(savedInstanceState);
 		super.setContentView(R.layout.activity_base);
 

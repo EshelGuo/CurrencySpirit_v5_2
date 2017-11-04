@@ -59,6 +59,7 @@ public class OptionActivity extends BaseActivity {
 		mMessageOnoff.setChecked(ShapeUtil.get(AppConstant.key_push, true));
 		mNightMode.setChecked(NightViewUtil.getNightMode());
 		setSwipeBackEnable(true);
+
 //		mCleanCache.setItemText(FileUtils.fileSizeFormat(getCacheDir().length()));
 	}
 

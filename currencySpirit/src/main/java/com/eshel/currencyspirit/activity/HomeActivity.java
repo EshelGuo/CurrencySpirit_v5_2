@@ -24,6 +24,7 @@ import com.eshel.currencyspirit.fragment.EssenceFragment;
 import com.eshel.currencyspirit.fragment.InformationFragment;
 import com.eshel.currencyspirit.fragment.UserFragment;
 import com.eshel.currencyspirit.util.UIUtil;
+import com.eshel.currencyspirit.widget.night.NightViewUtil;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarTab;
 import com.roughike.bottombar.OnTabSelectListener;
@@ -87,12 +88,14 @@ public class HomeActivity extends BaseActivity {
 	private BottomBarTab nearby;
 
 	private void initBottomBar() {
+		bottomBar.setBackgroundResource(R.drawable.bottom_bar_bg);
 		bottomBar.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 			@Override
 			public void onGlobalLayout() {
 				int[] tabIds = {R.id.item_essence, R.id.item_currency, R.id.item_information, R.id.item_user};
 				for (int tabId : tabIds) {
 					BottomBarTab tab = bottomBar.getTabWithId(tabId);
+					tab.setBarColorWhenSelected(NightViewUtil.changeNightColor(UIUtil.getColor(R.color.bottomBarColor)));
 					for (int i = 0; i < tab.getChildCount(); i++) {
 						View child = tab.getChildAt(i);
 						switch (child.getId()) {
@@ -103,6 +106,12 @@ public class HomeActivity extends BaseActivity {
 								layoutParams.weight = 3;
 								icon.setLayoutParams(layoutParams);
 								break;
+							/*case R.id.bb_bottom_bar_title:
+								if(i != 0) {
+									TextView text = (TextView) child;
+									text.setTextColor();
+								}
+								break;*/
 						}
 					}
 				}

@@ -24,7 +24,14 @@
     <color name="text_gray">#888889</color>
     <color name="night_text_gray">#707071</color>
 
+    <color name="tabColor">#007EFB</color>
+    <color name="night_tabColor">#0058af</color>
 
+    <color name="bottomTabColor">#8F8D8F</color>
+    <color name="night_bottomTabColor">#8F8D8F</color>
+
+    <color name="dividerColor">#CCCCCCCC</color>
+    <color name="night_dividerColor">#464647</color>
 
     <color name="colorPrimary">#F8F8F8</color>
     <color name="back_pressed">#aaF8F8F8</color>
@@ -34,12 +41,12 @@
     <color name="edit_hight_color">#88B0BEC5</color>
     <color name="btn_normal_color">#61d7ff</color>
     <color name="btn_pressed_color">#51b9dc</color>
-    <color name="tabColor">#007EFB</color>
-    <color name="dividerColor">#cccc</color>
+
+
 
     <color name="progressbar_drawable">#43BF17</color>
 
-    <color name="white">#fff</color>
+    <color name="white">#ffffff</color>
 
     <color name="violet">#ffaa66cc</color>
 </resources>
