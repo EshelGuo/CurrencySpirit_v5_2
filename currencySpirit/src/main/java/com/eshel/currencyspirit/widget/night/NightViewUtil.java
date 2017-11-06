@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import baseproject.interfaces.Utilable;
 import baseproject.util.Log;
 import baseproject.util.ReflectUtil;
+import baseproject.util.ViewUtil;
 import baseproject.util.shape.ShapeUtil;
 
 /**
@@ -56,17 +57,11 @@ public class NightViewUtil implements Utilable{
 			int index = dayColors.indexOf(color);
 			if(index != -1){
 				color = nightColors.get(index);
-			}else {
-				if(nightColors.indexOf(color) == -1)
-					color = Color.RED;
 			}
-		}else {
+		} else {
 			int index = nightColors.indexOf(color);
 			if(index != -1){
 				color = dayColors.get(index);
-			}else {
-				if(dayColors.indexOf(color) == -1)
-					color = Color.GREEN;
 			}
 		}
 		return color;

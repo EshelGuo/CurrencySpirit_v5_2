@@ -10,6 +10,8 @@ import android.view.View;
 import com.eshel.config.AppConstant;
 import com.eshel.currencyspirit.CurrencySpiritApp;
 import com.eshel.currencyspirit.R;
+import com.eshel.currencyspirit.factory.FragmentFactory;
+import com.eshel.currencyspirit.fragment.CurrencyFragment;
 import com.eshel.currencyspirit.util.UIUtil;
 import com.eshel.currencyspirit.widget.OptionItemView;
 import com.eshel.currencyspirit.widget.night.NightViewUtil;
@@ -106,7 +108,7 @@ public class OptionActivity extends BaseActivity {
 				NightViewUtil.changeNightMode(!NightViewUtil.getNightMode(),this);
 				try {
 					HomeActivity homeActivity = (HomeActivity) BaseActivity.getActivity(HomeActivity.class);
-					if (homeActivity != null && !homeActivity.isDestroyed())
+					if (homeActivity != null)
 						NightViewUtil.changeNightMode(NightViewUtil.getNightMode(), homeActivity);
 				}catch(Throwable e){
 					e.printStackTrace();

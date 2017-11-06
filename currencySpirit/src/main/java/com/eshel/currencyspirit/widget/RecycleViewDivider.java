@@ -16,6 +16,8 @@ import com.eshel.currencyspirit.widget.night.INight;
 import com.eshel.currencyspirit.widget.night.NightView;
 import com.eshel.currencyspirit.widget.night.NightViewUtil;
 
+import baseproject.util.Log;
+
 public class RecycleViewDivider extends RecyclerView.ItemDecoration implements INight{
 
     private Paint mPaint;
@@ -111,6 +113,10 @@ public class RecycleViewDivider extends RecyclerView.ItemDecoration implements I
 
     //绘制横向 item 分割线
     private void drawHorizontal(Canvas canvas, RecyclerView parent) {
+        /*if("abc".equals(parent.getTag())){
+            Log.i("");
+        }*/
+        changeNightMode(NightViewUtil.getNightMode());
         int left = parent.getPaddingLeft();
         if(paddingleft != 0)
             left+=paddingleft;

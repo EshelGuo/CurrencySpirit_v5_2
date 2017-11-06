@@ -70,6 +70,7 @@ public class EssenceFragment extends BaseFragment {
 	public View getLoadSuccessView() {
 		ViewGroup parent = (ViewGroup) View.inflate(getActivity(), R.layout.view_essence, null);
 		mRv_essence = (PullToRefreshRecyclerView) parent.findViewById(R.id.rv_essence);
+		mRv_essence.setProgressBackgroundColorSchemeColor(UIUtil.getColor(R.color.text_white));
 		mRv_essence.setSwipeEnable(true);//open swipe
 		mRv_essence.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 		mRv_essence.getRecyclerView().addItemDecoration(new RecycleViewDivider(getActivity(),LinearLayoutManager.HORIZONTAL,
@@ -222,21 +223,22 @@ public class EssenceFragment extends BaseFragment {
 				@Override
 				public void onClick(View v) {
 					essenceModel.isClicked = true;
-					if(essenceModel.isClicked){
-						title.setTextColor(UIUtil.getColor(android.R.color.darker_gray));
-					}else {
-						title.setTextColor(UIUtil.getColor(android.R.color.black));
-					}
+					changeTextColor(essenceModel,time,title);
 					EssenceViewModel.addDataToHistory(essenceModel);
 					Intent intent = new Intent(getActivity(), EssenceDetailsActivity.class);
 					intent.putExtra(EssenceDetailsActivity.key,essenceModel);
 					startActivity(intent);
 				}
 			});
-			if(essenceModel.isClicked){
-				title.setTextColor(UIUtil.getColor(android.R.color.darker_gray));
-			}else {
-				title.setTextColor(UIUtil.getColor(android.R.color.black));
+			changeTextColor(essenceModel,time,title);
+		}
+		private void changeTextColor(EssenceModel model, TextView ... textview){
+			for (TextView textView : textview) {
+				if(model.isClicked){
+					textView.setTextColor(UIUtil.getColor(android.R.color.darker_gray));
+				}else {
+					textView.setTextColor(UIUtil.getColor(android.R.color.black));
+				}
 			}
 		}
 	}

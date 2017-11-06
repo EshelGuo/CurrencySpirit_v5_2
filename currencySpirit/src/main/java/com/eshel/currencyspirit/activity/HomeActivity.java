@@ -230,5 +230,8 @@ public class HomeActivity extends BaseActivity {
 		if(XGMsage.msg != null){
 			XGMsage.showMsg(this);
 		}
+		CurrencyFragment fragment = (CurrencyFragment) FragmentFactory.getFragment(CurrencyFragment.class);
+		if(fragment != null)
+			fragment.notifyView();
 	}
 }

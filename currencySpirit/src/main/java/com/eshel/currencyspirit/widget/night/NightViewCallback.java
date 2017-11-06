@@ -80,7 +80,7 @@ public class NightViewCallback {
 			if(mDrawable != null)
 				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 					view.setBackground(mDrawable);
-				}else {
+				} else {
 					view.setBackgroundDrawable(mDrawable);
 				}
 		}

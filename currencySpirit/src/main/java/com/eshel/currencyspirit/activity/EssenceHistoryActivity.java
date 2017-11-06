@@ -62,6 +62,7 @@ public class EssenceHistoryActivity extends BaseActivity {
 	}
 
 	public void init() {
+		mRvEssence.setProgressBackgroundColorSchemeColor(UIUtil.getColor(R.color.text_white));
 		mRvEssence.setSwipeEnable(true);//open swipe
 		mRvEssence.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 		mRvEssence.getRecyclerView().addItemDecoration(new RecycleViewDivider(this,LinearLayoutManager.HORIZONTAL,

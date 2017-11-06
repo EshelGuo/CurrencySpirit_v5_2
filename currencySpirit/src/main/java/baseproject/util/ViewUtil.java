@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -123,5 +124,32 @@ public class ViewUtil {
 			}
 		}
 		return sb.toString();
+	}
+
+	@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+	public static void hideStateBar(Activity activity){
+		int uiFlags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+				| View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+				| View.SYSTEM_UI_FLAG_FULLSCREEN;
+		uiFlags |= 0x00001000;
+		activity.getWindow().getDecorView().setSystemUiVisibility(uiFlags);
+	}
+	@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+	public static void showStateBar(Activity activity){
+		activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | 0x00001000);
+	}
+	@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+	private void hideNavigationBar(Activity activity) {
+		View decorView = activity.getWindow().getDecorView();
+		int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+				| View.SYSTEM_UI_FLAG_FULLSCREEN;
+		decorView.setSystemUiVisibility(uiOptions);
+	}
+
+	@RequiresApi(api = Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+	private void showNavigationBar(Activity activity) {
+		View decorView = activity.getWindow().getDecorView();
+		int uiOptions = View.SYSTEM_UI_FLAG_VISIBLE;
+		decorView.setSystemUiVisibility(uiOptions);
 	}
 }

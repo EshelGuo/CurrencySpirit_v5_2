@@ -24,7 +24,7 @@
         <activity
             android:exported="true"
             android:name=".activity.SplashActivity"
-            android:theme="@style/TranslucentTheme">
+            android:theme="@style/NoStateBarStyle">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

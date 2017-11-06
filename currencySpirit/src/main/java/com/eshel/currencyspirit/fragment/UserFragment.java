@@ -106,6 +106,8 @@ public class UserFragment extends BaseFragment {
 		OptionItemView itemOption;
 		@BindView(R.id.OverScroller)
 		OverScrollView OverScroller;
+		public SuccessViewHolder(){
+		}
 	}
 
 	@Override

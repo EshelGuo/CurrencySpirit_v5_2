@@ -1,6 +1,7 @@
 package com.eshel.currencyspirit.fragment.currency;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -16,11 +17,14 @@ import com.eshel.currencyspirit.activity.CurrencyDetailsActivity;
 import com.eshel.currencyspirit.activity.SearchCurrencyActivity;
 import com.eshel.currencyspirit.util.UIUtil;
 import com.eshel.currencyspirit.widget.RecycleViewDivider;
+import com.eshel.currencyspirit.widget.night.NightViewUtil;
 import com.eshel.currencyspirit.widget.util.Config;
 import com.eshel.currencyspirit.widget.util.LoadMoreView;
 import com.eshel.model.CurrencyModel;
 import com.eshel.viewmodel.BaseViewModel;
 import com.lhh.ptrrv.library.PullToRefreshRecyclerView;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -58,6 +62,7 @@ public abstract class CurrencyBaseFragment extends BaseFragment{
 		if(mRoot == null) {
 			mRoot = View.inflate(getActivity(), R.layout.view_currency_child, null);
 			mRv_currency = (PullToRefreshRecyclerView) mRoot.findViewById(R.id.rv_currency);
+			mRv_currency.setProgressBackgroundColorSchemeColor(UIUtil.getColor(R.color.text_white));
 			mRv_currency.getRecyclerView().addItemDecoration(new RecycleViewDivider(getActivity(), LinearLayoutManager.HORIZONTAL,
 					DensityUtil.dp2px(Config.dividerHeight), UIUtil.getColor(R.color.dividerColor),
 					DensityUtil.dp2px(10), DensityUtil.dp2px(10)));
@@ -96,7 +101,7 @@ public abstract class CurrencyBaseFragment extends BaseFragment{
 			});
 			mRv_currency.onFinishLoading(true, false);
 		}
-
+		mRv_currency.getRecyclerView().setTag("abc");
 		return mRoot;
 	}
 	
@@ -193,8 +198,16 @@ public abstract class CurrencyBaseFragment extends BaseFragment{
 			itemView.setBackgroundResource(R.drawable.item_selector);
 			tvPercent.setWidth(UIUtil.getScreenWidth() / 5);
 		}
+		private void changeTextColor(){
+			tvRankChinesename.setTextColor(UIUtil.getColor(R.color.text_gray));
+			tvSymbo.setTextColor(UIUtil.getColor(R.color.black));
+			tvTurnnumber.setTextColor(UIUtil.getColor(R.color.text_gray));
+			tvPercent.setTextColor(UIUtil.getColor(R.color.text_white));
+			tvPrice.setTextColor(UIUtil.getColor(R.color.black));
+		}
 
 		public void bindDataToView(final CurrencyModel currencyModel) {
+			changeTextColor();
 			tvSymbo.setText(currencyModel.symbol);
 			tvRankChinesename.setText(String.format("#%d, %s",currencyModel.rank,currencyModel.chinesename));
 			tvTurnnumber.setText(CurrencyModel.moneyFormat(UIUtil.getString(R.string.market_value)+"$",currencyModel.turnnumber));
@@ -206,8 +219,10 @@ public abstract class CurrencyBaseFragment extends BaseFragment{
 				}
 			}
 			tvPercent.setText(percent +"%");
-			tvPercent.setBackgroundResource(
+			Drawable drawable = getActivity().getResources().getDrawable(
 					currencyModel.percent < 0 ? R.drawable.drawable_percent_down : R.drawable.drawable_percent_up);
+			NightViewUtil.changeNightDrawable(drawable);
+			tvPercent.setBackgroundDrawable(drawable);
 			itemView.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {

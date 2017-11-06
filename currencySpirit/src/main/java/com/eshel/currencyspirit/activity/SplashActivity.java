@@ -1,18 +1,16 @@
 package com.eshel.currencyspirit.activity;
 
 import android.Manifest;
-import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.ActionBar;
@@ -233,6 +231,9 @@ public class SplashActivity extends BaseActivity {
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		/*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+			ViewUtil.hideStateBar(this);
+		}*/
 		setContentView(R.layout.activity_splash);
 		if(!CurrencySpiritApp.isExit) {
 			enterHomeByMsg();
@@ -248,7 +249,7 @@ public class SplashActivity extends BaseActivity {
 		requestPermission();
 	}
 	@Override
-	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 		RequestPermissionUtil.onRequestPermissionsResult(this,requestCode, permissions, grantResults);
 		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 	}

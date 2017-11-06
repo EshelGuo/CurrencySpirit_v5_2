@@ -1,6 +1,7 @@
 package com.eshel.currencyspirit.fragment;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -61,6 +62,7 @@ public class InformationFragment extends BaseFragment {
 	public View getLoadSuccessView() {
 		ViewGroup parent = (ViewGroup) View.inflate(getActivity(), R.layout.view_information, null);
 		mRv_Information = (PullToRefreshRecyclerView) parent.findViewById(R.id.rv_information);
+		mRv_Information.setProgressBackgroundColorSchemeColor(UIUtil.getColor(R.color.text_white));
 		mRv_Information.setSwipeEnable(true);//open swipe
 		mRv_Information.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 		mRv_Information.getRecyclerView().addItemDecoration(new RecycleViewDivider(getActivity(), LinearLayoutManager.HORIZONTAL,
@@ -190,6 +192,8 @@ public class InformationFragment extends BaseFragment {
 		}
 
 		public void bindDataToView(final InformationModel informationModel) {
+			mTvTitle.setTextColor(Color.BLACK);
+			mTvDesc.setTextColor(UIUtil.getColor(R.color.text_gray));
 			mTvTime.setText(StringUtils.timeFormat(informationModel.update_time));
 			mTvTitle.setText(informationModel.wbname);
 			mTvDesc.setText(informationModel.text);

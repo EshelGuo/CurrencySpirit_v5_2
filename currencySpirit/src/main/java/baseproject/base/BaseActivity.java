@@ -86,7 +86,10 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
 		});
 		hideActionBar();
 		mTitle.setBackgroundResource(R.drawable.title_bg);
-		ViewUtil.changeStateBarColor(this, UIUtil.getColor(R.color.titleColor));
+		if(this instanceof SplashActivity)
+			;
+		else
+			ViewUtil.changeStateBarColor(this, UIUtil.getColor(R.color.titleColor));
 		hideTitle();
 		activitys.put(getClass(), this);
 		mHelper = new SwipeBackActivityHelper(this);

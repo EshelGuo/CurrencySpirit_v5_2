@@ -14,6 +14,9 @@ import com.lhh.ptrrv.library.PullToRefreshRecyclerView;
  */
 
 public class NightPullToRefreshRecyclerView extends PullToRefreshRecyclerView implements INight{
+
+	private int mSchemecolor;
+
 	public NightPullToRefreshRecyclerView(Context context) {
 		super(context);
 	}
@@ -36,6 +39,9 @@ public class NightPullToRefreshRecyclerView extends PullToRefreshRecyclerView im
 	@Override
 	public void changeNightMode(boolean isNight) {
 		getCallback().changeNightMode(this,isNight);
+		if(mSchemecolor != 0){
+			setProgressBackgroundColorSchemeColor(mSchemecolor);
+		}
 	}
 	private NightViewCallback mCallback;
 	public NightViewCallback getCallback(){
@@ -43,5 +49,12 @@ public class NightPullToRefreshRecyclerView extends PullToRefreshRecyclerView im
 			mCallback = new NightViewCallback();
 		}
 		return mCallback;
+	}
+
+	@Override
+	public void setProgressBackgroundColorSchemeColor(@ColorInt int color) {
+		color = NightViewUtil.changeNightColor(color);
+		mSchemecolor = color;
+		super.setProgressBackgroundColorSchemeColor(color);
 	}
 }

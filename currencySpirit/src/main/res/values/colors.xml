@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="text_white">#fffffe</color>
+    <color name="night_text_white">#707069</color>
+
     <color name="titleColor">#a8a8a8</color>
     <color name="night_titleColor">#252525</color>
 

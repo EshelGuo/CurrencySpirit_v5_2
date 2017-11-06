@@ -193,6 +193,8 @@ public class OptionItemView extends NightFrameLayout {
 		tvTitle.setBackgroundColor(0xffffffff);
 		ivIcon.setBackgroundColor(0xffffffff);
 		setBackgroundColor(UIUtil.getColor(R.color.day_option_item_line_bg));
+		tvTitle.setTextColor(UIUtil.getColor(R.color.black));
+		mTvDesc.setTextColor(UIUtil.getColor(R.color.text_gray));
 	}
 
 	public void setIcon(int resId) {

@@ -1,5 +1,7 @@
 package com.eshel.currencyspirit.fragment;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,6 +19,7 @@ import com.eshel.currencyspirit.fragment.currency.AOIFragment;
 import com.eshel.currencyspirit.fragment.currency.MarketValueFragment;
 import com.eshel.currencyspirit.fragment.currency.SelfSelectFragment;
 import com.eshel.currencyspirit.util.UIUtil;
+import com.eshel.currencyspirit.widget.night.NightViewUtil;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
 import baseproject.base.BaseFragment;
@@ -71,11 +74,15 @@ public class CurrencyFragment extends BaseFragment {
 							AOIFragment aoiFragment = (AOIFragment) FragmentFactory.getFragment(AOIFragment.class);
 							aoiFragment.changeState(textView);
 						}
-					}else {
+					} else {
 						UIUtil.debugToast("tab被点击了 position: " + position);
 					}
 				}
 			});
+			for (int i = 0; i < mCurrencyAdapter.getCount(); i++) {
+				TextView tab = (TextView) this.tab.getTabAt(i);
+				tab.setTextColor(UIUtil.getColor(R.color.black));
+			}
 			TextView textView = (TextView) tab.getTabAt(zhangfu).findViewById(R.id.currency_tab_textview);
 			Drawable drawable = getResources().getDrawable(R.drawable.sort_arrow_up);
 			drawable.setBounds(0,0,drawable.getMinimumWidth(),drawable.getMinimumHeight());
@@ -86,6 +93,13 @@ public class CurrencyFragment extends BaseFragment {
 
 	@Override
 	public void notifyView() {
+		NightViewUtil.changeNightMode(NightViewUtil.getNightMode(),this);
+		if(mCurrencyAdapter != null){
+			for (int i = 0; i < mCurrencyAdapter.getCount(); i++) {
+				Fragment item = mCurrencyAdapter.getItem(i);
+				NightViewUtil.changeNightMode(NightViewUtil.getNightMode(),item);
+			}
+		}
 	}
 
 	@Override

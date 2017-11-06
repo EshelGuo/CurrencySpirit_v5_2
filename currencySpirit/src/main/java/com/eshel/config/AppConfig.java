@@ -1,5 +1,7 @@
 package com.eshel.config;
 
+import android.graphics.Color;
+
 import com.eshel.currencyspirit.R;
 import com.eshel.currencyspirit.util.UIUtil;
 import com.eshel.currencyspirit.widget.night.NightViewUtil;
@@ -74,6 +76,12 @@ public class AppConfig {
 		NightViewUtil.addColor(
 				UIUtil.getColor(R.color.bottomBarColor),
 				UIUtil.getColor(R.color.night_bottomBarColor));
+		NightViewUtil.addColor(
+				UIUtil.getColor(R.color.text_white),
+				UIUtil.getColor(R.color.night_text_white));
+		NightViewUtil.addColor(
+				UIUtil.getColor(android.R.color.darker_gray),
+				Color.parseColor("#dddddd"));
 		// TODO: 2017/10/31  添加颜色
 	}
 
