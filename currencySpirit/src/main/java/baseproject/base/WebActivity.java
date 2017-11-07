@@ -56,6 +56,7 @@ public abstract class WebActivity extends BaseActivity {
 		setSwipeBackEnable(true);
 	}
 	private boolean loadFailed;
+	private int tempProgress;
 	private void initWebView() {
 		if(NightViewUtil.getNightMode()) {
 			mWebView.setBackgroundColor(Color.parseColor("#2e2e2e"));
@@ -130,20 +131,26 @@ public abstract class WebActivity extends BaseActivity {
 						isReadLoad = false;
 					}
 				}else {
-					if(newProgress >= 50){
-						if(!loadedJS) {
-							loadedJS = true;
-							if (NightViewUtil.getNightMode()) {
-								view.loadUrl("javascript:nightMode();" +
-										"function nightMode(){" +
-										"document.getElementsByTagName('body')[0].style.backgroundColor='#2e2e2e';}");
-							}
-						}
-					}
+
 					if(mProgressBar.getVisibility() == View.GONE)
 						mProgressBar.setVisibility(View.VISIBLE);
 					mProgressBar.setProgress(newProgress);
 					mProgressBar.invalidate();
+				}
+				if(newProgress >= tempProgress){
+					tempProgress=((int)(newProgress*1.0f/10.0f))*10+10;
+					if(tempProgress > 100)
+						tempProgress = 100;
+					if(newProgress == 100)
+						tempProgress = 0;
+//					if(!loadedJS) {
+//						loadedJS = true;
+						if (NightViewUtil.getNightMode()) {
+							view.loadUrl("javascript:nightMode();" +
+									"function nightMode(){" +
+									"document.getElementsByTagName('body')[0].style.backgroundColor='#2e2e2e';}");
+						}
+//					}
 				}
 				super.onProgressChanged(view, newProgress);
 			}
