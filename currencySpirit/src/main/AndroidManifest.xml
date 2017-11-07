@@ -36,10 +36,12 @@
             android:name=".activity.HomeActivity"/>
         <activity
             android:exported="true"
+            android:hardwareAccelerated="false"
             android:theme="@style/BackgroundTranslucentTheme"
             android:name=".activity.EssenceDetailsActivity"/>
         <activity
             android:exported="true"
+            android:hardwareAccelerated="false"
             android:theme="@style/BackgroundTranslucentTheme"
             android:name=".activity.CurrencyDetailsActivity"/>
         <activity
@@ -48,6 +50,7 @@
             android:name=".activity.EssenceHistoryActivity"/>
         <activity
             android:exported="true"
+            android:hardwareAccelerated="false"
             android:theme="@style/BackgroundTranslucentTheme"
             android:name=".activity.WeiboDetailsActivity"/>
         <activity

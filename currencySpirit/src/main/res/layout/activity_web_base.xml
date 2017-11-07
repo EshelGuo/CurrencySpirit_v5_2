@@ -19,6 +19,7 @@
         android:layout_height="3dp"/>
     <WebView
         android:id="@+id/wv_essence"
+        android:layerType="software"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 </LinearLayout>

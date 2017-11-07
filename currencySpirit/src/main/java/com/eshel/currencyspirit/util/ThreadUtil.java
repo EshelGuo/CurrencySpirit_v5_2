@@ -1,6 +1,7 @@
 package com.eshel.currencyspirit.util;
 
 import android.os.Handler;
+import android.os.Looper;
 
 import com.eshel.currencyspirit.CurrencySpiritApp;
 
@@ -11,6 +12,8 @@ import com.eshel.currencyspirit.CurrencySpiritApp;
 
 public class ThreadUtil {
 	public static boolean isMainThread(){
+		if(Looper.myLooper() == Looper.getMainLooper())
+			return true;
 		if(Thread.currentThread().getName().equals(CurrencySpiritApp.getMainThreadName()))
 			return true;
 		else

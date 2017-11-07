@@ -1,5 +1,7 @@
 package baseproject.base;
 
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.KeyEvent;
@@ -15,6 +17,7 @@ import android.widget.ProgressBar;
 import com.eshel.currencyspirit.R;
 import com.eshel.currencyspirit.util.ThreadUtil;
 import com.eshel.currencyspirit.util.UIUtil;
+import com.eshel.currencyspirit.widget.night.NightViewUtil;
 
 import baseproject.util.NetUtils;
 import butterknife.BindView;
@@ -42,6 +45,7 @@ public abstract class WebActivity extends BaseActivity {
 		setContentView(R.layout.activity_web_base);
 		hideActionBar();
 		ButterKnife.bind(this,getContentView());
+
 		View view = initTitleView();
 		if(view != null)
 			mTitle.addView(view,
@@ -52,12 +56,15 @@ public abstract class WebActivity extends BaseActivity {
 	}
 	private boolean loadFailed;
 	private void initWebView() {
+		if(NightViewUtil.getNightMode()) {
+			mWebView.setBackgroundColor(Color.parseColor("#2e2e2e"));
+			mProgressBar.setBackgroundColor(Color.parseColor("#2e2e2e"));
+		}
 		WebSettings settings = mWebView.getSettings();
-
 		settings.setCacheMode(NetUtils.hasNetwork(this) ? WebSettings.LOAD_DEFAULT : WebSettings.LOAD_CACHE_ELSE_NETWORK);
 		settings.setJavaScriptEnabled(true);
 		mWebView.addJavascriptInterface(new LoadFailedJs(this),"LoadFailedJs");
-
+		mWebView.addJavascriptInterface(new InJavaScriptLocalObj(),"local_obj");
 		settings.setUseWideViewPort(true);
 		settings.setLoadWithOverviewMode(true);
 		settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
@@ -66,6 +73,38 @@ public abstract class WebActivity extends BaseActivity {
 		settings.setDisplayZoomControls(false);
 
 		mWebView.setWebViewClient(new WebViewClient(){
+
+			@Override
+			public void onPageStarted(WebView view, String url, Bitmap favicon) {
+				super.onPageStarted(view, url, favicon);
+			}
+
+			@Override
+			public boolean shouldOverrideUrlLoading(WebView view, String url) {
+				view.loadUrl(url);
+				return true;
+			}
+
+			@Override
+			public void onPageFinished(WebView view, String url) {
+				super.onPageFinished(view, url);
+				if("file:///android_asset/currency/offline.html".equals(url)){
+					if(NightViewUtil.getNightMode()) {
+						mWebView.loadUrl("javascript:nightMode()");
+					}
+				}else {
+					view.loadUrl("javascript:window.local_obj.showSource('<head>'+"+
+							"document.getElementsByTagName('html')[0].innerHTML+'</head>');");
+				}
+				/*view.postDelayed(new Runnable() {
+					@Override
+					public void run() {
+						String  js = "document.getElementsByTagName('body')[0].style.background='#2e2e2e'";
+					}
+				},500);*/
+
+			}
+
 			@Override
 			public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
 				view.loadUrl("file:///android_asset/currency/offline.html");
@@ -74,6 +113,7 @@ public abstract class WebActivity extends BaseActivity {
 			}
 		});
 		mWebView.setWebChromeClient(new WebChromeClient(){
+
 			@Override
 			public void onProgressChanged(WebView view, int newProgress) {
 //				Log.i(newProgress);
@@ -97,15 +137,20 @@ public abstract class WebActivity extends BaseActivity {
 	public abstract View initTitleView();
 	public void loadUrl(String url){
 		this.url = url;
-		if(ThreadUtil.isMainThread())
-			mWebView.loadUrl(url);
-		else
+		if(ThreadUtil.isMainThread()) {
+			loadUrlAndJS(url);
+		} else {
 			ThreadUtil.getHandler().post(new Runnable() {
 				@Override
 				public void run() {
-					mWebView.loadUrl(WebActivity.this.url);
+					loadUrlAndJS(WebActivity.this.url);
 				}
 			});
+		}
+	}
+
+	private void loadUrlAndJS(String url){
+		mWebView.loadUrl(url);
 	}
 
 	@Override
@@ -192,5 +237,19 @@ public abstract class WebActivity extends BaseActivity {
 
 	public WebSettings getSettings(){
 		return mWebView.getSettings();
+	}
+
+	public class InJavaScriptLocalObj{
+
+		public void showSource(String html) {
+			if(!NightViewUtil.getNightMode())
+				return;
+			int index = html.indexOf("</html>");
+			StringBuilder sb = new StringBuilder();
+			sb.append(html.substring(0,index));
+			sb.append("<script type=\"text/javascript\">document.getElementsByTagName('body')[0].style.backgroundColor='#2e2e2e';</script>");
+			sb.append(html.substring(index,html.length()));
+			mWebView.loadData(sb.toString(),"text/html; charset=UTF-8", "UTF-8");
+		}
 	}
 }
