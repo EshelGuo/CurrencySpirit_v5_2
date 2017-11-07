@@ -38,6 +38,7 @@ public abstract class WebActivity extends BaseActivity {
 
 	private String url;
 	private boolean isReadLoad = false;
+	private boolean loadedJS = false;
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,7 +65,7 @@ public abstract class WebActivity extends BaseActivity {
 		settings.setCacheMode(NetUtils.hasNetwork(this) ? WebSettings.LOAD_DEFAULT : WebSettings.LOAD_CACHE_ELSE_NETWORK);
 		settings.setJavaScriptEnabled(true);
 		mWebView.addJavascriptInterface(new LoadFailedJs(this),"LoadFailedJs");
-		mWebView.addJavascriptInterface(new InJavaScriptLocalObj(),"local_obj");
+//		mWebView.addJavascriptInterface(new InJavaScriptLocalObj(),"local_obj");
 		settings.setUseWideViewPort(true);
 		settings.setLoadWithOverviewMode(true);
 		settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
@@ -87,15 +88,20 @@ public abstract class WebActivity extends BaseActivity {
 
 			@Override
 			public void onPageFinished(WebView view, String url) {
-				super.onPageFinished(view, url);
+
 				if("file:///android_asset/currency/offline.html".equals(url)){
 					if(NightViewUtil.getNightMode()) {
 						mWebView.loadUrl("javascript:nightMode()");
 					}
 				}else {
-					view.loadUrl("javascript:window.local_obj.showSource('<head>'+"+
-							"document.getElementsByTagName('html')[0].innerHTML+'</head>');");
+					loadedJS = false;
+					if(NightViewUtil.getNightMode()) {
+						view.loadUrl("javascript:nightMode();" +
+								"function nightMode(){" +
+								"document.getElementsByTagName('body')[0].style.backgroundColor='#2e2e2e';}");
+					}
 				}
+				super.onPageFinished(view, url);
 				/*view.postDelayed(new Runnable() {
 					@Override
 					public void run() {
@@ -124,6 +130,16 @@ public abstract class WebActivity extends BaseActivity {
 						isReadLoad = false;
 					}
 				}else {
+					if(newProgress >= 50){
+						if(!loadedJS) {
+							loadedJS = true;
+							if (NightViewUtil.getNightMode()) {
+								view.loadUrl("javascript:nightMode();" +
+										"function nightMode(){" +
+										"document.getElementsByTagName('body')[0].style.backgroundColor='#2e2e2e';}");
+							}
+						}
+					}
 					if(mProgressBar.getVisibility() == View.GONE)
 						mProgressBar.setVisibility(View.VISIBLE);
 					mProgressBar.setProgress(newProgress);
@@ -239,8 +255,8 @@ public abstract class WebActivity extends BaseActivity {
 		return mWebView.getSettings();
 	}
 
-	public class InJavaScriptLocalObj{
-
+/*	final class InJavaScriptLocalObj{
+		@JavascriptInterface
 		public void showSource(String html) {
 			if(!NightViewUtil.getNightMode())
 				return;
@@ -251,5 +267,5 @@ public abstract class WebActivity extends BaseActivity {
 			sb.append(html.substring(index,html.length()));
 			mWebView.loadData(sb.toString(),"text/html; charset=UTF-8", "UTF-8");
 		}
-	}
+	}*/
 }
