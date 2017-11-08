@@ -70,6 +70,7 @@ public class CurrencyDetailsActivity extends WebActivity {
 		public TitleHolder() {
 			mRoot = View.inflate(CurrencyDetailsActivity.this, R.layout.title_currency_details, null);
 			ButterKnife.bind(this,mRoot);
+			mRlTitle.setBackgroundResource(R.drawable.title_bg);
 			mTvAttention.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {

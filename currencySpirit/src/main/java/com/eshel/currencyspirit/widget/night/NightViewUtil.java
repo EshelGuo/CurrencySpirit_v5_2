@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.DrawableContainer;
 import android.graphics.drawable.StateListDrawable;
 import android.support.v4.app.Fragment;
 import android.view.View;
@@ -15,15 +14,11 @@ import android.view.Window;
 
 import com.eshel.config.AppConfig;
 import com.eshel.config.AppConstant;
-import com.eshel.currencyspirit.R;
-import com.eshel.currencyspirit.util.UIUtil;
 
 import java.util.ArrayList;
 
 import baseproject.interfaces.Utilable;
 import baseproject.util.Log;
-import baseproject.util.ReflectUtil;
-import baseproject.util.ViewUtil;
 import baseproject.util.shape.ShapeUtil;
 
 /**
@@ -31,7 +26,6 @@ import baseproject.util.shape.ShapeUtil;
  */
 
 public class NightViewUtil implements Utilable{
-	private static Context mContext;
 	private static ArrayList<Integer> dayResIds = new ArrayList<>();
 	private static ArrayList<Integer> nightResIds = new ArrayList<>();
 
@@ -223,7 +217,6 @@ public class NightViewUtil implements Utilable{
 	@Override
 	public void init(Context context) {
 		AppConfig.isNight = ShapeUtil.get(AppConstant.key_nightMode,false);
-		mContext = context;
 		AppConfig.nightConfig();
 		Log.i("COLOR","dayColors: "+dayColors);
 		Log.i("COLOR","dayColors: "+nightColors);
@@ -231,7 +224,6 @@ public class NightViewUtil implements Utilable{
 
 	@Override
 	public void deInit() {
-		mContext = null;
 		dayColors.clear();
 		nightColors.clear();
 		dayResIds.clear();

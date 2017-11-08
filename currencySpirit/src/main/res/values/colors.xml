@@ -42,8 +42,13 @@
     <color name="colorPrimaryDark">#c8c8c8</color>
     <color name="colorAccent">@color/tabColor</color><!--#FF4081-->
     <color name="edit_hight_color">#88B0BEC5</color>
+
+
     <color name="btn_normal_color">#61d7ff</color>
+    <color name="night_btn_normal_color">#47a2c1</color>
+
     <color name="btn_pressed_color">#51b9dc</color>
+    <color name="night_btn_pressed_color">#307086</color>
 
 
 

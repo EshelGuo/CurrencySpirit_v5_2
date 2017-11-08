@@ -13,6 +13,7 @@ import android.view.ViewTreeObserver;
 import android.widget.EditText;
 
 import com.eshel.currencyspirit.R;
+import com.eshel.currencyspirit.widget.night.NightEditText;
 
 /**
  * createBy Eshel
@@ -20,7 +21,7 @@ import com.eshel.currencyspirit.R;
  * desc: TODO
  */
 
-public class SearchView extends android.support.v7.widget.AppCompatEditText {
+public class SearchView extends NightEditText {
 
 	private float mDownX = -1;
 

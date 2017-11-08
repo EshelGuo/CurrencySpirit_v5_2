@@ -39,6 +39,12 @@ public class AppConfig {
 		NightViewUtil.addResId(
 				R.drawable.bottom_bar_bg,
 				R.drawable.night_bottom_bar_bg);
+		NightViewUtil.addResId(
+				R.drawable.search_drawable,
+				R.drawable.night_search_drawable);
+		NightViewUtil.addResId(
+				R.drawable.btn_selector,
+				R.drawable.night_btn_selector);
 
 		NightViewUtil.addColor(
 				UIUtil.getColor(R.color.day_option_bg),

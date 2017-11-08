@@ -39,6 +39,8 @@ public class SearchCurrencyActivity extends BaseActivity {
 		showTitle();
 		showBack();
 		setTitleText(UIUtil.getString(R.string.search));
+		mSearchView.setBackgroundResource(R.drawable.search_drawable);
+		mBtnSearch.setBackgroundResource(R.drawable.btn_selector);
 		mBtnSearch.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {

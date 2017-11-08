@@ -5,37 +5,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <RelativeLayout
+    <LinearLayout
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
-        android:background="@color/titleColor"
+        android:background="@color/day_option_bg"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <Button
-            android:layout_centerVertical="true"
-            android:id="@+id/btn_search"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/btn_selector"
-            android:text="@string/search"
-            android:textColor="@color/white"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_alignBottom="@+id/searchView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
         <com.eshel.currencyspirit.widget.SearchView
-            android:layout_centerVertical="true"
-            android:id="@+id/searchView"
             android:layout_marginLeft="5dp"
-            android:layout_width="match_parent"
-            android:layout_toLeftOf="@id/btn_search"
+            android:id="@+id/searchView"
+            android:layout_height="35dp"
+            android:layout_width="0dp"
+            android:layout_weight="8"
             android:singleLine="true"
             android:maxLines="1"
             android:imeOptions="actionSearch"
             android:textCursorDrawable="@drawable/search_cursor_drawable"
             android:shadowColor="@color/bb_darkBackgroundColor"
-            android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:layout_gravity="center_horizontal"
             android:inputType="text"
@@ -48,6 +35,19 @@
             android:textColorHighlight="@color/edit_hight_color"
             app:clean_icon="@drawable/search_close"
             app:search_icon="@drawable/search_icon"/>
-    </RelativeLayout>
+        <Button
+            android:id="@+id/btn_search"
+            android:background="@drawable/btn_selector"
+            android:text="@string/search"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textColor="@color/white"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="35dp"/>
+    </LinearLayout>
 
 </LinearLayout>
