@@ -6,11 +6,15 @@ import android.content.Context;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import baseproject.interfaces.Utilable;
 
@@ -377,6 +381,38 @@ private static int log_levele = LEVELE_V;
 			msg = "null";
 		return android.util.Log.wtf(tag, msg, tr);
 	}
+
+	public static String toString(String objName, Object obj){
+		if(objName == null)
+			objName = "null";
+		if(obj == null)
+			return String.format("(%s=[null])",objName);
+		StringBuilder sb = new StringBuilder();
+		sb.append(String.format("(%s=[",objName));
+		for (Field field : obj.getClass().getDeclaredFields()) {
+			try {
+				if(!Modifier.isPublic(field.getModifiers())){
+					field.setAccessible(true);
+				}
+				String name = field.getName();
+				Object value = field.get(obj);
+				sb.append(name);
+				sb.append(":");
+				if((value instanceof Integer)||(value instanceof Float)||(value instanceof Double)||
+						(value instanceof Character)||(value instanceof String)|| (value instanceof Short)||
+						(value instanceof Byte)||(value instanceof List)||(value instanceof Map)){
+					sb.append(value);
+				}else {
+					sb.append(toString(name,value));
+				}
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+		}
+		sb.append("])");
+		return sb.toString();
+	}
+
 	private static void writeLogToFileByTag(String tag, String msg, int levele){
 		if(tagForWriteLog.indexOf(tag) != -1){
 			writeLogToFile(tag,msg,levele);
