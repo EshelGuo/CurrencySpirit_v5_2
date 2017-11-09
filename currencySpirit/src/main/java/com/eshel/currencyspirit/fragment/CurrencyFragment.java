@@ -129,9 +129,11 @@ public class CurrencyFragment extends BaseFragment {
 				case zhangfu:
 					fragment = FragmentFactory.getFragment(AOIFragment.class);
 					TextView textView = (TextView) tab.getTabAt(position).findViewById(R.id.currency_tab_textview);
-					Drawable drawable = getResources().getDrawable(R.drawable.sort_arrow_up);
-					drawable.setBounds(0,0,drawable.getMinimumWidth(),drawable.getMinimumHeight());
-					textView.setCompoundDrawables(null,null,drawable,null);
+					if(getActivity()!= null) {
+						Drawable drawable = getActivity().getResources().getDrawable(R.drawable.sort_arrow_up);
+						drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+						textView.setCompoundDrawables(null, null, drawable, null);
+					}
 					break;
 			}
 			Log.i("fragment: ",fragment);

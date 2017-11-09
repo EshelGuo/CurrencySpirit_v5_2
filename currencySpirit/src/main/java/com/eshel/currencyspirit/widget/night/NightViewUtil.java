@@ -207,6 +207,9 @@ public class NightViewUtil implements Utilable{
 	public static boolean getNightMode(){
 		return AppConfig.isNight;
 	}
+	public static boolean notifyNightMode(){
+		return AppConfig.isNight = ShapeUtil.get(AppConstant.key_nightMode,false);
+	}
 	public static void setNightMode(boolean nightMode){
 		if(nightMode != AppConfig.isNight) {
 			AppConfig.isNight = nightMode;
