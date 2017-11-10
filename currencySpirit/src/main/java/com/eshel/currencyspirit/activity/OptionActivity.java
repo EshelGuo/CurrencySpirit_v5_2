@@ -98,6 +98,7 @@ public class OptionActivity extends BaseActivity {
 				startActivity(new Intent(this, AboutActivity.class));
 				break;
 			case R.id.share:
+				Log.logTags();
 				break;
 			case R.id.evaluate:
 				break;

@@ -10,7 +10,9 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -35,12 +37,14 @@ public class Log implements Utilable {
 
 private static String TAG = "DefaultTag";
 	public static void setLogTag(String tag){
+		tagCache.add(tag);
 		TAG = tag;
 	}
 private static Context mContext;
 private static SimpleDateFormat logFormat;
 private static volatile boolean logWriting;
 private static volatile LinkedList<String> logCache;
+private static LinkedHashSet<String> tagCache;
 private static String logFileName = "defaultLog";
 	public static void setLogFileName(String logFileName){
 		if(logFileName != null)
@@ -285,6 +289,8 @@ private static int log_levele = LEVELE_V;
 	}
 
 	public static int v(String tag, String msg) {
+		if(tag != null)
+			tagCache.add(tag);
 		if(log_levele > LEVELE_V) return -1;
 		if(msg == null)
 			msg = "null";
@@ -292,6 +298,8 @@ private static int log_levele = LEVELE_V;
 		return android.util.Log.v(tag, msg);
 	}
 	public static int v(String tag, String msg, Throwable tr) {
+		if(tag != null)
+			tagCache.add(tag);
 		if(log_levele > LEVELE_V) return -1;
 		if(msg == null)
 			msg = "null";
@@ -299,6 +307,8 @@ private static int log_levele = LEVELE_V;
 	}
 
 	public static int d(String tag, String msg) {
+		if(tag != null)
+			tagCache.add(tag);
 		if(log_levele > LEVELE_D) return -1;
 		if(msg == null)
 			msg = "null";
@@ -307,6 +317,8 @@ private static int log_levele = LEVELE_V;
 	}
 
 	public static int d(String tag, String msg, Throwable tr) {
+		if(tag != null)
+			tagCache.add(tag);
 		if(log_levele > LEVELE_D) return -1;
 		if(msg == null)
 			msg = "null";
@@ -314,6 +326,8 @@ private static int log_levele = LEVELE_V;
 	}
 
 	public static int i(String tag, String msg) {
+		if(tag != null)
+			tagCache.add(tag);
 		if(log_levele > LEVELE_I) return -1;
 		if(msg == null)
 			msg = "null";
@@ -322,6 +336,8 @@ private static int log_levele = LEVELE_V;
 	}
 
 	public static int i(String tag, String msg, Throwable tr) {
+		if(tag != null)
+			tagCache.add(tag);
 		if(log_levele > LEVELE_I) return -1;
 		if(msg == null)
 			msg = "null";
@@ -329,6 +345,8 @@ private static int log_levele = LEVELE_V;
 	}
 
 	public static int w(String tag, String msg) {
+		if(tag != null)
+			tagCache.add(tag);
 		if(log_levele > LEVELE_W) return -1;
 		if(msg == null)
 			msg = "null";
@@ -337,6 +355,8 @@ private static int log_levele = LEVELE_V;
 	}
 
 	public static int w(String tag, String msg, Throwable tr) {
+		if(tag != null)
+			tagCache.add(tag);
 		if(log_levele > LEVELE_W) return -1;
 		if(msg == null)
 			msg = "null";
@@ -344,11 +364,15 @@ private static int log_levele = LEVELE_V;
 	}
 
 	public static int w(String tag, Throwable tr) {
+		if(tag != null)
+			tagCache.add(tag);
 		if(log_levele > LEVELE_W) return -1;
 		return android.util.Log.w(tag, tr);
 	}
 
 	public static int e(String tag, String msg) {
+		if(tag != null)
+			tagCache.add(tag);
 		if(log_levele > LEVELE_E) return -1;
 		writeLogToFileByTag(tag,msg,LEVELE_E);
 		if(msg == null)
@@ -357,12 +381,16 @@ private static int log_levele = LEVELE_V;
 	}
 
 	public static int e(String tag, String msg, Throwable tr) {
+		if(tag != null)
+			tagCache.add(tag);
 		if(log_levele > LEVELE_E) return -1;
 		if(msg == null)
 			msg = "null";
 		return android.util.Log.e(tag, msg, tr);
 	}
 	public static int wtf(String tag, String msg) {
+		if(tag != null)
+			tagCache.add(tag);
 		if(log_levele > LEVELE_WTF) return -1;
 		if(msg == null)
 			msg = "null";
@@ -371,11 +399,15 @@ private static int log_levele = LEVELE_V;
 	}
 
 	public static int wtf(String tag, Throwable tr) {
+		if(tag != null)
+			tagCache.add(tag);
 		if(log_levele > LEVELE_WTF) return -1;
 		return android.util.Log.wtf(tag, tr);
 	}
 
 	public static int wtf(String tag, String msg, Throwable tr) {
+		if(tag != null)
+			tagCache.add(tag);
 		if(log_levele > LEVELE_WTF) return -1;
 		if(msg == null)
 			msg = "null";
@@ -383,6 +415,7 @@ private static int log_levele = LEVELE_V;
 	}
 
 	public static String toString(String objName, Object obj){
+		// TODO: 2017/11/10  集合 Map List 如果集合中的元素没有实现toString方法, 会有问题  待做
 		if(objName == null)
 			objName = "null";
 		if(obj == null)
@@ -400,7 +433,7 @@ private static int log_levele = LEVELE_V;
 				sb.append(":");
 				if((value instanceof Integer)||(value instanceof Float)||(value instanceof Double)||
 						(value instanceof Character)||(value instanceof String)|| (value instanceof Short)||
-						(value instanceof Byte)||(value instanceof List)||(value instanceof Map)){
+						(value instanceof Byte)||(value instanceof Collection)||(value instanceof Map)){
 					sb.append(value);
 				}else {
 					sb.append(toString(name,value));
@@ -419,6 +452,8 @@ private static int log_levele = LEVELE_V;
 		}
 	}
 	private static void writeLogToFile(String tag, String msg , int levele){
+		if(tag != null)
+			tagCache.add(tag);
 		if(writeLogValve <= 0)
 			return;
 		// add log to cache 10-02 17:02:14.098 11853-11853/? E/LogRecoder: 请先初始化 log = [DaemonReceiver] onReceive
@@ -453,22 +488,19 @@ private static int log_levele = LEVELE_V;
 			new Thread(writeLogTask).start();
 	}
 
+	public static void logTags(){
+		i(tagCache);
+	}
+
 	private static Runnable writeLogTask;
 
 	@Override
 	public void init(Context context) {
 		mContext = context;
-		String[] packageName = mContext.getPackageName().split("\\.");
-		StringBuilder sb = new StringBuilder();
-		/*for (int i = 1; i < packageName.length; i++) {
-			String node = packageName[i];
-			sb.append(node.toUpperCase().charAt(0));
-			sb.append(node.substring(1,node.length()));
-		}
-		TAG = sb.toString();*/
 		logFormat = new SimpleDateFormat("yy-MM-dd hh:mm:ss",Locale.getDefault());
 		tagForWriteLog = new ArrayList<>();
 		logCache = new LinkedList<>();
+		tagCache = new LinkedHashSet<>();
 		writeLogTask = new Runnable() {
 			@Override
 			public void run() {
@@ -510,6 +542,12 @@ private static int log_levele = LEVELE_V;
 		mContext = null;
 		TAG = "DefaultTag";
 		logFileName = "defaultLog";
+		if(logCache != null)
+			logCache.clear();
+		logCache = null;
+		if(tagCache != null)
+			tagCache.clear();
+		tagCache = null;
 		tagForWriteLog = null;
 		logFormat = null;
 	}
