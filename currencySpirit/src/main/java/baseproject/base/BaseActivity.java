@@ -2,6 +2,7 @@ package baseproject.base;
 
 import android.app.Service;
 import android.content.pm.ActivityInfo;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
@@ -13,7 +14,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -47,6 +50,7 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivityHelper;
 public class BaseActivity extends AppCompatActivity implements SwipeBackActivityBase{
 	private SwipeBackActivityHelper mHelper;
 	protected String TAG = "defaultActivity";
+	private int mDisplayHight;
 
 	private ImageView mIvBack;
 	private TextView mTvTitleText;
@@ -95,6 +99,26 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
 		mHelper = new SwipeBackActivityHelper(this);
 		mHelper.onActivityCreate();
 		setSwipeBackEnable(false);
+		/*getOriginalContentView().getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+			@Override
+			public void onGlobalLayout() {
+				Rect rect = new Rect();
+				getOriginalContentView().getWindowVisibleDisplayFrame(rect);
+				int displayHight = rect.bottom - rect.top;
+				if(mDisplayHight != 0 && displayHight != mDisplayHight){
+					getOriginalContentView().requestLayout();
+					mDisplayHight = displayHight;
+				}
+				if(mDisplayHight == 0){
+					mDisplayHight = displayHight;
+				}
+
+				Log.i("displayHight: "+ mDisplayHight);
+				*//*if(UIUtil.getScreenHeight() != displayHight){
+
+				}*//*
+			}
+		});*/
 	}
 	public void setTitleText(CharSequence text){
 		mTvTitleText.setText(text);

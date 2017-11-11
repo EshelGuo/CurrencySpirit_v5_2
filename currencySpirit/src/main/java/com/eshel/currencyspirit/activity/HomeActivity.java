@@ -1,5 +1,6 @@
 package com.eshel.currencyspirit.activity;
 
+import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
@@ -31,6 +32,7 @@ import com.roughike.bottombar.OnTabSelectListener;
 
 import baseproject.base.BaseActivity;
 import baseproject.util.DensityUtil;
+import baseproject.util.Log;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import xgpush.XGMsage;
@@ -56,6 +58,8 @@ public class HomeActivity extends BaseActivity {
 	private final int INDEX_USER_FRAGMENT = 3;
 
 	public static int titleElevation = 5;
+
+
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
