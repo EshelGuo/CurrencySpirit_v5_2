@@ -2,6 +2,8 @@ package baseproject.permission;
 
 
 import android.Manifest;
+import android.app.Activity;
+import android.os.Build;
 import android.util.Log;
 
 /**
@@ -77,10 +79,10 @@ public enum Group {
 		}
 		return null;
 	}
-	public void changePermissionState(boolean hasPermission,int permissionCode){
-		changePermissionState(hasPermission,permissionCode,false);
+	public void changePermissionState(Activity activity, boolean hasPermission,int permissionCode){
+		changePermissionState(activity, hasPermission,permissionCode,false);
 	}
-	public void changePermissionState(boolean hasPermission,int permissionCode,boolean callbacked){
+	public void changePermissionState(Activity activity, boolean hasPermission, int permissionCode, boolean callbacked){
 		for (Permission permission : mPermissions) {
 			permission.hasPermission = hasPermission;
 			if(permission.requestCode == permissionCode){
@@ -95,6 +97,16 @@ public enum Group {
 								Permissions.isStop = true;
 							}
 						}
+					}
+				}
+			}else {
+				// 同一组中的其他权限
+				if(hasPermission){
+					// 请求成功或已经请求过
+					// 兼容8.0, 请求组内未请求过的权限
+					if(Build.VERSION.SDK_INT>=26 && !permission.hasPermission){
+						// 设备 Android O 并且权限未请求过
+						RequestPermissionUtil.requestPermission(activity,permission.permission,-20171113);
 					}
 				}
 			}

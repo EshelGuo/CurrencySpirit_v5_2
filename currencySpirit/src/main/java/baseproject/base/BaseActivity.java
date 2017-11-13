@@ -5,6 +5,7 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.annotation.AttrRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v4.view.LayoutInflaterCompat;
@@ -71,12 +72,17 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		LayoutInflater inflater = LayoutInflater.from(this);
 		LayoutInflaterCompat.setFactory(inflater,new ViewFactory());
-		// 无效
+		// 无效 
 		if(needBackground)
 			getWindow().setBackgroundDrawable(new ColorDrawable(
 							NightViewUtil.changeNightColor(UIUtil.getColor(R.color.day_option_bg))));
 		super.onCreate(savedInstanceState);
 		super.setContentView(R.layout.activity_base);
+
+		/*WindowManager.LayoutParams attributes = getWindow().getAttributes();
+		attributes.width = 400;
+		attributes.height = 800;
+		getWindow().setAttributes(attributes);*/
 
 		mIvBack = (ImageView) findViewById(R.id.iv_back);
 		mTvTitleText = (TextView) findViewById(R.id.tv_title_text);

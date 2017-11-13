@@ -29,8 +29,10 @@ public class Permissions {
 	private static List<Permission> permissions = new ArrayList<Permission>();
 	public static boolean need;//需要动态申请权限
 	private static boolean requesting = false;
+	public static final String TAG = "PermissionUtil";
+
 	static {
-		if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M) {
+		if(Build.VERSION.SDK_INT>=23) {
 			need = true;
 			initPermissions();
 		}
@@ -111,9 +113,14 @@ private static int index = 0;
 			Permission permission1 = findPermission(permission);
 			if(success) {
 				if (permission1 != null) {
+					// requestCode 为 -20171113 说明是为了兼容8.0进行的权限请求, 不需要进行处理
+					if(requestCode == -20171113) {
+						permission1.hasPermission = success;
+						return;
+					}
 					Group group = Group.findGroupByPermission(permission1);
 					if(group != null)
-						group.changePermissionState(true,requestCode,callbacked);
+						group.changePermissionState(activity,true,requestCode,callbacked);
 				}
 			}else{
 				if(!callbacked){
@@ -154,6 +161,7 @@ private static int index = 0;
 			}
 		}
 		// TODO: 2017/9/5  权限没有被找到, 打印错误日志上传服务器
+		Log.e(TAG,String.format("权限 %s 没有被找到, 请检查权限是否正确以及权限组 Group 和 Permission 枚举类中是否有该权限, 如果没有, 请将权限添加到组中"));
 		return null;
 	}
 	public static void addPermissions(String ... permissions){
