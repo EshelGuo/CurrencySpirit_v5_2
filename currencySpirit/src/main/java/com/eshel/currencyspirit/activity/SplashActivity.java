@@ -55,6 +55,7 @@ public class SplashActivity extends BaseActivity {
 	static boolean updating = false;
 	private static Version mVersion;
 	private static boolean apkInstall;
+	boolean appRunOnBackground = false;
 	private Runnable finishSplashTask = new Runnable() {
 		@Override
 		public void run() {
@@ -209,6 +210,13 @@ public class SplashActivity extends BaseActivity {
 			noEntryHome = true;
 			return;
 		}
+		if(appRunOnBackground)
+			return;
+		if(!(BaseActivity.getTopActivity() instanceof SplashActivity)){
+			// 还未进入主界面就被用户压入后台 此时记下状态, 待 SplashActivity 再次 onResume 的时候 根据该值判断是直接进入主界面还是走欢迎界面的逻辑
+			appRunOnBackground = true;
+			return;
+		}
 		Intent intent = new Intent(this,HomeActivity.class);
 		startActivity(intent);
 		finish();
@@ -323,5 +331,14 @@ public class SplashActivity extends BaseActivity {
 	public void onBackPressed() {
 		CurrencySpiritApp.isExit = true;
 		super.onBackPressed();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if(appRunOnBackground){
+			appRunOnBackground = false;
+			enterHomeActivity();
+		}
 	}
 }
