@@ -1,5 +1,6 @@
 package com.eshel.currencyspirit.fragment.currency;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -127,7 +128,7 @@ public abstract class CurrencyBaseFragment extends BaseFragment{
 			if(viewType == TYPE_ADD){
 				return new AddViewHolder();
 			}
-			return new BaseViewHolder();
+			return new BaseViewHolder(getActivity());
 		}
 
 		@Override
@@ -179,7 +180,7 @@ public abstract class CurrencyBaseFragment extends BaseFragment{
 		}
 	}
 
-	public class BaseViewHolder extends RecyclerView.ViewHolder {
+	public static class BaseViewHolder extends RecyclerView.ViewHolder {
 
 		@BindView(R.id.tv_rank_chinesename)
 		TextView tvRankChinesename;
@@ -191,9 +192,10 @@ public abstract class CurrencyBaseFragment extends BaseFragment{
 		TextView tvPercent;
 		@BindView(R.id.tv_price)
 		TextView tvPrice;
-
-		public BaseViewHolder() {
-			super(View.inflate(getActivity(), R.layout.item_currency, null));
+		private Activity mActivity;
+		public BaseViewHolder(Activity activity) {
+			super(View.inflate(activity, R.layout.item_currency, null));
+			mActivity = activity;
 			ButterKnife.bind(this,itemView);
 			itemView.setBackgroundResource(R.drawable.item_selector);
 			tvPercent.setWidth(UIUtil.getScreenWidth() / 5);
@@ -207,30 +209,37 @@ public abstract class CurrencyBaseFragment extends BaseFragment{
 		}
 
 		public void bindDataToView(final CurrencyModel currencyModel) {
-			changeTextColor();
-			tvSymbo.setText(currencyModel.symbol);
-			tvRankChinesename.setText(String.format("#%d, %s",currencyModel.rank,currencyModel.chinesename));
-			tvTurnnumber.setText(CurrencyModel.moneyFormat(UIUtil.getString(R.string.market_value)+"$",currencyModel.turnnumber));
-			tvPrice.setText(CurrencyModel.moneyFormat("$",currencyModel.price));
-			String percent = new java.text.DecimalFormat("######0.00").format(currencyModel.percent);
-			if(!percent.contains("-")){
-				if(!percent.contains("+")){
-					percent = "+" + percent;
+			try {
+				changeTextColor();
+				tvSymbo.setText(currencyModel.symbol);
+				tvRankChinesename.setText(String.format("#%d, %s",currencyModel.rank,currencyModel.chinesename));
+				tvTurnnumber.setText(CurrencyModel.moneyFormat(UIUtil.getString(R.string.market_value)+"$",currencyModel.turnnumber));
+				tvPrice.setText(CurrencyModel.moneyFormat("$",currencyModel.price));
+				String percent = new java.text.DecimalFormat("######0.00").format(currencyModel.percent);
+				if(!percent.contains("-")){
+					if(!percent.contains("+")){
+						percent = "+" + percent;
+					}
 				}
+				tvPercent.setText(percent +"%");
+				Drawable drawable = mActivity.getResources().getDrawable(
+						currencyModel.percent < 0 ? R.drawable.drawable_percent_down : R.drawable.drawable_percent_up);
+				NightViewUtil.changeNightDrawable(drawable);
+				tvPercent.setBackgroundDrawable(drawable);
+				itemView.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						Intent intent = new Intent(mActivity, CurrencyDetailsActivity.class);
+						intent.putExtra(CurrencyDetailsActivity.key,currencyModel);
+						mActivity.startActivity(intent);
+					}
+				});
+			}catch (Exception e){
+			    e.printStackTrace();
+			}catch (Error e){
+			    e.printStackTrace();
 			}
-			tvPercent.setText(percent +"%");
-			Drawable drawable = getActivity().getResources().getDrawable(
-					currencyModel.percent < 0 ? R.drawable.drawable_percent_down : R.drawable.drawable_percent_up);
-			NightViewUtil.changeNightDrawable(drawable);
-			tvPercent.setBackgroundDrawable(drawable);
-			itemView.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					Intent intent = new Intent(getActivity(), CurrencyDetailsActivity.class);
-					intent.putExtra(CurrencyDetailsActivity.key,currencyModel);
-					startActivity(intent);
-				}
-			});
+
 		}
 	}
 }

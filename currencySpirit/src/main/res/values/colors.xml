@@ -2,59 +2,41 @@
 <resources>
     <color name="text_white">#fffffe</color>
     <color name="night_text_white">#707069</color>
-
     <color name="titleColor">#a8a8a8</color>
     <color name="night_titleColor">#252525</color>
-
     <color name="bottomBarColor">@color/colorPrimary</color>
     <color name="night_bottomBarColor">#252524</color>
-
     <color name="day_option_item_line_bg">#EFEFF5</color><!--#EFEFF5-->
     <color name="night_option_item_line_bg">#464646</color><!--#464646-->
-
     <color name="day_option_bg">#EFEFF4</color>
     <color name="night_option_bg">#1B1B1B</color>
-
     <color name="item_down">#F0F0F0</color>
     <color name="night_item_down">#3A3A3A</color>
-
     <color name="item_up">@android:color/white</color>
     <color name="night_item_up">#252526</color>
-
     <color name="black">#000</color>
     <color name="night_black">#707070</color>
-
     <color name="text_gray">#888889</color>
     <color name="night_text_gray">#707071</color>
-
     <color name="tabColor">#007EFB</color>
     <color name="night_tabColor">#0058af</color>
-
     <color name="bottomTabColor">#8F8D8F</color>
     <color name="night_bottomTabColor">#8F8D8F</color>
-
     <color name="dividerColor">#CCCCCCCC</color>
     <color name="night_dividerColor">#464647</color>
 
     <color name="colorPrimary">#F8F8F8</color>
     <color name="back_pressed">#aaF8F8F8</color>
-
     <color name="colorPrimaryDark">#c8c8c8</color>
     <color name="colorAccent">@color/tabColor</color><!--#FF4081-->
     <color name="edit_hight_color">#88B0BEC5</color>
 
-
     <color name="btn_normal_color">#61d7ff</color>
     <color name="night_btn_normal_color">#47a2c1</color>
-
     <color name="btn_pressed_color">#51b9dc</color>
     <color name="night_btn_pressed_color">#307086</color>
 
-
-
     <color name="progressbar_drawable">#43BF17</color>
-
     <color name="white">#ffffff</color>
-
     <color name="violet">#ffaa66cc</color>
 </resources>

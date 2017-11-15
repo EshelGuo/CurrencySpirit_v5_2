@@ -1,53 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-    <LinearLayout
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:background="@color/day_option_bg"
-        android:orientation="horizontal"
+    android:layout_height="match_parent">
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <com.eshel.currencyspirit.widget.SearchView
-            android:layout_marginLeft="5dp"
-            android:id="@+id/searchView"
-            android:layout_height="35dp"
-            android:layout_width="0dp"
-            android:layout_weight="8"
-            android:singleLine="true"
-            android:maxLines="1"
-            android:imeOptions="actionSearch"
-            android:textCursorDrawable="@drawable/search_cursor_drawable"
-            android:shadowColor="@color/bb_darkBackgroundColor"
-            android:gravity="center_vertical"
-            android:layout_gravity="center_horizontal"
-            android:inputType="text"
-            android:background="@drawable/search_drawable"
-            android:paddingRight="5dp"
-            android:paddingLeft="5dp"
-            android:textSelectHandleLeft="@drawable/handle_left"
-            android:textSelectHandleRight="@drawable/handle_right"
-            android:textSelectHandle="@drawable/handle_middle"
-            android:textColorHighlight="@color/edit_hight_color"
-            app:clean_icon="@drawable/search_close"
-            app:search_icon="@drawable/search_icon"/>
-        <Button
-            android:id="@+id/btn_search"
-            android:background="@drawable/btn_selector"
-            android:text="@string/search"
-            android:gravity="center"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:textColor="@color/white"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:layout_height="35dp"/>
-    </LinearLayout>
-
-</LinearLayout>
+        android:layout_height="wrap_content"
+        app:elevation="0dp">
+        <LinearLayout
+            app:layout_scrollFlags="scroll|snap"
+            android:id="@+id/top_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/day_option_bg"
+            android:orientation="horizontal"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp">
+            <com.eshel.currencyspirit.widget.SearchView
+                android:id="@+id/searchView"
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="8"
+                android:background="@drawable/search_drawable"
+                android:gravity="center_vertical"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:maxLines="1"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:shadowColor="@color/bb_darkBackgroundColor"
+                android:singleLine="true"
+                android:textColorHighlight="@color/edit_hight_color"
+                android:textCursorDrawable="@drawable/search_cursor_drawable"
+                android:textSelectHandle="@drawable/handle_middle"
+                android:textSelectHandleLeft="@drawable/handle_left"
+                android:textSelectHandleRight="@drawable/handle_right"
+                app:clean_icon="@drawable/search_close"
+                app:search_icon="@drawable/search_icon"/>
+            <Button
+                android:id="@+id/btn_search"
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="2"
+                android:background="@drawable/btn_selector"
+                android:gravity="center"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="@string/search"
+                android:textColor="@color/white"/>
+        </LinearLayout>
+    </android.support.design.widget.AppBarLayout>
+    <FrameLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior=
+            "@string/appbar_scrolling_view_behavior" />
+</android.support.design.widget.CoordinatorLayout>

@@ -6,10 +6,14 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 
+import com.eshel.currencyspirit.R;
 import com.eshel.currencyspirit.activity.SplashActivity;
 import com.eshel.currencyspirit.util.UIUtil;
 
@@ -139,7 +143,7 @@ public class ViewUtil {
 		activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | 0x00001000);
 	}
 	@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-	private void hideNavigationBar(Activity activity) {
+	public static void hideNavigationBar(Activity activity) {
 		View decorView = activity.getWindow().getDecorView();
 		int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
 				| View.SYSTEM_UI_FLAG_FULLSCREEN;
@@ -147,9 +151,24 @@ public class ViewUtil {
 	}
 
 	@RequiresApi(api = Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-	private void showNavigationBar(Activity activity) {
+	public static void showNavigationBar(Activity activity) {
 		View decorView = activity.getWindow().getDecorView();
 		int uiOptions = View.SYSTEM_UI_FLAG_VISIBLE;
 		decorView.setSystemUiVisibility(uiOptions);
+	}
+	public static TextView getLoadFailedView(Context context, TextView view, String msg){
+		if(context == null&&view == null)
+			return null;
+		if(view == null){
+			view = new TextView(context);
+			view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+		}
+		view.setTextSize(20);
+		view.setGravity(Gravity.CENTER);
+		view.setText(msg);
+		return view;
+	}
+	public static View getLoadingView(Context context){
+		return View.inflate(context,R.layout.fragment_loading,null);
 	}
 }
