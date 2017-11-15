@@ -32,8 +32,12 @@ public class UpdateVersionUtil {
 		String[] news = newVersion.split("\\.");
 		int len = current.length < news.length ? current.length : news.length;
 		for (int i = 0; i < len; i++) {
-			if(Integer.valueOf(news[i]) > Integer.valueOf(current[i]))
+			Integer newVersion1 = Integer.valueOf(news[i]);
+			Integer currentVersion1 = Integer.valueOf(current[i]);
+			if(newVersion1 > currentVersion1)
 				return true;
+			else if(newVersion1 < currentVersion1)
+				return false;
 		}
 		return false;
 	}

@@ -34,7 +34,7 @@ android {
         //26
         targetSdkVersion 25
         versionCode 1
-        versionName "0.9.011.4"
+        versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         //信鸽推送
