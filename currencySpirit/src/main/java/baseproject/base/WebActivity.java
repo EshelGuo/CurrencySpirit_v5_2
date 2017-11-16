@@ -14,6 +14,7 @@ import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import com.eshel.currencyspirit.CurrencySpiritApp;
 import com.eshel.currencyspirit.R;
 import com.eshel.currencyspirit.util.ThreadUtil;
 import com.eshel.currencyspirit.util.UIUtil;
@@ -35,11 +36,64 @@ public abstract class WebActivity extends BaseActivity {
 	protected ProgressBar mProgressBar;
 	@BindView(R.id.wv_essence)
 	protected WebView mWebView;
+	private volatile int truthProgress;
 
 	private String url;
 	private boolean isReadLoad = false;
 	private boolean loadedJS = false;
 
+	private final int minProgress = 5;
+	private final int maxProgress = 30;
+
+	private final int minProgressTime = 10;
+	private final int maxProgressTime = 100;
+
+	private Runnable moveProgressTask = new Runnable() {
+		@Override
+		public void run() {
+			int progress = mProgressBar.getProgress();
+			if(truthProgress == 100 && progress == 100) {
+				truthProgress = 0;
+				mProgressBar.setVisibility(View.GONE);
+				if(isReadLoad){
+					mWebView.clearHistory();
+					isReadLoad = false;
+				}
+			}else {
+				int time = 50;
+				if(mProgressBar.getVisibility() == View.GONE)
+					mProgressBar.setVisibility(View.VISIBLE);
+				if(progress < truthProgress){
+					int temp = truthProgress - progress;
+					if(temp < minProgress)
+						temp = minProgress;
+					if(temp > maxProgress)
+						temp = maxProgress;
+					time = (int) ((1.0-temp*1.0/maxProgress) * maxProgressTime);
+					if(time < minProgressTime)
+						time = minProgressTime;
+					if(time > maxProgressTime)
+						time = maxProgressTime;
+					mProgressBar.setProgress(++progress);
+					mProgressBar.invalidate();
+					if(progress >= tempProgress){
+						// 夜间模式 加载到 10 20 30 40... 进行加载 js 代码渲染html网页, 切换夜间模式
+						tempProgress=((int)(progress*1.0f/10.0f))*10+10;
+						if(tempProgress > 100)
+							tempProgress = 100;
+						if(progress == 100)
+							tempProgress = 0;
+						if (NightViewUtil.getNightMode()) {
+							mWebView.loadUrl("javascript:nightMode();" +
+									"function nightMode(){" +
+									"document.getElementsByTagName('body')[0].style.backgroundColor='#2e2e2e';}");
+						}
+					}
+				}
+				CurrencySpiritApp.postDelayed(this, time);
+			}
+		}
+	};
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -125,35 +179,7 @@ public abstract class WebActivity extends BaseActivity {
 
 			@Override
 			public void onProgressChanged(WebView view, int newProgress) {
-//				Log.i(newProgress);
-				if(newProgress == 100){
-					mProgressBar.setVisibility(View.GONE);
-					if(isReadLoad){
-						mWebView.clearHistory();
-						isReadLoad = false;
-					}
-				}else {
-
-					if(mProgressBar.getVisibility() == View.GONE)
-						mProgressBar.setVisibility(View.VISIBLE);
-					mProgressBar.setProgress(newProgress);
-					mProgressBar.invalidate();
-				}
-				if(newProgress >= tempProgress){
-					tempProgress=((int)(newProgress*1.0f/10.0f))*10+10;
-					if(tempProgress > 100)
-						tempProgress = 100;
-					if(newProgress == 100)
-						tempProgress = 0;
-//					if(!loadedJS) {
-//						loadedJS = true;
-						if (NightViewUtil.getNightMode()) {
-							view.loadUrl("javascript:nightMode();" +
-									"function nightMode(){" +
-									"document.getElementsByTagName('body')[0].style.backgroundColor='#2e2e2e';}");
-						}
-//					}
-				}
+				truthProgress = newProgress;
 				super.onProgressChanged(view, newProgress);
 			}
 		});
@@ -162,6 +188,8 @@ public abstract class WebActivity extends BaseActivity {
 	public abstract View initTitleView();
 	public void loadUrl(String url){
 		this.url = url;
+		CurrencySpiritApp.getApp().getHandler().removeCallbacks(moveProgressTask);
+		CurrencySpiritApp.post(moveProgressTask);
 		if(ThreadUtil.isMainThread()) {
 			loadUrlAndJS(url);
 		} else {
