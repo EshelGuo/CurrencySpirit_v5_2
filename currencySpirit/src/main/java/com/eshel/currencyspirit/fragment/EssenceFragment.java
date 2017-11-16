@@ -89,7 +89,6 @@ public class EssenceFragment extends BaseFragment {
 		mRv_essence.setPagingableListener(new PullToRefreshRecyclerView.PagingableListener() {
 			@Override
 			public void onLoadMoreItems() {
-				// todo do loadmore here
 				EssenceViewModel.getEssenceData(BaseViewModel.Mode.LOADMORE);
 			}
 		});
@@ -99,53 +98,44 @@ public class EssenceFragment extends BaseFragment {
 			@Override
 			public void onRefresh() {
 				mRv_essence.setRefreshing(true);
-				// todo do refresh here
-				CurrencySpiritApp.getApp().getHandler().postDelayed(new Runnable() {
-					@Override
-					public void run() {
-						EssenceViewModel.refreshData();
-						mRv_essence.setOnRefreshComplete();
-						mRv_essence.onFinishLoading(true, false);
-					}
-				},1000);
+				EssenceViewModel.refreshData();
 			}
 		});
-//		mRv_essence.addHeaderView(View.inflate(getActivity(), android.R.layout.simple_list_item_1, null));
-		// add headerView
-		//mRv_essence.addHeaderView(View.inflate(this, R.layout.header, null));
-
-		//set EmptyVlist
-		//mRv_essence.setEmptyView(View.inflat(this,R.layout.empty_view, null));
-
-		// set loadmore String
-		//mRv_essence.setLoadmoreString("loading");
-
-		// set loadmore enable, onFinishLoading(can load more? , select before item)
 		mRv_essence.onFinishLoading(true, false);
 		return parent;
 	}
 
 	@Override
-	public void notifyView() {
+	public void notifyView(BaseViewModel.Mode mode) {
+		if(mode == BaseViewModel.Mode.REFRESH)
+			mRv_essence.setOnRefreshComplete();
 		if(EssenceModel.loadDataCount < 20)
 			mRv_essence.onFinishLoading(false, false);
 		else
 			mRv_essence.onFinishLoading(true,false);
 		mEssenceAdapter.notifyDataSetChanged();
 	}
+	@Override
+	public void refreshFailed() {
+		mRv_essence.setOnRefreshComplete();
+		super.refreshFailed();
+	}
+	@Override
+	public void loadModeFailed() {
+		super.loadModeFailed();
+		mRv_essence.onFinishLoading(false, false);
+		mRv_essence.onFinishLoading(true, false);
+	}
 
 	public class EssenceAdapter extends RecyclerView.Adapter<EssenceViewHolder> {
-
 		@Override
 		public EssenceViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 			return new EssenceViewHolder();
 		}
-
 		@Override
 		public void onBindViewHolder(EssenceViewHolder holder, int position) {
 			holder.bindDataToView(EssenceModel.getEssenceDataByPosition(position));
 		}
-
 		@Override
 		public int getItemCount() {
 			ArrayList<EssenceModel> essenceData = EssenceModel.essenceData;
@@ -154,19 +144,6 @@ public class EssenceFragment extends BaseFragment {
 			return 0;
 		}
 	}
-
-	@Override
-	public void refreshFailed() {
-		super.refreshFailed();
-	}
-
-	@Override
-	public void loadModeFailed() {
-		super.loadModeFailed();
-		mRv_essence.onFinishLoading(false, false);
-		mRv_essence.onFinishLoading(true, false);
-	}
-
 	public class EssenceViewHolder extends RecyclerView.ViewHolder {
 
 		@BindView(R.id.time)

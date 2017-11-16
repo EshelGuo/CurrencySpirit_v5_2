@@ -61,15 +61,15 @@ public class EssenceModel implements Serializable{
 		return transitionData;
 	}
 	public static void notifyView(final Mode mode , final boolean isSuccess){
-		CurrencySpiritApp.getApp().getHandler().post(new Runnable() {
+		CurrencySpiritApp.post(new Runnable() {
 			@Override
 			public void run() {
-				BaseFragment essenceFragment = (BaseFragment) FragmentFactory.getFragment(EssenceFragment.class);
+				EssenceFragment essenceFragment = (EssenceFragment) FragmentFactory.getFragment(EssenceFragment.class);
 				if(isSuccess) {
 					if (essenceFragment.getCurrState() != BaseFragment.LoadState.StateLoadSuccess)
 						essenceFragment.changeState(BaseFragment.LoadState.StateLoadSuccess);
 					else {
-						essenceFragment.notifyView();
+						essenceFragment.notifyView(mode);
 					}
 				}else {
 					if(mode == Mode.NORMAL)
@@ -84,10 +84,10 @@ public class EssenceModel implements Serializable{
 			}
 		});
 	}
-	public static void notifyHistoryActivity(){
+	public static void notifyHistoryActivity(Mode mode){
 		EssenceHistoryActivity activity = (EssenceHistoryActivity) BaseActivity.getActivity(EssenceHistoryActivity.class);
 		if(activity != null){
-			activity.notifyView();
+			activity.notifyView(mode);
 		}
 	}
 

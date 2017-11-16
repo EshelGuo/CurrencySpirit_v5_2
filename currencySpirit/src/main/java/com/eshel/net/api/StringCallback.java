@@ -5,6 +5,6 @@ package com.eshel.net.api;
  */
 
 public interface StringCallback {
-	void onSuccess(String result);
-	void onFailed(String errMsg);
+	void onSuccess(String result, long time);
+	void onFailed(String errMsg, long time);
 }

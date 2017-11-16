@@ -24,7 +24,7 @@ public class SearchViewModel {
 	public static void search(String keyword){
 		ApiUtil.search(keyword, new StringCallback() {
 			@Override
-			public void onSuccess(String result) {
+			public void onSuccess(String result,long time) {
 				Gson gson = new Gson();
 				data = gson.fromJson(result,new TypeToken<ArrayList<CurrencyModel>>(){}.getType());
 				//失败
@@ -39,7 +39,7 @@ public class SearchViewModel {
 			}
 
 			@Override
-			public void onFailed(String errMsg) {
+			public void onFailed(String errMsg,long time) {
 				if(BaseActivity.getTopActivity() != null && BaseActivity.getTopActivity() instanceof SearchCurrencyActivity){
 					SearchCurrencyActivity activity = (SearchCurrencyActivity) BaseActivity.getTopActivity();
 					activity.loadFailed(UIUtil.getString(R.string.unknown_err));

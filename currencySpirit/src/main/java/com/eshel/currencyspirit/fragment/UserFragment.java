@@ -17,6 +17,7 @@ import com.eshel.currencyspirit.util.UIUtil;
 import com.eshel.currencyspirit.widget.OptionItemView;
 import com.eshel.currencyspirit.widget.OverScrollView;
 import com.eshel.currencyspirit.widget.night.NightViewUtil;
+import com.eshel.viewmodel.BaseViewModel;
 
 import baseproject.base.BaseFragment;
 import baseproject.util.DensityUtil;
@@ -81,7 +82,7 @@ public class UserFragment extends BaseFragment {
 	}
 
 	@Override
-	public void notifyView() {
+	public void notifyView(BaseViewModel.Mode mode) {
 	}
 
 	@Override

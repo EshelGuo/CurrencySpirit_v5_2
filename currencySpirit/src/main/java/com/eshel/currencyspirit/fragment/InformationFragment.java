@@ -91,34 +91,17 @@ public class InformationFragment extends BaseFragment {
 			@Override
 			public void onRefresh() {
 				mRv_Information.setRefreshing(true);
-				// todo do refresh here
-				CurrencySpiritApp.getApp().getHandler().postDelayed(new Runnable() {
-					@Override
-					public void run() {
-						InformationViewModel.refreshData();
-						mRv_Information.setOnRefreshComplete();
-						mRv_Information.onFinishLoading(true, false);
-					}
-				}, 1000);
+				InformationViewModel.refreshData();
 			}
 		});
-//		mRv_Information.addHeaderView(View.inflate(getActivity(), android.R.layout.simple_list_item_1, null));
-		// add headerView
-		//mRv_Information.addHeaderView(View.inflate(this, R.layout.header, null));
-
-		//set EmptyVlist
-		//mRv_Information.setEmptyView(View.inflat(this,R.layout.empty_view, null));
-
-		// set loadmore String
-		//mRv_Information.setLoadmoreString("loading");
-
-		// set loadmore enable, onFinishLoading(can load more? , select before item)
 		mRv_Information.onFinishLoading(true, false);
 		return parent;
 	}
 
 	@Override
-	public void notifyView() {
+	public void notifyView(BaseViewModel.Mode mode) {
+		if(mode == BaseViewModel.Mode.REFRESH)
+			mRv_Information.setOnRefreshComplete();
 		if (InformationModel.loadDataCount < 20)
 			mRv_Information.onFinishLoading(false, false);
 		else

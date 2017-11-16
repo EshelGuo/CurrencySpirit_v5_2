@@ -20,17 +20,20 @@ public class RetrofitUtil {
 		return newListApi;
 	}
 	public static void enqueueCall(Call<ResponseBody> call, final StringCallback callback){
+		final long ago = System.currentTimeMillis();
 		call.enqueue(new retrofit2.Callback<ResponseBody>() {
 			@Override
 			public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+				long now = System.currentTimeMillis();
+				long time = now - ago;
 				ResponseBody body = response.body();
 				if(response.isSuccessful()){
 					try {
 						if(body != null) {
 							String result = body.string();
-							callback.onSuccess(result);
+							callback.onSuccess(result,time);
 						}else {
-							callback.onFailed("msg: "+response.message()+", body: null");
+							callback.onFailed("msg: "+response.message()+", body: null",time);
 						}
 					} catch (IOException e) {
 						e.printStackTrace();
@@ -43,12 +46,15 @@ public class RetrofitUtil {
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
-					callback.onFailed("msg: "+response.message()+", body: "+bodyS);
+					callback.onFailed("msg: "+response.message()+", body: "+bodyS,time);
 				}
 			}
 			@Override
 			public void onFailure(Call<ResponseBody> call, Throwable t) {
-				callback.onFailed(t.getMessage());
+				long now = System.currentTimeMillis();
+				long time = now - ago;
+				callback.onFailed(t.getMessage(),time);
+				t.printStackTrace();
 			}
 		});
 	}

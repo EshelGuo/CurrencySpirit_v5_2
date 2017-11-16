@@ -2,8 +2,8 @@ package com.eshel.viewmodel;
 
 import com.eshel.currencyspirit.CurrencySpiritApp;
 import com.eshel.model.InformationModel;
-import com.eshel.net.api.NewListApi;
-import com.eshel.net.factory.RetrofitFactory;
+import com.eshel.net.RetrofitUtil;
+import com.eshel.net.api.StringCallback;
 import com.eshel.viewmodel.BaseViewModel.Mode;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -22,72 +22,45 @@ import retrofit2.Response;
  */
 
 public class InformationViewModel {
-	static int start = 0;
-	static int count = 20;
+	private static int start = 0;
+	private static int count = 20;
+	private static long refreshTime = 2000;
 
-	static long refreshTime = 2000;
 	public static void getInformationData(final Mode mode ){
-		final long ago = System.currentTimeMillis();
-		NewListApi newListApi = RetrofitFactory.getRetrofit().create(NewListApi.class);
-		Call<ResponseBody> information = newListApi.information(start, count);
-		information.enqueue(new Callback<ResponseBody>() {
+		Call<ResponseBody> information = RetrofitUtil.createApi().information(start, count);
+		RetrofitUtil.enqueueCall(information, new StringCallback() {
 			@Override
-			public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-				if(response.isSuccessful()){
-					try {
-						String json = response.body().string();
-						Gson gson = new Gson();
-						final ArrayList<InformationModel> data =
-								gson.fromJson(json, new TypeToken<ArrayList<InformationModel>>() {}.getType());
-						start += count;
-						long refreshTime;
-						if(mode == Mode.REFRESH){
-							refreshTime = InformationViewModel.refreshTime - getTimeDifference(ago);
-							if(refreshTime < 0)
-								refreshTime = 0;
-						}else {
-							refreshTime = 0;
-						}
-						CurrencySpiritApp.getApp().getHandler().postDelayed(new Runnable() {
-							@Override
-							public void run() {
-								if(mode == Mode.REFRESH || mode == Mode.NORMAL)
-									InformationModel.informationData.clear();
-								else {
-									start += count;
-								}
-								InformationModel.loadDataCount = data.size();
-								InformationModel.informationData.addAll(data);
-								InformationModel.notifyView(true);
-							}
-						},refreshTime);
-
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}else {
-					String errMsg = "";
-					try {
-						errMsg = response.errorBody().string();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-					InformationModel.notifyView(false);
-					Log.e(InformationViewModel.class,errMsg);
+			public void onSuccess(String result, long time) {
+				Gson gson = new Gson();
+				final ArrayList<InformationModel> data = gson.fromJson(result, new TypeToken<ArrayList<InformationModel>>() {}.getType());
+				start += count;
+				long refreshTime = 0;
+				if(mode == Mode.REFRESH){
+					refreshTime = InformationViewModel.refreshTime - time;
+					if(refreshTime < 0)
+						refreshTime = 0;
 				}
+				CurrencySpiritApp.postDelayed(new Runnable() {
+					@Override
+					public void run() {
+						if(mode == Mode.REFRESH || mode == Mode.NORMAL)
+							InformationModel.informationData.clear();
+						else {
+							start += count;
+						}
+						InformationModel.loadDataCount = data.size();
+						InformationModel.informationData.addAll(data);
+						InformationModel.notifyView(mode,true);
+					}
+				},refreshTime);
 			}
 
 			@Override
-			public void onFailure(Call<ResponseBody> call, Throwable t) {
-				InformationModel.notifyView(false);
-				Log.i(call.toString());
-				t.printStackTrace();
+			public void onFailed(String errMsg, long time) {
+				InformationModel.notifyView(mode, false);
+				Log.e(InformationViewModel.class,errMsg);
 			}
 		});
-	}
-	static long getTimeDifference(long ago){
-		long afterTime = System.currentTimeMillis();
-		return afterTime - ago;
 	}
 	public static void refreshData(){
 		start = 0;

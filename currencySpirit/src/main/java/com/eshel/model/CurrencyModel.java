@@ -93,15 +93,17 @@ public class CurrencyModel implements Serializable {
 		}
 
 		public static void notifyView(final BaseViewModel.Mode mode, final boolean isSuccess, final Class FragmentClass) {
-			CurrencySpiritApp.getApp().getHandler().post(new Runnable() {
+			CurrencySpiritApp.post(new Runnable() {
 				@Override
 				public void run() {
 					BaseFragment baseFragment = (BaseFragment) FragmentFactory.getFragment(FragmentClass);
+					if(baseFragment == null)
+						return;
 					if (isSuccess) {
 						if (baseFragment.getCurrState() != BaseFragment.LoadState.StateLoadSuccess)
 							baseFragment.changeState(BaseFragment.LoadState.StateLoadSuccess);
 						else {
-							baseFragment.notifyView();
+							baseFragment.notifyView(mode);
 						}
 					} else {
 						if (mode == BaseViewModel.Mode.NORMAL)
@@ -117,7 +119,6 @@ public class CurrencyModel implements Serializable {
 		}
 	}
 
-	// TODO: 2017/10/17
 	public static void attentionFailed(boolean isAttention, String msg) {
 		UIUtil.toast(msg);
 		BaseActivity topActivity = BaseActivity.getTopActivity();

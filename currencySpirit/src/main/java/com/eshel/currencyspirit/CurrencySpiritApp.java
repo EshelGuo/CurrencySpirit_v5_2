@@ -187,6 +187,12 @@ public class CurrencySpiritApp extends BaseApplication{
 		app = null;
 		super.onTerminate();
 	}
+	public static void post(Runnable runnable){
+		getApp().getHandler().post(runnable);
+	}
+	public static void postDelayed(Runnable runnable,long time){
+		getApp().getHandler().postDelayed(runnable,time);
+	}
 
 	public static String getMainThreadName(){
 		return mainThreadName;

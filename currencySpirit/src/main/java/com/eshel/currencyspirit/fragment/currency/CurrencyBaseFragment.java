@@ -36,6 +36,7 @@ import butterknife.ButterKnife;
 
 /**
  * Created by guoshiwen on 2017/10/16.
+ * 牛币界面 基类
  */
 
 public abstract class CurrencyBaseFragment extends BaseFragment{
@@ -92,12 +93,7 @@ public abstract class CurrencyBaseFragment extends BaseFragment{
 				@Override
 				public void onRefresh() {
 					mRv_currency.setRefreshing(true);
-					CurrencySpiritApp.getApp().getHandler().postDelayed(new Runnable() {
-						@Override
-						public void run() {
-							refreshData();
-						}
-					}, 0);
+					refreshData();
 				}
 			});
 			mRv_currency.onFinishLoading(true, false);
@@ -107,13 +103,8 @@ public abstract class CurrencyBaseFragment extends BaseFragment{
 	}
 	
 	@Override
-	public void notifyView() {
-		mRv_currency.post(new Runnable() {
-			@Override
-			public void run() {
-				mRv_currency.setOnRefreshComplete();
-			}
-		});
+	public void notifyView(BaseViewModel.Mode mode) {
+		mRv_currency.setOnRefreshComplete();
 		if (getBaseMode().loadDataCount < 20)
 			mRv_currency.onFinishLoading(false, false);
 		else

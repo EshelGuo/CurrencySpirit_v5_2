@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.eshel.currencyspirit.R;
 import com.eshel.currencyspirit.util.UIUtil;
+import com.eshel.viewmodel.BaseViewModel;
 
 /**
  * 项目名称: BaseProject
@@ -149,5 +150,5 @@ public abstract class BaseFragment extends Fragment{
 	public LoadState getCurrState(){
 		return mState;
 	}
-	public abstract void notifyView();
+	public abstract void notifyView(BaseViewModel.Mode mode);
 }

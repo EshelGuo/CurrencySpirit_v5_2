@@ -19,15 +19,11 @@ public abstract class BaseViewModel {
 	public enum Mode{
 		NORMAL,REFRESH,LOADMORE;
 	}
-	static long getTimeDifference(long ago){
-		long afterTime = System.currentTimeMillis();
-		return afterTime - ago;
-	}
-	long getRefreshTime(Mode mode,long ago){
+	long getRefreshTime(Mode mode,long time){
 		start += count;
 		long refreshTime;
 		if(mode == Mode.REFRESH){
-			refreshTime = this.refreshTime - BaseViewModel.getTimeDifference(ago);
+			refreshTime = this.refreshTime - time;
 			if(refreshTime < 0)
 				refreshTime = 0;
 		}else {

@@ -298,15 +298,21 @@ public class SplashActivity extends BaseActivity {
 		CurrencySpiritApp.getApp().getHandler().postDelayed(finishSplashTask,lifeTime);
 	}
 	private void saveDrviceId(){
-		TelephonyManager telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
-		String deviceId = telephonyManager.getDeviceId();
-		Log.i("addtag","deviceId: "+deviceId);
-		String simSerialNumber = telephonyManager.getSimSerialNumber();
-		Log.i("addtag","simSerialNumber: "+simSerialNumber);
-		AppConfig.deviceId = "CSA_"+deviceId+"_"+simSerialNumber;
-		Log.i("PID: "+AppConfig.deviceId);
-		if(ShapeUtil.get(AppConstant.key_deviceId,"").length() == 0){
-			ShapeUtil.put(AppConstant.key_deviceId,AppConfig.deviceId);
+		try {
+			TelephonyManager telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+			String deviceId = telephonyManager.getDeviceId();
+			Log.i("addtag","deviceId: "+deviceId);
+			String simSerialNumber = telephonyManager.getSimSerialNumber();
+			Log.i("addtag","simSerialNumber: "+simSerialNumber);
+			AppConfig.deviceId = "CSA_"+deviceId+"_"+simSerialNumber;
+			Log.i("PID: "+AppConfig.deviceId);
+			if(ShapeUtil.get(AppConstant.key_deviceId,"").length() == 0){
+				ShapeUtil.put(AppConstant.key_deviceId,AppConfig.deviceId);
+			}
+		}catch (Exception e){
+		    e.printStackTrace();
+		}catch (Error e){
+		    e.printStackTrace();
 		}
 	}
 

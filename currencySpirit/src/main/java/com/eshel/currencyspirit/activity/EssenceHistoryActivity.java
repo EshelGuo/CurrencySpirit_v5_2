@@ -22,6 +22,7 @@ import com.eshel.currencyspirit.widget.RecycleViewDivider;
 import com.eshel.currencyspirit.widget.util.Config;
 import com.eshel.currencyspirit.widget.util.GlideRoundedRectangleTransform;
 import com.eshel.model.EssenceModel;
+import com.eshel.viewmodel.BaseViewModel;
 import com.eshel.viewmodel.EssenceViewModel;
 import com.lhh.ptrrv.library.PullToRefreshRecyclerView;
 
@@ -58,7 +59,7 @@ public class EssenceHistoryActivity extends BaseActivity {
 		setTitleText(UIUtil.getString(R.string.item_history));
 		init();
 		setSwipeBackEnable(true);
-		EssenceViewModel.getEssenceDataFromHistory();
+		EssenceViewModel.getEssenceDataFromHistory(BaseViewModel.Mode.NORMAL);
 	}
 
 	public void init() {
@@ -78,22 +79,16 @@ public class EssenceHistoryActivity extends BaseActivity {
 			@Override
 			public void onRefresh() {
 				mRvEssence.setRefreshing(true);
-				// todo do refresh here
-				CurrencySpiritApp.getApp().getHandler().postDelayed(new Runnable() {
-					@Override
-					public void run() {
-						EssenceViewModel.getEssenceDataFromHistory();
-						mRvEssence.setOnRefreshComplete();
-						mRvEssence.onFinishLoading(false, false);
-					}
-				},1000);
+				EssenceViewModel.getEssenceDataFromHistory(BaseViewModel.Mode.REFRESH);
 			}
 		});
 		// set loadmore enable, onFinishLoading(can load more? , select before item)
 		mRvEssence.onFinishLoading(false, false);
 	}
 
-	public void notifyView() {
+	public void notifyView(BaseViewModel.Mode mode) {
+		if(mode == BaseViewModel.Mode.REFRESH)
+			mRvEssence.setOnRefreshComplete();
 		if(mRvEssence != null && mEssenceAdapter != null) {
 			mRvEssence.onFinishLoading(false, false);
 			mEssenceAdapter.notifyDataSetChanged();

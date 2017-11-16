@@ -4,7 +4,10 @@ import com.eshel.currencyspirit.CurrencySpiritApp;
 import com.eshel.database.dao.EssenceHistoryDao;
 import com.eshel.database.table.EssenceHistory;
 import com.eshel.model.EssenceModel;
+import com.eshel.net.RetrofitUtil;
+import com.eshel.net.api.ApiUtil;
 import com.eshel.net.api.NewListApi;
+import com.eshel.net.api.StringCallback;
 import com.eshel.net.factory.RetrofitFactory;
 import com.eshel.viewmodel.BaseViewModel.Mode;
 import com.google.gson.Gson;
@@ -30,81 +33,61 @@ public class EssenceViewModel {
 	static int count = 20;
 
 	static long refreshTime = 2000;
-	public static void getEssenceDataFromHistory(){
+	public static void getEssenceDataFromHistory(final Mode mode){
+		final long ago = System.currentTimeMillis();
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
 				EssenceModel.transitionData(EssenceHistoryDao.queryAll());
-				CurrencySpiritApp.getApp().getHandler().post(new Runnable() {
+				long now = System.currentTimeMillis();
+				long time = now - ago;
+				if(time > refreshTime)
+					time = refreshTime;
+				if(mode != Mode.REFRESH){
+					time = 0;
+				}
+				CurrencySpiritApp.postDelayed(new Runnable() {
 					@Override
 					public void run() {
-						EssenceModel.notifyHistoryActivity();
+						EssenceModel.notifyHistoryActivity(mode);
 					}
-				});
+				},refreshTime - time);
 			}
 		}).start();
 	}
 
 	public static void getEssenceData(final Mode mode ){
-		final long ago = System.currentTimeMillis();
-		NewListApi newListApi = RetrofitFactory.getRetrofit().create(NewListApi.class);
-		Call<ResponseBody> essence = newListApi.essence(start, count);
-		essence.enqueue(new Callback<ResponseBody>() {
+		Call<ResponseBody> essence = RetrofitUtil.createApi().essence(start,count);
+		RetrofitUtil.enqueueCall(essence, new StringCallback() {
 			@Override
-			public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-				if(response.isSuccessful()){
-					try {
-						String json = response.body().string();
-//						DiskCache.cacheToDisk(CacheType.Type_Essence,start,json);
-						refreshView(json, mode, ago);
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}else {
-					String errMsg = "";
-					try {
-						errMsg = response.errorBody().string();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-//					String json = DiskCache.getJsonFromDiskCache(CacheType.Type_Essence, start);
-//					Log.i(json);
-					/*if(!StringUtils.isEmpty(json)) {
-						refreshView(json,mode,ago);
-					}else {*/
-					EssenceModel.notifyView(mode,false);
-					Log.e(EssenceViewModel.class, errMsg);
+			public void onSuccess(String result,long time) {
+				try {
+//					DiskCache.cacheToDisk(CacheType.Type_Essence,start,json);
+					refreshView(result, mode, time);
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			}
-
 			@Override
-			public void onFailure(Call<ResponseBody> call, Throwable t) {
-//				String json = DiskCache.getJsonFromDiskCache(CacheType.Type_Essence, start);
-//				Log.i(EssenceViewModel.class,json);
-				/*if(!StringUtils.isEmpty(json)) {
-					refreshView(json,mode,ago);
-				}else {*/
+			public void onFailed(String errMsg,long time) {
 				EssenceModel.notifyView(mode,false);
-//				Log.i(call.toString());
-				t.printStackTrace();
+				Log.e(EssenceViewModel.class, "Essence 精华数据加载失败, msg: "+errMsg);
 			}
 		});
 	}
 
-	private static void refreshView(String json, final Mode mode, long ago) {
+	private static void refreshView(String json, final Mode mode, long time) {
 		Gson gson = new Gson();
-		final ArrayList<EssenceModel> data = gson.fromJson(json, new TypeToken<ArrayList<EssenceModel>>() {
-		}.getType());
+		final ArrayList<EssenceModel> data = gson.fromJson(json, new TypeToken<ArrayList<EssenceModel>>() {}.getType());
 		start += count;
-		long refreshTime;
+		long refreshTime = 0;
 		if(mode == Mode.REFRESH){
-			refreshTime = EssenceViewModel.refreshTime - BaseViewModel.getTimeDifference(ago);
+			// 计算等待时间
+			refreshTime = EssenceViewModel.refreshTime - time;
 			if(refreshTime < 0)
 				refreshTime = 0;
-		}else {
-			refreshTime = 0;
 		}
-		CurrencySpiritApp.getApp().getHandler().postDelayed(new Runnable() {
+		CurrencySpiritApp.postDelayed(new Runnable() {
 			@Override
 			public void run() {
 				if(mode == Mode.REFRESH || mode == Mode.NORMAL)

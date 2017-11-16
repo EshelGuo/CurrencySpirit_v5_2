@@ -26,6 +26,7 @@ import com.eshel.currencyspirit.fragment.InformationFragment;
 import com.eshel.currencyspirit.fragment.UserFragment;
 import com.eshel.currencyspirit.util.UIUtil;
 import com.eshel.currencyspirit.widget.night.NightViewUtil;
+import com.eshel.viewmodel.BaseViewModel;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarTab;
 import com.roughike.bottombar.OnTabSelectListener;
@@ -236,6 +237,6 @@ public class HomeActivity extends BaseActivity {
 		}
 		CurrencyFragment fragment = (CurrencyFragment) FragmentFactory.getFragment(CurrencyFragment.class);
 		if(fragment != null)
-			fragment.notifyView();
+			fragment.notifyView(BaseViewModel.Mode.NORMAL);
 	}
 }

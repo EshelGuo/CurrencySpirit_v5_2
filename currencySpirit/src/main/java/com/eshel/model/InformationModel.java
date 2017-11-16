@@ -1,17 +1,16 @@
 package com.eshel.model;
-
 import com.eshel.currencyspirit.CurrencySpiritApp;
 import com.eshel.currencyspirit.factory.FragmentFactory;
-import com.eshel.currencyspirit.fragment.EssenceFragment;
 import com.eshel.currencyspirit.fragment.InformationFragment;
-
+import com.eshel.viewmodel.BaseViewModel;
 import java.io.Serializable;
 import java.util.ArrayList;
-
 import baseproject.base.BaseFragment;
+import baseproject.util.Log;
 
 /**
- * Created by guoshiwen on 2017/10/10.
+ * Created by Eshel on 2017/10/10.
+ * 微博 Model 类
  */
 
 public class InformationModel implements Serializable{
@@ -43,16 +42,20 @@ public class InformationModel implements Serializable{
 	public static InformationModel getInformationDataByPosition(int position){
 		return informationData.get(position);
 	}
-	public static void notifyView(final boolean isSuccess){
+	public static void notifyView(final BaseViewModel.Mode mode, final boolean isSuccess){
 		CurrencySpiritApp.getApp().getHandler().post(new Runnable() {
 			@Override
 			public void run() {
 				BaseFragment informationFragment = (BaseFragment) FragmentFactory.getFragment(InformationFragment.class);
+				if(informationFragment == null) {
+					Log.i(String.format("更新数据%s, 刷新 informationFragment UI失败",isSuccess ? "成功" : "失败"));
+					return;
+				}
 				if(isSuccess) {
 					if (informationFragment.getCurrState() != BaseFragment.LoadState.StateLoadSuccess)
 						informationFragment.changeState(BaseFragment.LoadState.StateLoadSuccess);
 					else {
-						informationFragment.notifyView();
+						informationFragment.notifyView(mode);
 					}
 				}else {
 					informationFragment.changeState(BaseFragment.LoadState.StateLoadFailed);

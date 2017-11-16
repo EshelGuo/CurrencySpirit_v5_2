@@ -11,7 +11,9 @@ import com.eshel.currencyspirit.util.UIUtil;
 import com.eshel.database.dao.CurrencyDao;
 import com.eshel.database.table.CurrencyTable;
 import com.eshel.model.CurrencyModel;
+import com.eshel.net.RetrofitUtil;
 import com.eshel.net.api.NewListApi;
+import com.eshel.net.api.StringCallback;
 import com.eshel.net.factory.RetrofitFactory;
 import com.eshel.viewmodel.BaseViewModel.Mode;
 import com.google.gson.Gson;
@@ -141,45 +143,29 @@ public class CurrencyViewModel {
 	}
 
 	public static void getData(final BaseViewModel base , final Mode mode, String sort, boolean desc, final CurrencyModel.BaseModel baseModel, final Class fragmentClass){
-		final long ago = System.currentTimeMillis();
-		NewListApi newListApi = RetrofitFactory.getRetrofit().create(NewListApi.class);
-		Call<ResponseBody> currency = newListApi.coinInfo(base.start, base.count,sort,desc,"USD");
-		currency.enqueue(new Callback<ResponseBody>() {
+		Call<ResponseBody> currency = RetrofitUtil.createApi().coinInfo(base.start, base.count,sort,desc,"USD");
+		RetrofitUtil.enqueueCall(currency, new StringCallback() {
 			@Override
-			public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-				if(response.isSuccessful()){
-					try {
-						String json = response.body().string();
-						refreshView(json, mode, ago,base,baseModel,fragmentClass);
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}else {
-					String errMsg = "";
-					try {
-						errMsg = response.errorBody().string();
-					} catch (Throwable e) {
-						e.printStackTrace();
-					}
-					baseModel.notifyView(mode,false,fragmentClass);
+			public void onSuccess(String result, long time) {
+				refreshView(result, mode, time,base,baseModel,fragmentClass);
+			}
+			@Override
+			public void onFailed(String errMsg, long time) {
+				if(baseModel != null) {
+					baseModel.notifyView(mode, false, fragmentClass);
 					Log.e(CurrencyViewModel.class, errMsg);
 				}
 			}
-			@Override
-			public void onFailure(Call<ResponseBody> call, Throwable t) {
-				baseModel.notifyView(mode,false,fragmentClass);
-				t.printStackTrace();
-			}
 		});
 	}
-	private static void refreshView(String json, final Mode mode, long ago, final BaseViewModel base, final CurrencyModel.BaseModel baseModel, final Class fragmentClass) {
+	private static void refreshView(String json, final Mode mode, long time, final BaseViewModel base, final CurrencyModel.BaseModel baseModel, final Class fragmentClass) {
 		Gson gson = new Gson();
 		final ArrayList<CurrencyModel> data = gson.fromJson(json, new TypeToken<ArrayList<CurrencyModel>>() {}.getType());
 		if(SelfSelectFragment.class == fragmentClass)
 			for (CurrencyModel currencyModel : data) {
 				CurrencyDao.update(currencyModel);
 			}
-		CurrencySpiritApp.getApp().getHandler().postDelayed(new Runnable() {
+		CurrencySpiritApp.postDelayed(new Runnable() {
 			@Override
 			public void run() {
 				if(mode == Mode.REFRESH || mode == Mode.NORMAL)
@@ -191,7 +177,7 @@ public class CurrencyViewModel {
 				baseModel.data.addAll(data);
 				baseModel.notifyView(mode,true,fragmentClass);
 			}
-		},base.getRefreshTime(mode,ago));
+		},base.getRefreshTime(mode,time));
 	}
 
 	public static void attention(final CurrencyModel currencyModel){

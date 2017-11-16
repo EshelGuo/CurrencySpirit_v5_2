@@ -20,6 +20,7 @@ import com.eshel.currencyspirit.fragment.currency.MarketValueFragment;
 import com.eshel.currencyspirit.fragment.currency.SelfSelectFragment;
 import com.eshel.currencyspirit.util.UIUtil;
 import com.eshel.currencyspirit.widget.night.NightViewUtil;
+import com.eshel.viewmodel.BaseViewModel;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
 import baseproject.base.BaseFragment;
@@ -92,7 +93,7 @@ public class CurrencyFragment extends BaseFragment {
 	}
 
 	@Override
-	public void notifyView() {
+	public void notifyView(BaseViewModel.Mode mode) {
 		NightViewUtil.changeNightMode(NightViewUtil.getNightMode(),this);
 		if(mCurrencyAdapter != null){
 			for (int i = 0; i < mCurrencyAdapter.getCount(); i++) {
