@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.eshel.currencyspirit.R;
 import com.eshel.currencyspirit.activity.SplashActivity;
 import com.eshel.currencyspirit.util.UIUtil;
+import com.eshel.currencyspirit.widget.night.NightTextView;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -160,15 +161,19 @@ public class ViewUtil {
 		if(context == null&&view == null)
 			return null;
 		if(view == null){
-			view = new TextView(context);
+			view = new NightTextView(context);
 			view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 		}
-		view.setTextSize(20);
+		view.setTextColor(UIUtil.getColor(R.color.black));
+		view.setTextSize(18);
 		view.setGravity(Gravity.CENTER);
 		view.setText(msg);
 		return view;
 	}
 	public static View getLoadingView(Context context){
-		return View.inflate(context,R.layout.fragment_loading,null);
+		View view = View.inflate(context, R.layout.fragment_loading, null);
+		TextView tv_loading = (TextView) view.findViewById(R.id.tv_loading);
+		tv_loading.setTextColor(UIUtil.getColor(R.color.black));
+		return view;
 	}
 }

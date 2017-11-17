@@ -14,6 +14,8 @@ import com.eshel.currencyspirit.R;
 import com.eshel.currencyspirit.util.UIUtil;
 import com.eshel.viewmodel.BaseViewModel;
 
+import static com.eshel.currencyspirit.R.id.tv_failed;
+
 /**
  * 项目名称: BaseProject
  * 创建人: Eshel
@@ -73,6 +75,8 @@ public abstract class BaseFragment extends Fragment{
 	}
 	private void setLoadingView(){
 		View loadingView = View.inflate(getActivity(), R.layout.fragment_loading, null);
+		TextView tvLoading = (TextView) loadingView.findViewById(R.id.tv_loading);
+		tvLoading.setTextColor(UIUtil.getColor(R.color.black));
 		final View view = loadingView.findViewById(R.id.spin_kit);
 		ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
 		int width = UIUtil.getScreenWidth() / 10;
@@ -89,6 +93,7 @@ public abstract class BaseFragment extends Fragment{
 	private void setLoadFailedView(){
 		View loadFailedView = View.inflate(getActivity(),R.layout.fragment_load_failed,null);
 		TextView tv_failed = (TextView) loadFailedView.findViewById(R.id.tv_failed);
+		tv_failed.setTextColor(UIUtil.getColor(R.color.black));
 		tv_failed.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {

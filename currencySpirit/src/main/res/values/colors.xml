@@ -32,9 +32,9 @@
     <color name="edit_hight_color">#88B0BEC5</color>
 
     <color name="btn_normal_color">#61d7ff</color>
-    <color name="night_btn_normal_color">#47a2c1</color>
+    <color name="night_btn_normal_color">#2f6c81</color>
     <color name="btn_pressed_color">#51b9dc</color>
-    <color name="night_btn_pressed_color">#307086</color>
+    <color name="night_btn_pressed_color">#45a9ca</color>
 
     <color name="progressbar_drawable">#43BF17</color>
     <color name="white">#ffffff</color>

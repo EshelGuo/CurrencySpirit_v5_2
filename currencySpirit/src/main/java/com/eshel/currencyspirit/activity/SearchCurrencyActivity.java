@@ -67,6 +67,8 @@ public class SearchCurrencyActivity extends BaseActivity {
 		showTitle();
 		showBack();
 		setTitleText(UIUtil.getString(R.string.search));
+		mBtnSearch.setTextColor(UIUtil.getColor(R.color.black));
+		mSearchView.setTextColor(UIUtil.getColor(R.color.black));
 		mSearchView.setBackgroundResource(R.drawable.search_drawable);
 		mBtnSearch.setBackgroundResource(R.drawable.btn_selector);
 		mBtnSearch.setOnClickListener(new View.OnClickListener() {
