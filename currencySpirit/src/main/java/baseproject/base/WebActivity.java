@@ -11,6 +11,7 @@ import com.tencent.smtt.sdk.WebChromeClient;
 import com.tencent.smtt.sdk.WebSettings;
 import com.tencent.smtt.sdk.WebView;
 
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
 import android.widget.LinearLayout;
@@ -237,9 +238,11 @@ public abstract class WebActivity extends BaseActivity {
 
 	@Override
 	protected void onDestroy() {
-		super.onDestroy();
+		ViewGroup viewGroup = (ViewGroup) getContentView();
+		viewGroup.removeView(mWebView);
 		mWebView.removeAllViews();
 		mWebView.destroy();
+		super.onDestroy();
 	}
 
 	public void reLoad() {
