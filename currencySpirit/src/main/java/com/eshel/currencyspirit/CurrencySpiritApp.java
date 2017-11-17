@@ -19,6 +19,8 @@ import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
 import com.tencent.mta.track.DebugMode;
 import com.tencent.mta.track.StatisticsDataAPI;
+import com.tencent.smtt.sdk.QbSdk;
+import com.tencent.smtt.sdk.WebView;
 import com.tencent.stat.MtaSDkException;
 import com.tencent.stat.StatConfig;
 import com.tencent.stat.StatReportStrategy;
@@ -49,6 +51,8 @@ public class CurrencySpiritApp extends BaseApplication{
 		Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
 			@Override
 			public void uncaughtException(Thread t, Throwable e) {
+				String crashExtraMessage = WebView.getCrashExtraMessage(getApplicationContext());
+				Log.e("TBS crashExtraMessage: "+crashExtraMessage);
 				Log.e(e.getMessage());
 				e.printStackTrace();
 				Process.killProcess(Process.myPid());
@@ -59,8 +63,8 @@ public class CurrencySpiritApp extends BaseApplication{
 		Log.i("appprocess: "+ProcessUtil.getCurrentProcessName(getApplicationContext()));
 		app = this;
 		mainThreadName = Thread.currentThread().getName();
-//		String currentProcessName = ProcessUtil.getCurrentProcessName(getApplicationContext());
-		if(/*currentProcessName.equals(getPackageName())*/true) {
+		String currentProcessName = ProcessUtil.getCurrentProcessName(getApplicationContext());
+		if(currentProcessName.equals("com.eshel.currencyspirit")) {
 			mainOnCreate();
 			UIUtil.debugToast("信鸽推送 开始注册");
 		}else {
@@ -84,6 +88,17 @@ public class CurrencySpiritApp extends BaseApplication{
 		if(!ShapeUtil.get(AppConstant.key_push,true))
 			return;
 		registerXGPush();
+		QbSdk.initX5Environment(getApplicationContext(), new QbSdk.PreInitCallback() {
+			@Override
+			public void onCoreInitFinished() {
+				Log.i("TBS: onCoreInitFinished");
+			}
+
+			@Override
+			public void onViewInitFinished(boolean b) {
+				Log.i("TBS: onViewInitFinished --> "+ (b ? "成功":"失败"));
+			}
+		});
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
 			registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
 				@Override
