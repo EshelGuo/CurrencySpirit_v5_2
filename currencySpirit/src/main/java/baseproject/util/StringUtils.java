@@ -1,5 +1,7 @@
 package baseproject.util;
 
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -7,6 +9,9 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.CharacterStyle;
 import android.text.style.ForegroundColorSpan;
+
+import com.eshel.currencyspirit.CurrencySpiritApp;
+import com.eshel.currencyspirit.util.UIUtil;
 
 import java.text.DecimalFormat;
 
@@ -180,5 +185,12 @@ public class StringUtils {
 			return (char) (c-32);
 		}
 		return c;
+	}
+	public static void debugCopyStringToClipboard(String text){
+		if(UIUtil.isDebug()) {
+			ClipboardManager clipboardManager = (ClipboardManager) CurrencySpiritApp.getApp().getSystemService(Context.CLIPBOARD_SERVICE);
+			clipboardManager.setText(text);
+			UIUtil.debugToast("内容已复制到剪贴板");
+		}
 	}
 }

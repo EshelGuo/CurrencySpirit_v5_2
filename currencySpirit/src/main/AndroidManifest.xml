@@ -36,23 +36,23 @@
             android:exported="true"
             android:launchMode="singleTask"
             android:name=".activity.HomeActivity"/>
+            <!--android:hardwareAccelerated="false"-->
         <activity
             android:exported="true"
-            android:hardwareAccelerated="false"
             android:theme="@style/BackgroundTranslucentTheme"
             android:name=".activity.EssenceDetailsActivity"/>
+            <!--android:hardwareAccelerated="false"-->
         <activity
             android:exported="true"
-            android:hardwareAccelerated="false"
             android:theme="@style/BackgroundTranslucentTheme"
             android:name=".activity.CurrencyDetailsActivity"/>
         <activity
             android:exported="true"
             android:theme="@style/BackgroundTranslucentTheme"
             android:name=".activity.EssenceHistoryActivity"/>
+            <!--android:hardwareAccelerated="false"-->
         <activity
             android:exported="true"
-            android:hardwareAccelerated="false"
             android:theme="@style/BackgroundTranslucentTheme"
             android:name=".activity.WeiboDetailsActivity"/>
         <activity

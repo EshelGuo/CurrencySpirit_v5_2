@@ -24,7 +24,9 @@ import com.eshel.currencyspirit.util.UIUtil;
 import com.eshel.currencyspirit.widget.night.NightViewUtil;
 import com.tencent.smtt.sdk.WebViewClient;
 
+import baseproject.util.Log;
 import baseproject.util.NetUtils;
+import baseproject.util.StringUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -129,12 +131,28 @@ public abstract class WebActivity extends BaseActivity {
 			mProgressBar.setBackgroundColor(Color.parseColor("#2e2e2e"));
 		}
 		WebSettings settings = mWebView.getSettings();
+
+		settings.setJavaScriptCanOpenWindowsAutomatically(true);
+		settings.setAllowFileAccess(true);
+		settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
+		settings.setSupportMultipleWindows(true);
+		// webSetting.setLoadWithOverviewMode(true);
+		settings.setAppCacheEnabled(true);
+		// webSetting.setDatabaseEnabled(true);
+		settings.setDomStorageEnabled(true);
+		settings.setGeolocationEnabled(true);
+		settings.setAppCacheMaxSize(Long.MAX_VALUE);
+		// webSetting.setPageCacheCapacity(IX5WebSettings.DEFAULT_CACHE_CAPACITY);
+		settings.setPluginState(WebSettings.PluginState.ON_DEMAND);
+		// webSetting.setRenderPriority(WebSettings.RenderPriority.HIGH);
+		settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+
 		settings.setCacheMode(NetUtils.hasNetwork(this) ? WebSettings.LOAD_DEFAULT : WebSettings.LOAD_CACHE_ELSE_NETWORK);
 		settings.setJavaScriptEnabled(true);
 		mWebView.addJavascriptInterface(new LoadFailedJs(this),"LoadFailedJs");
 		settings.setUseWideViewPort(true);
 		settings.setLoadWithOverviewMode(true);
-		settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+//		settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
 		settings.setSupportZoom(true);
 		settings.setBuiltInZoomControls(true);
 		settings.setDisplayZoomControls(false);
@@ -205,6 +223,8 @@ public abstract class WebActivity extends BaseActivity {
 			mWebView.switchNightMode(false);
 		}*/
 		this.url = url;
+		StringUtils.debugCopyStringToClipboard(url);
+		Log.i("url: "+ url);
 		CurrencySpiritApp.getApp().getHandler().removeCallbacks(moveProgressTask);
 		CurrencySpiritApp.post(moveProgressTask);
 		if(ThreadUtil.isMainThread()) {
