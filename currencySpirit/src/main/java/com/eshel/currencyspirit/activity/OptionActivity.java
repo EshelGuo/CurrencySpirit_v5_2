@@ -16,6 +16,11 @@ import com.eshel.currencyspirit.fragment.CurrencyFragment;
 import com.eshel.currencyspirit.util.UIUtil;
 import com.eshel.currencyspirit.widget.OptionItemView;
 import com.eshel.currencyspirit.widget.night.NightViewUtil;
+import com.liulishuo.filedownloader.util.FileDownloadLog;
+import com.tencent.android.tpush.XGPushConfig;
+import com.tencent.mta.track.DebugMode;
+import com.tencent.mta.track.StatisticsDataAPI;
+import com.tencent.stat.StatConfig;
 
 import baseproject.base.BaseActivity;
 import baseproject.util.FileUtils;
@@ -109,9 +114,14 @@ public class OptionActivity extends BaseActivity {
 			case R.id.version:
 				debug--;
 				if(debug <= 0){
-					Log.openLog();
-					UIUtil.setDebug(true);
-					UIUtil.debugToast("您已经进入debug模式, 重启APP即可开启所有日志");
+					if(debug == 0) {
+						Log.openLog();
+						UIUtil.setDebug(true);
+						FileDownloadLog.NEED_LOG = UIUtil.isDebug();
+						StatConfig.setDebugEnable(UIUtil.isDebug());
+						XGPushConfig.enableDebug(getApplicationContext(), UIUtil.isDebug());
+					}
+					UIUtil.debugToast("您已经进入debug模式");
 					return;
 				}
 				UIUtil.toast("点击5次进入debug模式,还有"+debug+"次");
