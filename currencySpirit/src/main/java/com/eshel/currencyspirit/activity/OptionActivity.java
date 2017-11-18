@@ -112,6 +112,7 @@ public class OptionActivity extends BaseActivity {
 					Log.openLog();
 					UIUtil.setDebug(true);
 					UIUtil.debugToast("您已经进入debug模式, 重启APP即可开启所有日志");
+					return;
 				}
 				UIUtil.toast("点击5次进入debug模式,还有"+debug+"次");
 				break;
