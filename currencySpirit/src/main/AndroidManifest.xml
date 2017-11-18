@@ -59,6 +59,9 @@
             android:theme="@style/BackgroundTranslucentTheme"
             android:name=".activity.AboutActivity"/>
         <activity
+            android:theme="@style/BackgroundTranslucentTheme"
+            android:name=".activity.LookImageActivity"/>
+        <activity
             android:name=".activity.OptionActivity"
             android:theme="@style/BackgroundTranslucentTheme"/>
         <activity

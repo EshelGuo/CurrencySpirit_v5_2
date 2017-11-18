@@ -2,9 +2,14 @@ package baseproject.base;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 
 import com.tencent.smtt.sdk.WebChromeClient;
@@ -14,7 +19,9 @@ import com.tencent.smtt.sdk.WebView;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 
 import com.eshel.currencyspirit.CurrencySpiritApp;
@@ -24,9 +31,11 @@ import com.eshel.currencyspirit.util.UIUtil;
 import com.eshel.currencyspirit.widget.night.NightViewUtil;
 import com.tencent.smtt.sdk.WebViewClient;
 
+import baseproject.util.DensityUtil;
 import baseproject.util.Log;
 import baseproject.util.NetUtils;
 import baseproject.util.StringUtils;
+import baseproject.util.WebImageUtil;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -109,6 +118,9 @@ public abstract class WebActivity extends BaseActivity {
 			}
 		}
 	};
+	private int downX;
+	private int downY;
+
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -124,7 +136,7 @@ public abstract class WebActivity extends BaseActivity {
 		initWebView();
 		setSwipeBackEnable(true);
 	}
-	private boolean loadFailed;
+	public boolean loadFailed;
 	private int tempProgress;
 	private void initWebView() {
 		mWebView.setDayOrNight(!NightViewUtil.getNightMode());
@@ -150,18 +162,15 @@ public abstract class WebActivity extends BaseActivity {
 		settings.setPluginState(WebSettings.PluginState.ON_DEMAND);
 		// webSetting.setRenderPriority(WebSettings.RenderPriority.HIGH);
 		settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
-
-		settings.setCacheMode(NetUtils.hasNetwork(this) ? WebSettings.LOAD_DEFAULT : WebSettings.LOAD_CACHE_ELSE_NETWORK);
 		settings.setJavaScriptEnabled(true);
-		mWebView.addJavascriptInterface(new LoadFailedJs(this),"LoadFailedJs");
+		settings.setCacheMode(NetUtils.hasNetwork(this) ? WebSettings.LOAD_DEFAULT : WebSettings.LOAD_CACHE_ELSE_NETWORK);
+		addJavascriptInterface();
 		settings.setUseWideViewPort(true);
 		settings.setLoadWithOverviewMode(true);
 //		settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
 		settings.setSupportZoom(true);
 		settings.setBuiltInZoomControls(true);
 		settings.setDisplayZoomControls(false);
-
-
 		mWebView.setWebViewClient(new WebViewClient(){
 
 			@Override
@@ -177,7 +186,10 @@ public abstract class WebActivity extends BaseActivity {
 
 			@Override
 			public void onPageFinished(WebView view, String url) {
-
+				//String imageOnClick = "javascript:(function(){var imgs=document.getElementsByTagName(\"img\");for(var i=0;i<imgs.length;i++){imgs[i].onclick=function(){window.BigImage.showBigImg(this.src);}}})()";
+				//网页Image标签点击事件
+//				String imageOnLongClick = "javascript:function holdDown(var src){timeStart=getTimeNow();time=setInterval(function(){timeEnd=getTimeNow();if(timeEnd-timeStart>1000){clearInterval(time);window.BigImage.showBigImg(src);}},100);}function holdUp(){clearInterval(time);}(function(){var imgs=document.getElementsByTagName(\"img\");for(var i=0;i<imgs.length;i++){imgs[i].onmousedown=holdDown(this.src);imgs[i].onmouseup=holdUp();}})();var timeStart,timeEnd,time;function getTimeNow(){var now=new Date();return now.getTime();}";
+				//mWebView.loadUrl(imageOnClick);
 				if("file:///android_asset/currency/offline.html".equals(url)){
 					if(NightViewUtil.getNightMode()) {
 						//mWebView.loadUrl("javascript:nightMode()");
@@ -217,6 +229,94 @@ public abstract class WebActivity extends BaseActivity {
 				super.onProgressChanged(view, newProgress);
 			}
 		});
+		initWebViewEvent();
+	}
+
+	private void initWebViewEvent() {
+		mWebView.setOnTouchListener(new View.OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				downX = (int) event.getX();
+				downY = (int) event.getY();
+				return false;
+			}
+		});
+		mWebView.getView().setOnLongClickListener(new View.OnLongClickListener() {
+			@Override
+			public boolean onLongClick(final View v) {
+				final WebView.HitTestResult result = mWebView.getHitTestResult();
+				if (null == result)
+					return false;
+				int type = result.getType();
+				if (type == WebView.HitTestResult.UNKNOWN_TYPE)
+					return false;
+				if (type == WebView.HitTestResult.EDIT_TEXT_TYPE) {
+				}
+				// 这里可以拦截很多类型，我们只处理图片类型就可以了
+				switch (type) {
+					case WebView.HitTestResult.PHONE_TYPE: // 处理拨号
+						break;
+					case WebView.HitTestResult.EMAIL_TYPE: // 处理Email
+						break;
+					case WebView.HitTestResult.GEO_TYPE: // TODO
+						break;
+					case WebView.HitTestResult.SRC_ANCHOR_TYPE: // 超链接
+						break;
+					case WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE:
+						break;
+					case WebView.HitTestResult.IMAGE_TYPE: // 处理长按图片的菜单项
+						WebActivity.this.runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								UIUtil.debugShortToast("长按图片");
+								int popupWidth = UIUtil.getScreenWidth() / 3;
+								int popupHight = (int) (popupWidth * 2 / 2.5f);
+								Log.i(popupWidth);
+								Log.i(popupHight);
+								View root = View.inflate(mWebView.getContext(),R.layout.layout_image_popupwindow, null);
+								LinearLayout view = (LinearLayout) root;
+								view.setOrientation(LinearLayout.VERTICAL);
+								view.setBackgroundColor(Color.WHITE);
+								view.setLayoutParams(new ViewGroup.LayoutParams(popupWidth,popupHight));
+								// 相应长按事件弹出菜单
+								final PopupWindow popupWindow = new PopupWindow(view,popupWidth,popupHight,true);
+								popupWindow.setFocusable(true);
+								popupWindow.setOutsideTouchable(false);
+								popupWindow.setBackgroundDrawable(new BitmapDrawable());
+								// 获取图片的路径
+								final String imgUrl = result.getExtra();
+								Button lookImg = (Button) view.findViewById(R.id.look_img);
+								Button saveImg = (Button) view.findViewById(R.id.save_img);
+								lookImg.setOnClickListener(new View.OnClickListener() {
+									@Override
+									public void onClick(View v) {
+										WebImageUtil.lookImg(WebActivity.this,imgUrl);
+										popupWindow.dismiss();
+									}
+								});
+								saveImg.setOnClickListener(new View.OnClickListener() {
+									@Override
+									public void onClick(View v) {
+										WebImageUtil.saveImg(imgUrl);
+										popupWindow.dismiss();
+									}
+								});
+								//通过GestureDetector获取按下的位置，来定位PopWindow显示的位置
+								popupWindow.showAtLocation(v, Gravity.LEFT|Gravity.TOP, downX + DensityUtil.dp2px(40), downY - popupHight/2);
+							}
+						});
+						break;
+					default:
+						break;
+				}
+				return true;
+			}
+		});
+	}
+
+	public void addJavascriptInterface(){
+		mWebView.addJavascriptInterface(new LoadFailedJs(this),"LoadFailedJs");
+//		mWebView.addJavascriptInterface(new BigImage(this),"BigImage");
 	}
 
 	public abstract View initTitleView();
@@ -266,6 +366,8 @@ public abstract class WebActivity extends BaseActivity {
 		viewGroup.removeView(mWebView);
 		mWebView.removeAllViews();
 		mWebView.destroy();
+		LoadFailedJs.close();
+		BigImage.close();
 		super.onDestroy();
 	}
 
@@ -274,31 +376,55 @@ public abstract class WebActivity extends BaseActivity {
 		mWebView.clearHistory();
 		loadUrl(url);
 	}
+	private static class BigImage{
+		private static BigImage mBigImage;
+		public static void close(){
+			if(mBigImage != null) {
+				mBigImage.webActivity = null;
+				mBigImage = null;
+			}
+		}
+		WebActivity webActivity;
 
-	public class LoadFailedJs {
-
-		BaseActivity webActivity;
-
-		public LoadFailedJs(BaseActivity webActivity) {
+		public BigImage(WebActivity webActivity) {
 			this.webActivity = webActivity;
+			mBigImage = this;
+		}
+
+		@JavascriptInterface
+		public void showBigImg(String src) {
+			UIUtil.debugToast("imageurl: "+src);
+		}
+	}
+
+	private static class LoadFailedJs {
+		private static LoadFailedJs mLoadFailedJs;
+		public static void close(){
+			if(mLoadFailedJs != null) {
+				mLoadFailedJs.webActivity = null;
+				mLoadFailedJs = null;
+			}
+		}
+		WebActivity webActivity;
+
+		public LoadFailedJs(WebActivity webActivity) {
+			this.webActivity = webActivity;
+			mLoadFailedJs = this;
 		}
 
 		@JavascriptInterface
 		public void reLoad() {
 			UIUtil.debugToast("reload");
-			loadFailed = false;
-			if (webActivity instanceof WebActivity) {
-				final WebActivity activity = (WebActivity) webActivity;
-				if (ThreadUtil.isMainThread())
-					activity.reLoad();
-				else
-					ThreadUtil.getHandler().post(new Runnable() {
+			webActivity.loadFailed = false;
+			if (ThreadUtil.isMainThread())
+				webActivity.reLoad();
+			else
+				ThreadUtil.getHandler().post(new Runnable() {
 						@Override
 						public void run() {
-							activity.reLoad();
+							webActivity.reLoad();
 						}
 					});
-			}
 		}
 	}
 
@@ -334,18 +460,4 @@ public abstract class WebActivity extends BaseActivity {
 	public WebSettings getSettings(){
 		return mWebView.getSettings();
 	}
-
-/*	final class InJavaScriptLocalObj{
-		@JavascriptInterface
-		public void showSource(String html) {
-			if(!NightViewUtil.getNightMode())
-				return;
-			int index = html.indexOf("</html>");
-			StringBuilder sb = new StringBuilder();
-			sb.append(html.substring(0,index));
-			sb.append("<script type=\"text/javascript\">document.getElementsByTagName('body')[0].style.backgroundColor='#2e2e2e';</script>");
-			sb.append(html.substring(index,html.length()));
-			mWebView.loadData(sb.toString(),"text/html; charset=UTF-8", "UTF-8");
-		}
-	}*/
 }

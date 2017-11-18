@@ -12,6 +12,7 @@
             <option value="$PROJECT_DIR$/PullToRefreshRecyclerView" />
             <option value="$PROJECT_DIR$/SpinKit" />
             <option value="$PROJECT_DIR$/currencySpirit" />
+            <option value="$PROJECT_DIR$/photoview" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

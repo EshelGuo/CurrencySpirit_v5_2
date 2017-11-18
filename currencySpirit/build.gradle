@@ -108,8 +108,6 @@ dependencies {
     compile files('libs/track-sdk_v3.1.4.jar')
     compile 'com.liulishuo.filedownloader:library:1.6.8'
     compile 'me.imid.swipebacklayout.lib:library:1.0.0'
-    // 图片查看控件 PhotoView
-    //    compile 'com.bm.photoview:library:1.4.1'
     compile files('libs/tbs_3.5.jar')
 }
 

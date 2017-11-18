@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/PullToRefreshRecyclerView/PullToRefreshRecyclerView.iml" filepath="$PROJECT_DIR$/PullToRefreshRecyclerView/PullToRefreshRecyclerView.iml" />
       <module fileurl="file://$PROJECT_DIR$/SpinKit/SpinKit.iml" filepath="$PROJECT_DIR$/SpinKit/SpinKit.iml" />
       <module fileurl="file://$PROJECT_DIR$/currencySpirit/currencySpirit.iml" filepath="$PROJECT_DIR$/currencySpirit/currencySpirit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/photoview/photoview.iml" filepath="$PROJECT_DIR$/photoview/photoview.iml" />
     </modules>
   </component>
 </project>

@@ -1,1 +1,1 @@
-include ':currencySpirit', ':PullToRefreshRecyclerView', ':SpinKit'
+include ':currencySpirit', ':PullToRefreshRecyclerView', ':SpinKit', ':photoview'
