@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.eshel.currencyspirit.R;
+import com.eshel.currencyspirit.bean.Version;
 import com.eshel.currencyspirit.util.UIUtil;
 
 import baseproject.base.BaseActivity;
@@ -28,6 +29,8 @@ public class AboutActivity extends BaseActivity {
 		setSwipeBackEnable(true);
 		showTitle();
 		setTitleText(UIUtil.getString(R.string.item_about));
+		TextView tv_version = (TextView) findViewById(R.id.tv_version);
+		tv_version.setText("version: "+ Version.getVersionName(this));
 //		System.runFinalization();
 	}
 }

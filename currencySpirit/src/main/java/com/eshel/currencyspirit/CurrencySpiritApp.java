@@ -78,8 +78,8 @@ public class CurrencySpiritApp extends BaseApplication{
 			return;
 		mainCreated = true;
 		FileDownloader.setup(this);
-//		FileDownloadLog.NEED_LOG = true;
-		StatConfig.setDebugEnable(false);
+		FileDownloadLog.NEED_LOG = UIUtil.isDebug();
+		StatConfig.setDebugEnable(UIUtil.isDebug());
 		StatConfig.setStatSendStrategy(StatReportStrategy.INSTANT);
 		StatConfig.setAppKey("AG69XWKJB64D");
 		StatisticsDataAPI.instance(this,DebugMode.DEBUG_OFF);

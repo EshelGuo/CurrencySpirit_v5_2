@@ -10,6 +10,7 @@ import android.view.View;
 import com.eshel.config.AppConstant;
 import com.eshel.currencyspirit.CurrencySpiritApp;
 import com.eshel.currencyspirit.R;
+import com.eshel.currencyspirit.bean.Version;
 import com.eshel.currencyspirit.factory.FragmentFactory;
 import com.eshel.currencyspirit.fragment.CurrencyFragment;
 import com.eshel.currencyspirit.util.UIUtil;
@@ -31,6 +32,8 @@ import butterknife.OnClick;
  */
 
 public class OptionActivity extends BaseActivity {
+
+	int debug = 5;
 
 	@BindView(R.id.feedback)
 	OptionItemView mFeedback;
@@ -54,6 +57,7 @@ public class OptionActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_option);
 		ButterKnife.bind(this, getContentView());
+		debug = 5;
 //		ViewUtil.findAllViewById(this,getContentView(),R.id.class);
 		showTitle();
 		showBack();
@@ -61,7 +65,7 @@ public class OptionActivity extends BaseActivity {
 		mMessageOnoff.setChecked(ShapeUtil.get(AppConstant.key_push, true));
 		mNightMode.setChecked(NightViewUtil.getNightMode());
 		setSwipeBackEnable(true);
-
+		mVersion.setItemText("version: " + Version.getVersionName(this));
 //		mCleanCache.setItemText(FileUtils.fileSizeFormat(getCacheDir().length()));
 	}
 
@@ -103,6 +107,13 @@ public class OptionActivity extends BaseActivity {
 			case R.id.evaluate:
 				break;
 			case R.id.version:
+				debug--;
+				if(debug <= 0){
+					Log.openLog();
+					UIUtil.setDebug(true);
+					UIUtil.debugToast("您已经进入debug模式, 重启APP即可开启所有日志");
+				}
+				UIUtil.toast("点击5次进入debug模式,还有"+debug+"次");
 				break;
 			case R.id.night_mode:
 				mNightMode.setChecked(!NightViewUtil.getNightMode());

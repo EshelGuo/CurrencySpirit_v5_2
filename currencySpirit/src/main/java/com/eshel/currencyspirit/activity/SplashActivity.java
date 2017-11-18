@@ -15,6 +15,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.ActionBar;
 import android.telephony.TelephonyManager;
+import android.view.View;
+import android.widget.TextView;
 
 import com.eshel.config.AppConfig;
 import com.eshel.config.AppConstant;
@@ -24,6 +26,7 @@ import com.eshel.currencyspirit.bean.Version;
 import com.eshel.currencyspirit.util.PermissionUtil;
 import com.eshel.currencyspirit.util.UIUtil;
 import com.eshel.viewmodel.UpdateVersionUtil;
+import com.j256.ormlite.misc.VersionUtils;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadSampleListener;
 import com.liulishuo.filedownloader.FileDownloader;
@@ -38,6 +41,7 @@ import baseproject.permission.RequestPermissionUtil;
 import baseproject.util.Log;
 import baseproject.util.StringUtils;
 import baseproject.util.ViewUtil;
+import baseproject.util.shape.Config;
 import baseproject.util.shape.ShapeUtil;
 import xgpush.XGMsage;
 
@@ -243,6 +247,8 @@ public class SplashActivity extends BaseActivity {
 			ViewUtil.hideStateBar(this);
 		}*/
 		setContentView(R.layout.activity_splash);
+		TextView tv_version = (TextView) findViewById(R.id.tv_version);
+		tv_version.setText("version: "+ Version.getVersionName(this));
 		if(!CurrencySpiritApp.isExit) {
 			enterHomeByMsg();
 			return;
