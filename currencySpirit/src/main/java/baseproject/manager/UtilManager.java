@@ -1,10 +1,12 @@
 package baseproject.manager;
 
 
+import com.eshel.currencyspirit.CurrencySpiritApp;
 import com.eshel.currencyspirit.util.UIUtil;
 
 import baseproject.base.BaseApplication;
 import baseproject.interfaces.Utilable;
+import baseproject.util.Config;
 import baseproject.util.Log;
 import baseproject.util.shape.ShapeUtil;
 
@@ -36,10 +38,13 @@ public class UtilManager {
 	}
 
 	public static void setUtilConfig(){
-		Log.openLog();
-		UIUtil.setDebug(true);
-//		Log.closeLog();
-//		UIUtil.setDebug(false);
+		if(Config.isApkDebugable(CurrencySpiritApp.getContext())) {
+			Log.openLog();
+			UIUtil.setDebug(true);
+		}else {
+			Log.closeLog();
+			UIUtil.setDebug(false);
+		}
 		ShapeUtil.setDefaultName("config.sp");
 	}
 

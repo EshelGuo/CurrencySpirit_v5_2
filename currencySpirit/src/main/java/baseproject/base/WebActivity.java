@@ -82,9 +82,13 @@ public abstract class WebActivity extends BaseActivity {
 						if (time > maxProgressTime)
 							time = maxProgressTime;
 					}else {
-						time = minProgressTime;
+						time = /*minProgressTime/4*/1;
 					}
-					mProgressBar.setProgress(++progress);
+					if(time == 1){
+						progress++;
+					}
+					progress++;
+					mProgressBar.setProgress(progress);
 					mProgressBar.invalidate();
 					if(progress >= tempProgress){
 						// 夜间模式 加载到 10 20 30 40... 进行加载 js 代码渲染html网页, 切换夜间模式
