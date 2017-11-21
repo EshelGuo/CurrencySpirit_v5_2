@@ -285,7 +285,7 @@ public class OptionItemView extends NightFrameLayout {
 		}
 	}
 
-	public void setItemText(String itemText) {
+	public void setItemText(CharSequence itemText) {
 		if(itemText == null)
 			return;
 		if(currentStyle != STYLE_TEXT)

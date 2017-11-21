@@ -6,6 +6,8 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,6 +27,7 @@ import com.eshel.currencyspirit.R;
 import com.eshel.currencyspirit.bean.Version;
 import com.eshel.currencyspirit.util.PermissionUtil;
 import com.eshel.currencyspirit.util.UIUtil;
+import com.eshel.currencyspirit.widget.night.NightViewUtil;
 import com.eshel.viewmodel.UpdateVersionUtil;
 import com.j256.ormlite.misc.VersionUtils;
 import com.liulishuo.filedownloader.BaseDownloadTask;
@@ -39,6 +42,7 @@ import baseproject.base.BaseActivity;
 import baseproject.permission.Permissions;
 import baseproject.permission.RequestPermissionUtil;
 import baseproject.util.Log;
+import baseproject.util.ReflectUtil;
 import baseproject.util.StringUtils;
 import baseproject.util.ViewUtil;
 import baseproject.util.shape.Config;
@@ -57,7 +61,7 @@ public class SplashActivity extends BaseActivity {
 	public int lifeTime = ALL_TIME;
 	boolean permissionRequestOver = false;
 	static boolean updating = false;
-	private static Version mVersion;
+	public static Version mVersion;
 	private static boolean apkInstall;
 	boolean appRunOnBackground = false;
 	private Runnable finishSplashTask = new Runnable() {
@@ -111,26 +115,41 @@ public class SplashActivity extends BaseActivity {
 		activity.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				new AlertDialog.Builder(activity)
-						.setTitle(activity.getString(R.string.new_version)+version.versionName)
-						.setMessage(version.versionDesc)
-						.setNegativeButton(R.string.talk_later, new DialogInterface.OnClickListener() {
+				final int theme;
+				final int titlecolor;
+				final int textcolor;
+				final int bottoncolor;
+				if(NightViewUtil.getNightMode()){
+					theme = R.style.NightDialogStyle;
+					titlecolor = Color.parseColor("#707070");
+					textcolor = Color.parseColor("#707070");
+					bottoncolor = Color.parseColor("#67778B");
+				}else{
+					theme = R.style.DayDialogStyle;
+					titlecolor = Color.parseColor("#222222");
+					textcolor = Color.parseColor("#999999");
+					bottoncolor = Color.parseColor("#2A90D7");
+				}
+				AlertDialog.Builder dialog = new AlertDialog.Builder(activity,theme)
+						.setTitle(StringUtils.getColorText(activity.getString(R.string.new_version) + version.versionName,titlecolor))
+						.setMessage(StringUtils.getColorText(version.versionDesc,textcolor))
+						.setNegativeButton(StringUtils.getColorText(UIUtil.getString(R.string.talk_later),bottoncolor), new DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(DialogInterface dialog, int which) {
 								updating = false;
-								if(noEntryHome){
+								if (noEntryHome) {
 									noEntryHome = false;
-									if(activity instanceof SplashActivity){
+									if (activity instanceof SplashActivity) {
 										((SplashActivity) activity).enterHomeActivity();
 									}
 								}
 							}
 						})
-						.setPositiveButton(R.string.now_update, new DialogInterface.OnClickListener() {
+						.setPositiveButton(StringUtils.getColorText(UIUtil.getString(R.string.now_update),bottoncolor), new DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(DialogInterface dialog, int which) {
-								final ProgressDialog progressDialog = new ProgressDialog(activity);
-								progressDialog.setTitle("下载中");
+								final ProgressDialog progressDialog = new ProgressDialog(activity,theme);
+								progressDialog.setTitle(StringUtils.getColorText("下载中",titlecolor));
 								progressDialog.setProgress(0);
 								progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 								progressDialog.setCancelable(false);
@@ -142,46 +161,49 @@ public class SplashActivity extends BaseActivity {
 											@Override
 											protected void progress(BaseDownloadTask task, int soFarBytes, int totalBytes) {
 												progressDialog.setProgress(soFarBytes * 100 / totalBytes);
-												if(soFarBytes == totalBytes) {
+												if (soFarBytes == totalBytes) {
 													progressDialog.setProgress(100);
 												}
 											}
+
 											@Override
 											protected void paused(BaseDownloadTask task, int soFarBytes, int totalBytes) {
 											}
+
 											@Override
 											protected void error(BaseDownloadTask task, Throwable e) {
 												progressDialog.dismiss();
 												UIUtil.toast("下载失败");
 												updating = false;
-												if(noEntryHome){
-													if(activity instanceof SplashActivity){
+												if (noEntryHome) {
+													if (activity instanceof SplashActivity) {
 														((SplashActivity) activity).enterHomeActivity();
 													}
 												}
 											}
+
 											@Override
 											protected void completed(BaseDownloadTask task) {
 												progressDialog.dismiss();
 												updating = false;
 												Intent intent = new Intent(Intent.ACTION_VIEW);
 												Uri uri;
-												if(Build.VERSION.SDK_INT >= 24){
+												if (Build.VERSION.SDK_INT >= 24) {
 													uri = FileProvider.getUriForFile(activity, "com.eshel.currencyspirit.fileprovider", new File(filePath));
 													intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-												}else {
+												} else {
 													uri = Uri.fromFile(new File(filePath));
 												}
-												intent.setDataAndType(uri,"application/vnd.android.package-archive");
+												intent.setDataAndType(uri, "application/vnd.android.package-archive");
 												activity.startActivity(intent);
 												apkInstall = true;
-												mVersion = null;
+//												mVersion = null;
 											}
 										});
 								int id = task.start();
 							}
-						}).setCancelable(false)
-						.show();
+						}).setCancelable(false);
+						dialog.show();
 			}
 		});
 	}

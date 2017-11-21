@@ -18,6 +18,8 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.eshel.config.AppConstant;
+import com.eshel.currencyspirit.CurrencySpiritApp;
 import com.eshel.currencyspirit.R;
 import com.eshel.currencyspirit.fragment.currency.CurrencyBaseFragment;
 import com.eshel.currencyspirit.util.UIUtil;
@@ -104,6 +106,11 @@ public class SearchCurrencyActivity extends BaseActivity {
 			UIUtil.toastShort(getString(R.string.search_empty_msg));
 			return;
 		}
+		if(AppConstant.key_open_debug.equals(keyword)){
+			CurrencySpiritApp.openDebugMode();
+			return;
+		}
+
 		//让mPasswordEdit获取输入焦点
 		mSearchView.getFocus();
 		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);

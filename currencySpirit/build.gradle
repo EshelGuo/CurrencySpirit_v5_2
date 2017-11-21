@@ -30,11 +30,11 @@ android {
 
         applicationId "com.eshel.currencyspirit"
         //15
-        minSdkVersion 11
+        minSdkVersion 14
         //26
         targetSdkVersion 25
         versionCode 3
-        versionName "1.0.14"
+        versionName "1.0.20"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         //信鸽推送

@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
           package="com.eshel.currencyspirit">
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_SETTINGS" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -65,6 +68,9 @@
             android:name=".activity.OptionActivity"
             android:theme="@style/BackgroundTranslucentTheme"/>
         <activity
+            android:name=".activity.FeedbackActivity"
+            android:theme="@style/BackgroundTranslucentTheme"/>
+        <activity
             android:theme="@style/BackgroundTranslucentTheme"
             android:windowSoftInputMode="stateVisible|adjustResize"
             android:name=".activity.SearchCurrencyActivity"/>
@@ -79,6 +85,36 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <!--ShareSDK-->
+        <activity
+            android:name="com.mob.tools.MobUIShell"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="stateHidden|adjustResize" >
+            <!-- 调用新浪原生SDK，需要注册的回调activity -->
+            <intent-filter>
+                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="cn.sharesdk.tencent.qq.ReceiveActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="tencent100371282" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+
         <!--信鸽推送-->
         <receiver android:name="xgpush.receiver.XGMessageReceiver"
                   android:exported="true">
@@ -106,5 +142,7 @@
         <meta-data android:name="TA_APPKEY" android:value="AG69XWKJB64D"/>
         <meta-data android:name="InstallChannel" android:value="360"/>
         <meta-data android:name="Provider" android:value="com.eshel.currencyspirit.TENCENT.MID.V3"/>
+        <meta-data android:name="Mob-AppKey" android:value="227be8f66a2ca"/>
+        <meta-data android:name="Mob-AppSecret" android:value="709d6a966d34901ca7f358d4f71041cc"/>
     </application>
 </manifest>

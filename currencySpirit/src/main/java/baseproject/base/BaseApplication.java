@@ -6,6 +6,7 @@ import android.os.Handler;
 
 import com.eshel.currencyspirit.util.ProcessUtil;
 import com.eshel.currencyspirit.util.UIUtil;
+import com.mob.MobApplication;
 
 import baseproject.manager.UtilManager;
 
@@ -16,7 +17,7 @@ import baseproject.manager.UtilManager;
  * 描述: TODO
  */
 
-public class BaseApplication extends Application{
+public class BaseApplication extends MobApplication {
 private static Context mContext;
 private static Handler mHandler;
 	@Override

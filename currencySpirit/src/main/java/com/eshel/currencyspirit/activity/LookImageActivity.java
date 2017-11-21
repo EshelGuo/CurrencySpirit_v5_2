@@ -36,6 +36,7 @@ public class LookImageActivity extends BaseActivity {
 		mAttacher = new PhotoViewAttacher(mPhotoview);
 		Glide.with(this)
 				.load(mImgUrl)
+				.error(R.drawable.default_image)
 				.into(mPhotoview);
 		mAttacher.update();
 	}

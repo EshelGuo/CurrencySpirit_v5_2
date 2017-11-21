@@ -88,17 +88,23 @@ public class CurrencySpiritApp extends BaseApplication{
 		if(!ShapeUtil.get(AppConstant.key_push,true))
 			return;
 		registerXGPush();
-		QbSdk.initX5Environment(getApplicationContext(), new QbSdk.PreInitCallback() {
-			@Override
-			public void onCoreInitFinished() {
-				Log.i("TBS: onCoreInitFinished");
-			}
+		try {
+			QbSdk.initX5Environment(getApplicationContext(), new QbSdk.PreInitCallback() {
+				@Override
+				public void onCoreInitFinished() {
+					Log.i("TBS: onCoreInitFinished");
+				}
 
-			@Override
-			public void onViewInitFinished(boolean b) {
-				Log.i("TBS: onViewInitFinished --> "+ (b ? "成功":"失败"));
-			}
-		});
+				@Override
+				public void onViewInitFinished(boolean b) {
+					Log.i("TBS: onViewInitFinished --> "+ (b ? "成功":"失败"));
+				}
+			});
+		}catch (Exception e){
+		    e.printStackTrace();
+		}catch (Error e){
+		    e.printStackTrace();
+		}
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
 			registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
 				@Override
@@ -214,5 +220,14 @@ public class CurrencySpiritApp extends BaseApplication{
 	}
 	public static CurrencySpiritApp getApp() {
 		return app;
+	}
+
+	public static void openDebugMode(){
+		Log.openLog();
+		UIUtil.setDebug(true);
+		FileDownloadLog.NEED_LOG = UIUtil.isDebug();
+		StatConfig.setDebugEnable(UIUtil.isDebug());
+		XGPushConfig.enableDebug(getApp().getApplicationContext(), UIUtil.isDebug());
+		UIUtil.debugToast("您已经进入debug模式");
 	}
 }

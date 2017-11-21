@@ -362,8 +362,9 @@ public abstract class WebActivity extends BaseActivity {
 
 	@Override
 	protected void onDestroy() {
-		ViewGroup viewGroup = (ViewGroup) getContentView();
-		viewGroup.removeView(mWebView);
+		ViewGroup viewGroup = (ViewGroup) mWebView.getParent();
+		if(viewGroup != null)
+			viewGroup.removeView(mWebView);
 		mWebView.removeAllViews();
 		mWebView.destroy();
 		LoadFailedJs.close();
