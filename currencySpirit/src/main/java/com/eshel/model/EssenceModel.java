@@ -13,6 +13,8 @@ import java.util.List;
 
 import baseproject.base.BaseActivity;
 import baseproject.base.BaseFragment;
+import baseproject.util.DataUtil;
+
 /**
  * createBy Eshel
  * createTime: 2017/10/5 03:29
@@ -103,5 +105,8 @@ public class EssenceModel implements Serializable{
 				", webicon='" + webicon + '\'' +
 				", webname='" + webname + '\'' +
 				'}';
+	}
+	public static void clean(){
+		DataUtil.clearLists(essenceData,historyData);
 	}
 }

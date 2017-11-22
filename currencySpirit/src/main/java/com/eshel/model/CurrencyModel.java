@@ -143,4 +143,7 @@ public class CurrencyModel implements Serializable {
 			currencyDetailsActivity.attentionOver(isAttention, null);
 		}
 	}
+	public static void clean(){
+		DataUtil.clearLists(martetValueModel.data,selfSelectModel.data,aoiModel.data,aoiModel2.data);
+	}
 }

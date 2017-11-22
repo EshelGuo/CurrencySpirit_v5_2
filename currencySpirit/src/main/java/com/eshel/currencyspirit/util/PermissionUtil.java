@@ -20,7 +20,7 @@ import baseproject.util.StringUtils;
  * Created by GuoShiwen on 2017/9/6.
  */
 public class PermissionUtil {
-	static Activity activity;
+	public static Activity activity;
 	public static boolean gotosettinged;
 	static RequestCallback callback = new RequestCallback() {
 		DialogInterface.OnClickListener cancleClick = new DialogInterface.OnClickListener() {
@@ -51,8 +51,10 @@ public class PermissionUtil {
 			Log.i("permission", "request permission(" + permission.permission + ") success");
 			successPermission.add(permission.permission);
 			if(successPermission.size() == requestPermissionCount){
-				if(permissionCallback != null)
+				if(permissionCallback != null) {
 					permissionCallback.requestAllPermissionSuccess();
+					activity = null;
+				}
 			}
 		}
 
@@ -78,13 +80,17 @@ public class PermissionUtil {
 		public void havePermissioned(Permission permission) {
 			havePermissioned.add(permission.permission);
 			if(havePermissioned.size() == requestPermissionCount){
-				if(permissionCallback != null)
+				if(permissionCallback != null) {
 					permissionCallback.hasAllPermission();
+					activity = null;
+				}
 			}
 			successPermission.add(permission.permission);
 			if(successPermission.size() == requestPermissionCount){
-				if(permissionCallback != null)
+				if(permissionCallback != null) {
 					permissionCallback.requestAllPermissionSuccess();
+					activity = null;
+				}
 			}
 		}
 

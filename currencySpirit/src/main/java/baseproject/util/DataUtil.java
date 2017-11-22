@@ -3,6 +3,7 @@ package baseproject.util;
 import java.lang.reflect.Field;
 import java.text.NumberFormat;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -42,6 +43,14 @@ public class DataUtil {
 	 */
 	public static float saveD(float value, int format){
 		return (float) (Math.round(value*Math.pow(format,format))/Math.pow(format,format));
+	}
+	public static void clearLists(List ... lists){
+		if(lists != null){
+			for (List list : lists) {
+				if(list != null)
+					list.clear();
+			}
+		}
 	}
 
 }

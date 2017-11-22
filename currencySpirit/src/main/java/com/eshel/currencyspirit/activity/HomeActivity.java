@@ -24,9 +24,14 @@ import com.eshel.currencyspirit.fragment.CurrencyFragment;
 import com.eshel.currencyspirit.fragment.EssenceFragment;
 import com.eshel.currencyspirit.fragment.InformationFragment;
 import com.eshel.currencyspirit.fragment.UserFragment;
+import com.eshel.currencyspirit.util.PermissionUtil;
 import com.eshel.currencyspirit.util.UIUtil;
 import com.eshel.currencyspirit.widget.night.NightViewUtil;
+import com.eshel.model.CurrencyModel;
+import com.eshel.model.EssenceModel;
+import com.eshel.model.InformationModel;
 import com.eshel.viewmodel.BaseViewModel;
+import com.eshel.viewmodel.SearchViewModel;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarTab;
 import com.roughike.bottombar.OnTabSelectListener;
@@ -66,6 +71,7 @@ public class HomeActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
 		ButterKnife.bind(this);
+		Log.i("PermissionUtil.activity: "+PermissionUtil.activity);
 		initView();
 	}
 
@@ -227,6 +233,10 @@ public class HomeActivity extends BaseActivity {
 
 	private void exitApp() {
 		CurrencySpiritApp.isExit = true;
+		EssenceModel.clean();
+		InformationModel.clean();
+		CurrencyModel.clean();
+		SearchViewModel.onDestroy();
 	}
 
 	@Override

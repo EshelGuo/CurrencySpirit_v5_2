@@ -6,6 +6,7 @@ import com.eshel.viewmodel.BaseViewModel;
 import java.io.Serializable;
 import java.util.ArrayList;
 import baseproject.base.BaseFragment;
+import baseproject.util.DataUtil;
 import baseproject.util.Log;
 
 /**
@@ -62,5 +63,8 @@ public class InformationModel implements Serializable{
 				}
 			}
 		});
+	}
+	public static void clean(){
+		DataUtil.clearLists(informationData);
 	}
 }

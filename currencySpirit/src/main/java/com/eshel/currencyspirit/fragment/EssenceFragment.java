@@ -173,6 +173,7 @@ public class EssenceFragment extends BaseFragment {
 			});
 		}
 		public void bindDataToView(final EssenceModel essenceModel){
+
 			if(mFormat == null)
 				mFormat = new SimpleDateFormat(UIUtil.getString(R.string.item_time_format), Locale.getDefault());
 			time.setText(mFormat.format(new Date(essenceModel.update_time)));
@@ -180,6 +181,7 @@ public class EssenceFragment extends BaseFragment {
 			if(!StringUtils.isEmpty(essenceModel.imageurl)) {
 				Glide.with(getActivity()).
 						load(essenceModel.imageurl)
+						.placeholder(R.drawable.default_image)
 						.transform(new GlideRoundedRectangleTransform(getActivity()))
 						.into(icon);
 			} else {
@@ -192,6 +194,7 @@ public class EssenceFragment extends BaseFragment {
 				int index = getIndex(c);
 				Glide.with(getActivity()).
 						load(ReflectUtil.getPublicStaticInt(R.drawable.class,"image_"+getIndex(c)))
+						.placeholder(R.drawable.default_image)
 						.transform(new GlideRoundedRectangleTransform(getActivity()))
 						.into(icon);
 			}
