@@ -90,11 +90,16 @@ public class SplashActivity extends BaseActivity {
 	private void delApk() {
 		try {
 			String versionName = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
-			File apk = new File(getExternalFilesDir(null).getAbsolutePath() + "/bidongjingling_"+versionName+".apk");
-			if(apk.exists() && apk.isFile()){
-				apk.delete();
+			File file = getExternalFilesDir(null);
+			if(file == null)
+				file = getFilesDir();
+			if(file != null) {
+				File apk = new File(file.getAbsolutePath() + "/bidongjingling_" + versionName + ".apk");
+				if (apk.exists() && apk.isFile()) {
+					apk.delete();
+				}
 			}
-		} catch (PackageManager.NameNotFoundException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -154,7 +159,10 @@ public class SplashActivity extends BaseActivity {
 								progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 								progressDialog.setCancelable(false);
 								progressDialog.show();
-								final String filePath = activity.getExternalFilesDir(null).getAbsolutePath() + "/bidongjingling_" + version.versionName + ".apk";
+								File file = activity.getExternalFilesDir(null);
+								if(file == null)
+									file = activity.getFilesDir();
+								final String filePath = file.getAbsolutePath() + "/bidongjingling_" + version.versionName + ".apk";
 								BaseDownloadTask task = FileDownloader.getImpl().create(version.versionDownloadUrl)
 										.setPath(filePath)
 										.setListener(new FileDownloadSampleListener() {
