@@ -31,6 +31,9 @@ import com.eshel.currencyspirit.util.UIUtil;
 import com.eshel.currencyspirit.widget.night.NightViewUtil;
 import com.tencent.smtt.sdk.WebViewClient;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import baseproject.util.DensityUtil;
 import baseproject.util.Log;
 import baseproject.util.NetUtils;
@@ -54,6 +57,7 @@ public abstract class WebActivity extends BaseActivity {
 	private volatile int truthProgress;
 
 	private String url;
+	public static List<String> imgUrls = new ArrayList<>();
 	private boolean isReadLoad = false;
 	private boolean loadedJS = false;
 
@@ -186,24 +190,14 @@ public abstract class WebActivity extends BaseActivity {
 
 			@Override
 			public void onPageFinished(WebView view, String url) {
-				//String imageOnClick = "javascript:(function(){var imgs=document.getElementsByTagName(\"img\");for(var i=0;i<imgs.length;i++){imgs[i].onclick=function(){window.BigImage.showBigImg(this.src);}}})()";
 				//网页Image标签点击事件
 //				String imageOnLongClick = "javascript:function holdDown(var src){timeStart=getTimeNow();time=setInterval(function(){timeEnd=getTimeNow();if(timeEnd-timeStart>1000){clearInterval(time);window.BigImage.showBigImg(src);}},100);}function holdUp(){clearInterval(time);}(function(){var imgs=document.getElementsByTagName(\"img\");for(var i=0;i<imgs.length;i++){imgs[i].onmousedown=holdDown(this.src);imgs[i].onmouseup=holdUp();}})();var timeStart,timeEnd,time;function getTimeNow(){var now=new Date();return now.getTime();}";
 				//mWebView.loadUrl(imageOnClick);
-				if("file:///android_asset/currency/offline.html".equals(url)){
-					if(NightViewUtil.getNightMode()) {
-						//mWebView.loadUrl("javascript:nightMode()");
-					}
-				}else {
+				if(!"file:///android_asset/currency/offline.html".equals(url)){
 					loadedJS = false;
-					if(NightViewUtil.getNightMode()) {
-						/*view.loadUrl("javascript:nightMode();" +
-								"function nightMode(){" +
-								"document.getElementsByTagName('body')[0].style.backgroundColor='#2e2e2e';" +
-								"document.getElementsByTagName('body')[0].style.color='#bbffffff'}");*/
-						//view.loadUrl("javascript:(function(){css = document.createElement('link');  css.id = 'xxx_browser_2014';  css.rel = 'stylesheet';  css.href = 'data:text/css,html,body,header,div,a,span,table,tr,td,th,tbody,p,form,input,ul,ol,li,dl,dt,dd,section,footer,nav,h1,h2,h3,h4,h5,h6,em,pre{background: #333 !important;color:#616161!important;border-color:#454530!important;text-shadow:0!important;-webkit-text-fill-color : none!important;}html a,html a *{color:#5a8498!important;text-decoration:underline!important;}html a:visited,html a:visited *,html a:active,html a:active *{color:#505f64!important;}html a:hover,html a:hover *{color:#cef!important;}html input,html select,html button,html textarea{background:#4d4c40!important;border:1px solid #5c5a46!important;border-top-color:#494533!important;border-bottom-color:#494533!important;}html input[type=button],html input[type=submit],html input[type=reset],html input[type=image],html button{border-top-color:#494533!important;border-bottom-color:#494533!important;}html input:focus,html select:focus,html option:focus,html button:focus,html textarea:focus{background:#5c5b3e!important;color:#fff!important;border-color:#494100 #635d00 #474531!important;outline:1px solid #041d29!important;}html input[type=button]:focus,html input[type=submit]:focus,html input[type=reset]:focus,html input[type=image]:focus,html button:focus{border-color:#494533 #635d00 #474100!important;}html input[type=radio]{background:none!important;border-color:#333!important;border-width:0!important;}html img[src],html input[type=image]{opacity:.5;}html img[src]:hover,html input[type=image]:hover{opacity:1;}html,html body {scrollbar-base-color: #4d4c40 !important;scrollbar-face-color: #5a5b3c !important;scrollbar-shadow-color: #5a5b3c !important;scrollbar-highlight-color: #5c5b3c !important;scrollbar-dlight-color: #5c5b3c !important;scrollbar-darkshadow-color: #474531 !important;scrollbar-track-color: #4d4c40 !important;scrollbar-arrow-color: #000 !important;scrollbar-3dlight-color: #6a6957 !important;}dt a{background-color: #333 !important;}';  document.getElementsByTagName('head')[0].appendChild(css);   })(); ");
-					}
 				}
+				String getImagesJS = "javascript:(function(){var imgs=document.getElementsByTagName(\"img\");for(var i=0;i<imgs.length;i++){window.BigImage.addImg(imgs[i].src);}})()";
+				mWebView.loadUrl(getImagesJS);
 				super.onPageFinished(view, url);
 				/*view.postDelayed(new Runnable() {
 					@Override
@@ -316,7 +310,7 @@ public abstract class WebActivity extends BaseActivity {
 
 	public void addJavascriptInterface(){
 		mWebView.addJavascriptInterface(new LoadFailedJs(this),"LoadFailedJs");
-//		mWebView.addJavascriptInterface(new BigImage(this),"BigImage");
+		mWebView.addJavascriptInterface(new BigImage(this),"BigImage");
 	}
 
 	public abstract View initTitleView();
@@ -362,6 +356,7 @@ public abstract class WebActivity extends BaseActivity {
 
 	@Override
 	protected void onDestroy() {
+		imgUrls.clear();
 		ViewGroup viewGroup = (ViewGroup) mWebView.getParent();
 		if(viewGroup != null)
 			viewGroup.removeView(mWebView);
@@ -393,8 +388,14 @@ public abstract class WebActivity extends BaseActivity {
 		}
 
 		@JavascriptInterface
-		public void showBigImg(String src) {
-			UIUtil.debugToast("imageurl: "+src);
+		public void addImg(String src) {
+			try {
+				WebActivity.imgUrls.add(src);
+			}catch (Exception e){
+			    e.printStackTrace();
+			}catch (Error e){
+			    e.printStackTrace();
+			}
 		}
 	}
 

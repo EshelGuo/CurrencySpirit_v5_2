@@ -13,6 +13,8 @@ import com.github.chrisbanes.photoview.PhotoView;
 import com.github.chrisbanes.photoview.PhotoViewAttacher;
 
 import baseproject.base.BaseActivity;
+import baseproject.base.WebActivity;
+import baseproject.util.Log;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -33,6 +35,7 @@ public class LookImageActivity extends BaseActivity {
 		setContentView(R.layout.activity_look_image);
 		ButterKnife.bind(this, this);
 		hideTitle();
+		Log.i("imgs: "+ WebActivity.imgUrls.toString());
 		Intent intent = getIntent();
 		if (intent != null) {
 			mImgUrl = intent.getStringExtra(key_url);
