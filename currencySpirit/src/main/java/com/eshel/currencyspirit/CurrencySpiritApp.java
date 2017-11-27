@@ -43,10 +43,14 @@ public class CurrencySpiritApp extends BaseApplication{
 	private static CurrencySpiritApp app;
 	private static String mainThreadName;
 	public static boolean isExit = true;
+	public static long time;
 	@Override
 	public void onCreate() {
+		time = System.currentTimeMillis();
 		super.onCreate();
-//		NightViewUtil.setNightMode(true);
+		long toolsInitTime = System.currentTimeMillis();
+		Log.i("工具类初始化时间: " + (toolsInitTime - CurrencySpiritApp.time));
+		AppConfig.isNight = ShapeUtil.get(AppConstant.key_nightMode,false);
 		StatConfig.setAutoExceptionCaught(true);//开启异常捕获
 		Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
 			@Override
@@ -59,6 +63,7 @@ public class CurrencySpiritApp extends BaseApplication{
 				System.exit(0);
 			}
 		});
+		Log.i("异常捕获初始化时间: "+(toolsInitTime = System.currentTimeMillis() - toolsInitTime));
 //		StatConfig.initNativeCrashReport (this, null);//native 异常捕获
 		Log.i("appprocess: "+ProcessUtil.getCurrentProcessName(getApplicationContext()));
 		app = this;
@@ -70,26 +75,39 @@ public class CurrencySpiritApp extends BaseApplication{
 		}else {
 //			otherOnCreate(currentProcessName);
 		}
+		Log.i("三方SDK初始化时间: "+(System.currentTimeMillis() - toolsInitTime));
 	}
 	static boolean registerSuccess;
 	boolean mainCreated;
 	public void mainOnCreate(){
+		Log.i("mainOnCreate 1");
 		if(mainCreated)
 			return;
+		Log.i("mainOnCreate 2");
 		mainCreated = true;
+		long toolsInitTime = System.currentTimeMillis();
 		FileDownloader.setup(this);
 		FileDownloadLog.NEED_LOG = UIUtil.isDebug();
-		StatConfig.setDebugEnable(UIUtil.isDebug());
+		long temptime = System.currentTimeMillis();
+		Log.i("文件下载框架初始化时间: "+(temptime - toolsInitTime));
+		toolsInitTime = temptime;
+				StatConfig.setDebugEnable(UIUtil.isDebug());
 		StatConfig.setStatSendStrategy(StatReportStrategy.INSTANT);
 		StatConfig.setAppKey("AG69XWKJB64D");
 		StatisticsDataAPI.instance(this,DebugMode.DEBUG_OFF);
+		temptime = System.currentTimeMillis();
+		Log.i("腾讯STA初始化时间: "+(temptime - toolsInitTime));
+		toolsInitTime = temptime;
 		//开启信鸽日志输出
 		XGPushConfig.enableDebug(getApplicationContext(), UIUtil.isDebug());
-		if(!ShapeUtil.get(AppConstant.key_push,true))
-			return;
-		registerXGPush();
+		if(ShapeUtil.get(AppConstant.key_push,true)) {
+			registerXGPush();
+			temptime = System.currentTimeMillis();
+			Log.i("信鸽推送初始化时间: "+(temptime - toolsInitTime));
+			toolsInitTime = temptime;
+		}
 		try {
-			QbSdk.initX5Environment(getApplicationContext(), new QbSdk.PreInitCallback() {
+			/*QbSdk.initX5Environment(getApplicationContext(), new QbSdk.PreInitCallback() {
 				@Override
 				public void onCoreInitFinished() {
 					Log.i("TBS: onCoreInitFinished");
@@ -99,12 +117,15 @@ public class CurrencySpiritApp extends BaseApplication{
 				public void onViewInitFinished(boolean b) {
 					Log.i("TBS: onViewInitFinished --> "+ (b ? "成功":"失败"));
 				}
-			});
+			});*/
 		}catch (Exception e){
 		    e.printStackTrace();
 		}catch (Error e){
 		    e.printStackTrace();
 		}
+		temptime = System.currentTimeMillis();
+		Log.i("TBS初始化时间: "+(temptime - toolsInitTime));
+		toolsInitTime = temptime;
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
 			registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
 				@Override
@@ -142,6 +163,9 @@ public class CurrencySpiritApp extends BaseApplication{
 					Log.i(ACTIVITY_LIFECYCLE_TAG,activity.getClass().getSimpleName() + " onDestorye");
 				}
 			});
+			temptime = System.currentTimeMillis();
+			Log.i("application 注册生命周期初始化时间: "+(temptime - toolsInitTime));
+			toolsInitTime = temptime;
 		}
 	}
 

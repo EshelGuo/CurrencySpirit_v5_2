@@ -272,6 +272,7 @@ public class SplashActivity extends BaseActivity {
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
+		Log.i("Application 创建时间: "+(System.currentTimeMillis() - CurrencySpiritApp.time));
 		super.onCreate(savedInstanceState);
 		/*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 			ViewUtil.hideStateBar(this);

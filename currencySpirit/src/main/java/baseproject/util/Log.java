@@ -35,10 +35,11 @@ import baseproject.interfaces.Utilable;
 
 public class Log implements Utilable {
 
-private static String TAG = "DefaultTag";
+	private static String BASE_TAG = "LogTAG_";
+	private static String TAG = BASE_TAG + "DefaultTag";
 	public static void setLogTag(String tag){
 		tagCache.add(tag);
-		TAG = tag;
+		TAG = BASE_TAG + tag;
 	}
 private static Context mContext;
 private static SimpleDateFormat logFormat;
